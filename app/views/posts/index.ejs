@@ -1,0 +1,23 @@
+<div class="page-header">
+    <h1>Latest Posts</h1>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <% if (posts.length > 0) { %>
+      <% posts.forEach(function (post) { %>
+        <article>
+          <h4>
+            <%- link_to(post.title, path_to.post(post)) %>
+            <small class="pull-right"><%- post.created_at %></small>
+          </h4>
+          <p><%- post.desc %></p>
+        </article>
+      <% }); %>
+    <% } else { %>
+      <p class="alert alert-block alert-info">
+          <strong>No posts were found.</strong> 
+      </p>
+    <% } %>
+  </div>
+</div>

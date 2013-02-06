@@ -1,0 +1,45 @@
+/* For color-pallete, see: http://colorschemedesigner.com/#0u11Tw0w0w0w0 */
+
+/**
+ * This is so the repossive-design nav menu works. The padding MUST be set before the
+ * bootstrap responsive-design.css is called.
+ */ 
+body {
+	padding-top:40px;
+}
+
+div.navbar div.navbar-inner {
+	background: #FF7400;
+	background-image: none;
+	border-radius: 0px;
+	color: #FFB273;
+	color: #FFFFFF;
+	margin-bottom:40px;
+	text-shadow: none !important;
+}
+
+.navbar .nav > li > a, 
+.navbar .dropdown-menu a { 
+	color: #FFD073 !important;
+	text-shadow: none !important;
+}
+.navbar .container > a.brand {
+	color: #ffffff;
+	text-shadow: none !important;
+}
+
+.navbar .nav > li.divider-vertical {
+	border-left: 1px solid #FF9640;
+  border-right: 1px solid #FF9640;;
+}
+
+.content-main {
+	margin-top:60px;
+}
+
+.body-content {
+	text-align: justify;
+}
+
+
+/*** FJM ****/

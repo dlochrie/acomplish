@@ -1,0 +1,46 @@
+<div class="page-header">
+		<h1><%= viewModel.post.title %></h1>
+		<p>Posted by <span class="text-info"><%- viewModel.author.displayName %></span> on <%- viewModel.post.created_at %></p>
+</div>
+
+<div class="row">
+	<div class="span12">
+		<%- viewModel.post.content %>
+	</div>
+</div>
+
+<hr />
+
+<div class="row">
+	<div class="span12">
+		<h2>Comments</h2>
+		<% if (viewModel.comments) { %>
+			<% viewModel.comments.forEach(function (comment) { %>
+				<p id="comment-<%- comment.id %>"><span class="text-info"><%- comment.userName %></span> said on <span class="pull-right"><%- comment.created_at %></span></p>
+				<blockquote>
+					<%- comment.content %>
+				</blockquote>
+			<% }); %>
+		<% } else { %>
+			<p class="alert alert-block alert-info">
+				<button type="button" class="close" data-dismiss="alert">x</button>
+				<strong>Be the first to leave a comment!</strong>
+			</p>
+		<% } %>
+		
+		<% if (viewModel.commentor) { %>
+			<% var form = formFor(viewModel.comment, { action: pathTo.post_comments(post), method: 'POST', id: "comment_form", class: "form-horizontal" }) %>
+			<%- form.begin() %>
+			<% include ../comments/_form  %>
+			<div class="form-actions">
+					<%- form.submit('<i class="icon-ok icon-white"></i> Update post', {class: 'btn btn-primary'}) %> or
+					<%- linkTo('Cancel', pathTo.post(post), {class: 'btn'}) %>
+			</div>
+			<%- form.end() %>
+		<% } else { %>
+			<p>You must be logged in to leave a comment. Click <%- link_to("here", "/login") %> to login.</p>
+		<% } %>
+
+	</div>
+</div>
+

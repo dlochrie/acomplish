@@ -1,0 +1,44 @@
+<!--comments/_form.ejs-->
+<legend>Fill out the form below to leave a comment.</legend>
+<%- errorMessagesFor(viewModel.comment) %>
+
+<div class="accordion" id="help-text">
+	<div class="accordion-group">
+		<div class="accordion-heading">
+			<a class="accordion-toggle" data-toggle="collapse" data-parent="#help-text" href="#collapsed-help-text">
+				Formatting Help
+			</a>
+		</div>
+		<div id="collapsed-help-text" class="accordion-body collapse">
+			<div class="accordion-inner">
+				<ul>
+					<li>[ <strong>Bold</strong> ] <strong class="offset1">*I am bold*</strong></li>
+					<li>[ <em>Italics</em> ] <em class="offset1">_I am emphasized_</em></li>
+					<li>
+						[ <a>Link</a> ]
+						<span class="offset1">
+							&lt;a href="http://this-great-site.com"&gt;This great site&lt;/a&gt;
+							<strong><em>becomes</em></strong>
+							This great site (Link->http://this-great-site.com)
+						</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>		
+</div>
+
+<div class="control-group">
+	<%- form.label("Body", false, { class: "control-label" }) %>
+	<div class="controls">
+		<%- form.textarea("content", { class: "span8", rows: 2 }) %>
+	</div>
+</div>
+<div class="control-group">
+	<%- form.label("Your Name", false, { class: "control-label" }) %>
+	<div class="controls">
+		<%- form.input("userName", { value: viewModel.commentor.displayName }) %>
+	</div>
+</div>
+<%- form.input("postId", {type: "hidden", value: post.id}) %>
+<!--/comments/_form.ejs-->

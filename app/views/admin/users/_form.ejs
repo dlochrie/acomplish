@@ -1,0 +1,34 @@
+<%- errorMessagesFor(user) %>
+<table class="table table-bordered table-striped">
+	<tr>
+		<th>Display Name</th>
+		<td><%- member.displayName %></td>
+	</tr><tr>
+		<th>Email</th>
+		<td><%- member.email %></td>
+	</tr>
+</table>
+
+<div class="control-group">
+   <%- form.label("Role", false, {class: "control-label"}) %>
+   <div class="controls">
+			<select name="User[roleId]">
+				<% roles.forEach(function (role) { %>
+					<% var selected = (parseInt(role.id) === parseInt(member.roleId)) ? 'selected="selected"' : null; %>
+					<option value="<%- role.id %>" <%- selected %>><%- role.name %></option>
+				<% }); %>
+			</select>
+   </div>
+	<div class="control-group">
+   <%- form.label("Active", false, {class: "control-label"}) %>
+		<div class="controls">
+			<label class="radio">
+				<%- form.input("active", { type: 'radio', value: 'true' }) %> True
+			</label>
+			<label class="radio">
+				<%- form.input("active", { type: 'radio', value: 'false' }) %> False
+			</label>
+		</div>
+	</div>
+</div>
+

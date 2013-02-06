@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= title %></title>
+    <%- stylesheet_link_tag('bootstrap.min', 'style', 'bootstrap-responsive.min', 'bootstrap-wysihtml5') %>
+    <%- javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'application', 'wysihtml5-0.3.0.min', 'bootstrap-wysihtml5') %>
+    <%- csrf_meta_tag() %>
+  </head>
+  <body>
+    
+  <% include ../partials/nav_menu  %>
+
+  <div class="content-main">
+    <div class="container">
+      <% var flash = request.flash('info').pop(); if (flash) { %>
+        <div class="row">
+          <div class="alert alert-info">
+            <a class="close" data-dismiss="alert">×</a>
+              <%- flash %>
+            </div>
+        </div>
+      <% } %>
+      
+      <% flash = request.flash('error').pop(); if (flash) { %>
+        <div class="row">
+          <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">×</a>
+            <%- flash %>
+          </div>
+        </div>
+      <% }; %>
+      
+      <div class="body-content">
+        <%- body %>
+      </div>
+      
+      <hr />
+      <footer>
+        <p>&copy; mycompany 2012</p>
+      </footer>
+    </div>
+  </div>
+  
+  </body>
+</html>

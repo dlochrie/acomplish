@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h1>Comments Management</h1>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <% if (comments.length > 0) { %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Content</th>
+            <th>Flagged?</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% comments.forEach(function (comment) { %>
+            <tr>
+              <td><strong><a href="<%= path_to.admin_comment(comment.id) %>"><%-: comment.content | truncate_words: 20, path_to.admin_comment(comment) %>...</strong></a></td>
+              <td><a><i class="icon-flag"></i></a></td>
+              <td>
+                <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.admin_comment(comment), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>        
+              </td>
+            </tr>
+          <% }); %>        
+        </tbody>
+      </table>
+    <% } else { %>
+        <p class="alert alert-block alert-info">
+            <strong>No comments were found.</strong> 
+        </p>
+    <% } %>
+  </div>
+</div>
