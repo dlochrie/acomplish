@@ -3,6 +3,7 @@ load('application');
 before(loadComment, {only: ['show', 'destroy']});
 before(use('checkRole'));
 
+/*
 action(function index() {
   this.title = 'Comment Management';
   Comment.all(function (err, comments) {
@@ -11,6 +12,50 @@ action(function index() {
     });
   });
 });
+*/
+
+action(function index() {
+  this.title = 'Comment Management';
+	var result = {};
+	result.comments = [];
+
+/*
+	var finishRequest = function(result) {
+		render({ comments: result.comments });
+	}
+
+	var getComments = function(fn) {
+		comments = Comment.all(function (err, comments) {
+			if (err) { return fn && fn(err, null); }
+			return fn && fn(null, comments);
+		});
+	}
+
+	var getCommentsUser = function(comment, fn) {
+		User.find(userId, function(err, user) {
+			if (err) { return fn && fn(err, null);
+			return fn && fn(null, comments);
+		});
+	}
+
+	var getCommentsPost = function(comment, fn) {
+		Post.find(postId, function(err, post) {
+			if (err) { return fn && fn(err, null);
+			return fn && fn(null, comments);
+		});
+	}
+	
+	getComments(function (err, comments) {
+		if (err) { send ("No COMMENTS!"); }
+		comments.forEach(function(comment) {
+			result.comments[comment.id].user = getCommentsUser(this); 
+			result.comments[comment.id].post = getCommentsPost(this); 
+			finishRequest(result);
+		});
+	}
+*/
+});
+
 
 action(function show() {
   this.title = 'Showing Comment';
