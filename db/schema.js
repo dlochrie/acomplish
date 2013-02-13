@@ -28,6 +28,7 @@ var Post = define('Post', function() {
   property('desc', String);
   property('created_at', Date);
   property('updated_at', Date);
+  set('restPath', pathTo.posts);
 });
 
 var User = define('User', function () {
@@ -40,6 +41,7 @@ var User = define('User', function () {
 	property('linkedinId', String, { index: true });
 	property('created_at', Date);
   property('updated_at', Date);
+	set('restPath', pathTo.users);
 });
 
 var Role = define('Role', function() {

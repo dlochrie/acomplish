@@ -1,16 +1,18 @@
 module.exports = function (compound, User) {
 	User.hasMany(compound.models.Post,   {as: 'posts',  foreignKey: 'userId'});
-	User.hasMany(compound.models.Comment,   {as: 'comments',  foreignKey: 'userId'});
-	User.belongsTo(compound.models.Role,   {as: 'roles',  foreignKey: 'roleId'});
+	//User.hasMany(compound.models.Comment,   {as: 'comments',  foreignKey: 'userId'});
+	//User.belongsTo(compound.models.Role,   {as: 'roles',  foreignKey: 'roleId'});
 
-	Role = compound.models.Role;
+	//Role = compound.models.Role;
 	
 	
+	/*
 	User.prototype.getRole = function getRole() {
 	  return Role.findOne({ where: { id: this.roleId }}, function(err, role) {
 	    return role.name;
 	  });
 	}
+	*/
 	
 	/**
 	 * TODO: This should handle MORE than Google
@@ -41,3 +43,4 @@ module.exports = function (compound, User) {
 		});
 	}
 }
+

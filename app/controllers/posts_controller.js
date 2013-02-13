@@ -1,61 +1,135 @@
 load('application');
 
-before(loadPost, {only: ['show']});
+before(loadPost, {
+    only: ['show', 'edit', 'update', 'destroy']
+    });
+
+action('new', function () {
+    this.title = 'New post';
+    this.post = new Post;
+    render();
+});
+
+action(function create() {
+    Post.create(req.body.Post, function (err, post) {
+        respondTo(function (format) {
+            format.json(function () {
+                if (err) {
+                    send({code: 500, error: post && post.errors || err});
+                } else {
+                    send({code: 200, data: post.toObject()});
+                }
+            });
+            format.html(function () {
+                if (err) {
+                    flash('error', 'Post can not be created');
+                    render('new', {
+                        post: post,
+                        title: 'New post'
+                    });
+                } else {
+                    flash('info', 'Post created');
+                    redirect(path_to.posts);
+                }
+            });
+        });
+    });
+});
 
 action(function index() {
-  this.title = 'Posts index';
-  Post.all(function (err, posts) {
-    render({
-      posts: posts
+    this.title = 'Posts index';
+    Post.all(function (err, posts) {
+        switch (params.format) {
+            case "json":
+                send({code: 200, data: posts});
+                break;
+            default:
+                render({
+                    posts: posts
+                });
+        }
     });
-  });
 });
 
 action(function show() {
-  this.title = this.post.title;
-  var post = this.post;
-  
-  var viewModel = { post: post, comment: new Comment, commentor: null,
-    author: null };
-    
-  var async = require('async');
-  
-  async.waterfall([
-    function getAuthor(callback) {
-      post.author(function(err, user) {
-        if (err || !user) { callback(err); }
-        if (user) { viewModel.author = user };
-      });
-      callback(null);
-    },
-    function getCommentor(callback) {
-      if (session.passport.user) {
-        User.find(session.passport.user, function (err, commentor) {
-          if (err) { callback(err); }
-          if (commentor) { viewModel.commentor = commentor; }
+    this.title = 'Post show';
+    switch(params.format) {
+        case "json":
+            send({code: 200, data: this.post});
+            break;
+        default:
+            render();
+    }
+});
+
+action(function edit() {
+    this.title = 'Post edit';
+    switch(params.format) {
+        case "json":
+            send(this.post);
+            break;
+        default:
+            render();
+    }
+});
+
+action(function update() {
+    var post = this.post;
+    this.title = 'Edit post details';
+    this.post.updateAttributes(body.Post, function (err) {
+        respondTo(function (format) {
+            format.json(function () {
+                if (err) {
+                    send({code: 500, error: post && post.errors || err});
+                } else {
+                    send({code: 200, data: post});
+                }
+            });
+            format.html(function () {
+                if (!err) {
+                    flash('info', 'Post updated');
+                    redirect(path_to.post(post));
+                } else {
+                    flash('error', 'Post can not be updated');
+                    render('edit');
+                }
+            });
         });
-      }
-      callback(null);
-    }
-  ], function(err) {
-    if (!err) {
-      Comment.all({ where: { postId: params.id }, order: 'created_at' }, function(err, comments) {        
-        viewModel.comments = comments || null;
-        render({ viewModel: viewModel });
-      });
-    } else {
-      redirect(path_to.posts());
-    }
-  });
+    });
+});
+
+action(function destroy() {
+    this.post.destroy(function (error) {
+        respondTo(function (format) {
+            format.json(function () {
+                if (error) {
+                    send({code: 500, error: error});
+                } else {
+                    send({code: 200});
+                }
+            });
+            format.html(function () {
+                if (error) {
+                    flash('error', 'Can not destroy post');
+                } else {
+                    flash('info', 'Post successfully removed');
+                }
+                send("'" + path_to.posts + "'");
+            });
+        });
+    });
 });
 
 function loadPost() {
-  Post.find(params.id, function (err, post) {
-    if (err || !post) {
-      redirect(path_to.posts());
-    } else {
-      this.post = post;
-      next();
-    }
-  }.bind(this));
+    Post.find(params.id, function (err, post) {
+        if (err || !post) {
+            if (!err && !post && params.format === 'json') {
+                return send({code: 404, error: 'Not found'});
+            }
+            redirect(path_to.posts);
+        } else {
+            this.post = post;
+            next();
+        }
+    }.bind(this));
 }

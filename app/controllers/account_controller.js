@@ -11,3 +11,4 @@ action('logout', function() {
   flash('info', 'You are now logged out.');
   redirect('/'); 
 });
+

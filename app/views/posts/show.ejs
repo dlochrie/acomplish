@@ -1,46 +1,26 @@
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="<%- pathTo.posts() %>">posts</a> <span class="divider">/</span></li>
+    <li class="active"><a href="#">Details of post</a></li>
+</ul>
+
 <div class="page-header">
-		<h1><%= viewModel.post.title %></h1>
-		<p>Posted by <span class="text-info"><%- viewModel.author.displayName %></span> on <%- viewModel.post.created_at %></p>
+    <h1>Details of post</h1>
 </div>
 
-<div class="row">
-	<div class="span12">
-		<%- viewModel.post.content %>
-	</div>
+<table class="table table-bordered">
+    <tbody>
+        <tr><th>title</th><td><%= post.title %></td></tr>
+
+        <tr><th>desc</th><td><%= post.desc %></td></tr>
+
+        <tr><th>content</th><td><%= post.content %></td></tr>
+    </tbody>
+</table>
+
+<div class="well">
+    <%- link_to('<i class="icon-edit icon-white"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-primary'}) %>
+    <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'}) %>
+    or
+    <%- link_to('Back to index', pathTo.posts()) %>
 </div>
-
-<hr />
-
-<div class="row">
-	<div class="span12">
-		<h2>Comments</h2>
-		<% if (viewModel.comments) { %>
-			<% viewModel.comments.forEach(function (comment) { %>
-				<p id="comment-<%- comment.id %>"><span class="text-info"><%- comment.userName %></span> said on <span class="pull-right"><%- comment.created_at %></span></p>
-				<blockquote>
-					<%- comment.content %>
-				</blockquote>
-			<% }); %>
-		<% } else { %>
-			<p class="alert alert-block alert-info">
-				<button type="button" class="close" data-dismiss="alert">x</button>
-				<strong>Be the first to leave a comment!</strong>
-			</p>
-		<% } %>
-		
-		<% if (viewModel.commentor) { %>
-			<% var form = formFor(viewModel.comment, { action: pathTo.post_comments(post), method: 'POST', id: "comment_form", class: "form-horizontal" }) %>
-			<%- form.begin() %>
-			<% include ../comments/_form  %>
-			<div class="form-actions">
-					<%- form.submit('<i class="icon-ok icon-white"></i> Update post', {class: 'btn btn-primary'}) %> or
-					<%- linkTo('Cancel', pathTo.post(post), {class: 'btn'}) %>
-			</div>
-			<%- form.end() %>
-		<% } else { %>
-			<p>You must be logged in to leave a comment. Click <%- link_to("here", "/login") %> to login.</p>
-		<% } %>
-
-	</div>
-</div>
-

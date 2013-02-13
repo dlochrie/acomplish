@@ -1,4 +1,3 @@
-module.exports = function(compound, Post) {
-	Post.hasMany(compound.models.Comment, {as: 'comments',  foreignKey: 'postId'});
-	Post.belongsTo(compound.models.User, {as: 'author', foreignKey: 'userId'});
-}
+module.exports = function (compound, Post) {
+  // define Post here
+};

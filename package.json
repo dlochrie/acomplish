@@ -1,23 +1,19 @@
-{ 
-	"author": "Daniel Lochrie"
-,	"name": "acomplish"
+{ "name": "blog"
 , "version": "0.0.1"
 , "engines": ["node >= 0.8.0"]
 , "main": "server.js"
 , "dependencies":
-  { "ejs":              	"0.8.3"
-  , "ejs-ext":          	"0.1.4-2"
-  , "express":          	"3.1.0"
-	, "compound":       		"~1.1.4"
-  , "jugglingdb":       	"~0.2"
-	, "jugglingdb-mysql":		"~ 0.0.1"
-  , "coffee-script":    	"1.4.0"
-	, "stylus":							"~0.32"
-	, "passport":         	"0.1.15"
-  , "passport-google":  	"0.3"
-	,	"seedjs":							"~0.0.4"
-	, "async":							"~0.2.5"
-},
+  { "ejs":              "*"
+  , "ejs-ext":          "latest"
+  , "express":          "~3.x"
+  , "compound":       ">= 1.1.0"
+  , "jugglingdb":       ">= 0.1.0"
+  , "coffee-script":    ">= 1.1.1"
+  , "stylus":           "latest"
+  , "seedjs": "latest"
+	, "passport": "*"
+	, "passport-google": "*"
+ },
   "devDependencies":
   { "nodeunit":         "*"
   , "sinon":            "*"

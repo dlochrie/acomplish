@@ -1,8 +1,0 @@
-development:
-  baseURL: 'http://localhost:3000/'
-  google: yes
-  signature:
-    license: "abc123"
-    secret: "ssh-secret"
-production:
-  baseURL: 'http://node-js.ru/'

@@ -1,9 +1,0 @@
-<div class="page-header"><h1>Edit User</h1></div>
-
-<% form_for(user, {action: path_to.admin_user(member), method: 'PUT', id: "user_form", class: 'form-horizontal'}, function (form) { %>
-    <%- partial('admin/users/form.ejs', {locals: {form: form, member: member}}) %>
-    <div class="form-actions">
-        <%- form.submit('<i class="icon-ok icon-white"></i> Update User', {class: 'btn btn-primary'}) %> or
-        <%- link_to('Cancel', path_to.admin_user(member), {class: 'btn'}) %>
-    </div>
-<% });%>

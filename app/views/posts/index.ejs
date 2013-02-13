@@ -1,23 +1,44 @@
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li class="active"><a href="<%- pathTo.posts() %>">posts</a> <span class="divider">/</span></li>
+</ul>
+
 <div class="page-header">
-    <h1>Latest Posts</h1>
+    <h1>Index of post</h1>
 </div>
 
 <div class="row">
-  <div class="span12">
-    <% if (posts.length > 0) { %>
-      <% posts.forEach(function (post) { %>
-        <article>
-          <h4>
-            <%- link_to(post.title, path_to.post(post)) %>
-            <small class="pull-right"><%- post.created_at %></small>
-          </h4>
-          <p><%- post.desc %></p>
-        </article>
-      <% }); %>
-    <% } else { %>
-      <p class="alert alert-block alert-info">
-          <strong>No posts were found.</strong> 
-      </p>
-    <% } %>
-  </div>
+    <div class="span12">
+        <p><%- link_to('<i class="icon-plus icon-white"></i> New post', pathTo.new_post(), {class: 'btn btn-primary'}) %></>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <% if (posts.length > 0) { %>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% posts.forEach(function (post) { %>
+                <tr>
+                    <td><strong><%- link_to('post #' + post.id, pathTo.post(post)) %></strong></td>
+                    <td>
+                        <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini'}) %>
+                        <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <% } else { %>
+        <p class="alert alert-block alert-info">
+            <strong>No posts were found.</strong>
+        </p>
+        <% } %>
+    </div>
 </div>
