@@ -1,13 +1,13 @@
 load('application');
 
 before(loadPost, {
-    only: ['show', 'edit', 'update', 'destroy']
-    });
+	only: ['show', 'edit', 'update', 'destroy']
+});
 
 action('new', function () {
-    this.title = 'New post';
-    this.post = new Post;
-    render();
+	this.title = 'New post';
+	this.post = new Post;
+	render();
 });
 
 action(function create() {
