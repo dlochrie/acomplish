@@ -4,6 +4,7 @@ module.exports = function (compound) {
     	app = compound.app,
 			passport = require('passport'),
     	compoundPassport = require('./passport.js');
+			
 
     app.configure(function(){
         app.use(compound.assetsCompiler.init());

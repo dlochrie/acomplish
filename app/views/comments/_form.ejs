@@ -1,0 +1,31 @@
+<%- errorMessagesFor(comment) %>
+<div class="control-group">
+   <%- form.label("userId", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("userId") %>
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("postId", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("postId") %>
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("body", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("body") %>
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("flagged", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.checkbox("flagged") %>
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("active", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.checkbox("flagged") %>
+   </div>
+</div>

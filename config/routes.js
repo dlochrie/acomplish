@@ -1,5 +1,6 @@
 exports.routes = function (map) {
 
+	map.resources('comments');
 	map.resources('posts');
 	map.resources('users');
   

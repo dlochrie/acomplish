@@ -19,14 +19,16 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <% posts.forEach(function (post) { %>
                 <tr>
-                    <td><strong><%- link_to('post #' + post.id, pathTo.post(post)) %></strong></td>
+                    <td><strong><%- link_to(post.title, pathTo.post(post)) %></strong></td>
+                    <td><strong><%- post.author.displayName %></strong></td>
                     <td>
                         <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini'}) %>
                         <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>

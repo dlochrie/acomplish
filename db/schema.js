@@ -24,7 +24,7 @@
 var Post = define('Post', function() {
   property('title', String);
   property('userId', String);
-  property('content', Text);
+  property('body', Text);
   property('desc', String);
   property('created_at', Date);
   property('updated_at', Date);
@@ -51,13 +51,12 @@ var Role = define('Role', function() {
   property('updated_at', Date);
 });
 
-var Comment = define('Comment', function () {
-	property('content', Text);
-  property('postId', String);
-  property('userId', String);
-  property('userName', String);
-  property('flagged', Boolean);
-  property('active', Boolean);
-  property('created_at', Date);
-  property('updated_at', Date);
+var Comment = describe('Comment', function () {
+    property('postId', "Integer");
+    property('userId', "Integer");
+    property('body', Text);
+		property('active', Boolean);
+    property('flagged', Boolean);
+    set('restPath', pathTo.comments);
 });
+

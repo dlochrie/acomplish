@@ -11,10 +11,9 @@
 <table class="table table-bordered">
     <tbody>
         <tr><th>title</th><td><%= post.title %></td></tr>
-
+        <tr><th>author</th><td><%- post.author.displayName %></td></tr>
         <tr><th>desc</th><td><%= post.desc %></td></tr>
-
-        <tr><th>content</th><td><%= post.content %></td></tr>
+        <tr><th>body</th><td><%= post.body %></td></tr>
     </tbody>
 </table>
 

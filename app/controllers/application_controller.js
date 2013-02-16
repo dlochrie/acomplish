@@ -2,9 +2,9 @@ before('protect from forgery', function () {
   protectFromForgery('4f66d4b797766cca9acefbc03891493c2b60366f');
 });
 
-before(loadUser);
+before(loadPassport);
 
-function loadUser() {
+function loadPassport() {
 	this.userName = null;
 	if (session.passport.user) {		
 		User.find(session.passport.user, function(err, user) {
