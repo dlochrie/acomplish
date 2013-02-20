@@ -44,10 +44,7 @@ action(function create() {
 
 action(function index() {
 	this.title = 'Posts index';
-	Post.all({ include: 'author' }, function (err, posts) {
-		
-		console.log("Posts", posts);
-		
+	Post.all({ include: ['author', 'comments'] }, function (err, posts) {		
 		switch (params.format) {
 			case "json":
 				send({
@@ -68,7 +65,9 @@ action(function show() {
 	this.title = post.title;
 	User.find(post.userId, function (err, user) {
 		post.author = user;
-		render();	
+		Comment.all(post.id, function(err, comments) {
+			render({ comments: comments });	
+		})
 	});
 });
 

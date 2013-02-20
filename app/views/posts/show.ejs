@@ -17,6 +17,17 @@
     </tbody>
 </table>
 
+<div>
+    <% comments.forEach(function(comment) { %>
+        <p><strong>Comment:</strong> <%- comment.body %><br />
+            We should show comments here, and a form if a user is logged in.
+            <% comment.author(function(err, author) { %>
+                (Name) <% name = author.displayName %>
+            <% }) %>        
+        </p>
+    <% }) %>
+</div>
+
 <div class="well">
     <%- link_to('<i class="icon-edit icon-white"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-primary'}) %>
     <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'}) %>

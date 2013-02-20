@@ -23,7 +23,7 @@
 
 var Post = define('Post', function() {
   property('title', String);
-  property('userId', String);
+  property('userId', Number);
   property('body', Text);
   property('desc', String);
   property('created_at', Date);
@@ -52,8 +52,8 @@ var Role = define('Role', function() {
 });
 
 var Comment = describe('Comment', function () {
-    property('postId', "Integer");
-    property('userId', "Integer");
+    property('postId', Number);
+    property('userId', Number);
     property('body', Text);
 		property('active', Boolean);
     property('flagged', Boolean);
