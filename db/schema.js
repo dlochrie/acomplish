@@ -20,10 +20,9 @@
  });
 
 */
-
 var Post = define('Post', function() {
   property('title', String);
-  property('userId', Number);
+  //property('userId', Number, { index: true });
   property('body', Text);
   property('desc', String);
   property('created_at', Date);
@@ -33,7 +32,7 @@ var Post = define('Post', function() {
 
 var User = define('User', function () {
 	property('displayName', String);
-  property('roleId', String);
+  //property('roleId', String);
 	property('email', String, { index: true });
 	property('googleId', String, { index: true });
 	property('githubId', String, { index: true });
@@ -51,12 +50,12 @@ var Role = define('Role', function() {
   property('updated_at', Date);
 });
 
-var Comment = describe('Comment', function () {
-    property('postId', Number);
-    property('userId', Number);
-    property('body', Text);
-		property('active', Boolean);
-    property('flagged', Boolean);
-    set('restPath', pathTo.comments);
+var Comment = define('Comment', function () {
+	property('body', Text);
+	//property('postId', Number, { index: true });
+	//property('userId', Number, { index: true });
+	property('active', Boolean);
+	property('flagged', Boolean);
+	set('restPath', pathTo.comments);
 });
 

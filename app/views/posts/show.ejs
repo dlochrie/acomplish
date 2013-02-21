@@ -11,9 +11,10 @@
 <table class="table table-bordered">
     <tbody>
         <tr><th>title</th><td><%= post.title %></td></tr>
-        <tr><th>author</th><td><%- post.author.displayName %></td></tr>
+        <tr><th>author</th><td><%- author.displayName %></td></tr>
         <tr><th>desc</th><td><%= post.desc %></td></tr>
         <tr><th>body</th><td><%= post.body %></td></tr>
+        <tr><th>Comment Count</th><td><%= comments.length %></td></tr>
     </tbody>
 </table>
 
@@ -21,9 +22,7 @@
     <% comments.forEach(function(comment) { %>
         <p><strong>Comment:</strong> <%- comment.body %><br />
             We should show comments here, and a form if a user is logged in.
-            <% comment.author(function(err, author) { %>
-                (Name) <% name = author.displayName %>
-            <% }) %>        
+            <% comment.author(function(err, commentor) { %><%- commentor.displayName %><% }) %>
         </p>
     <% }) %>
 </div>

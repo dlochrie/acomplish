@@ -28,8 +28,8 @@
                 <% posts.forEach(function (post) { %>
                 <tr>
                     <td><strong><%- link_to(post.title, pathTo.post(post)) %></strong></td>
-                    <td><strong><%- post.__cachedRelations.author.displayName %></strong></td>
-                    <td><strong><%- post.__cachedRelations.comments.length %></strong></td>
+                    <td><strong>--show author--</strong></td>
+                    <td><strong>--show comment count--</strong></td>
                     <td>
                         <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini'}) %>
                         <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>

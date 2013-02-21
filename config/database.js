@@ -1,10 +1,8 @@
 module.exports = {
 		"development": {
-			"driver": "mysql",
-			"host": "localhost",
-			"database": "acomplish",
-			"username": "dbuser",
-			"password": "dbpasswd"
+			driver: "redis",
+			host: "localhost",
+      port: 6379
 		}
   , "test": { 
 			"driver":   "memory"
