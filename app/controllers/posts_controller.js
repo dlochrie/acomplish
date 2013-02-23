@@ -10,14 +10,9 @@ action('new', function () {
 	this.title = 'New post';
 	this.post = new Post;
 	if (this.author) {
-		User.all(function(err, users) {
-			this.opts = [];
-			Object.getOwnPropertyNames(users).forEach(function(val, idx, array) {
-				if (val === 'length') return; // We only want Values, not Count
-				this.opts.push({ name: users[val].displayName, _id: users[val].id });
-			});
+		generateAuthorSelect(this.author, function(opts) {
 			render();
-		})
+		});
 	} else {
 		flash('error', 'Could not retrieve your User information, are you logged in?');
 		redirect(path_to.posts);
@@ -96,13 +91,21 @@ action(function show() {
 
 action(function edit() {
 	this.title = 'Post edit';
-	switch (params.format) {
-		case "json":
-			send(this.post);
-			break;
-		default:
-			render();
-	}
+	if (this.author) {
+		generateAuthorSelect(this.author, function(opts) {
+			switch (params.format) {
+				case "json":
+					send(this.post);
+					break;
+				default:
+					render();
+			}
+		});
+	} else {
+		flash('error', 'Could not retrieve your User information, are you logged in?');
+		redirect(path_to.posts);
+	}	
+	
 });
 
 action(function update() {
@@ -178,4 +181,15 @@ function loadPost() {
 			next();
 		}
 	}.bind(this));
+}
+
+function generateAuthorSelect(user, cb) {
+	User.all(function(err, users) {
+		this.opts = [];
+		Object.getOwnPropertyNames(users).forEach(function(val, idx, array) {
+			if (val === 'length') return; // We only want Values, not Count
+			this.opts.push({ name: users[val].displayName, _id: users[val].id });
+		});
+		cb(this.opts)
+	});	
 }

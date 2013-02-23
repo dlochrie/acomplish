@@ -10,7 +10,7 @@
 	<%- form.label("userId", "Author", {class: "control-label"}) %>
 	<div class="controls">
 		<%- form.select("userId", opts,
-		{ select: author.id, fieldname: 'name', fieldvalue: '_id' }) %>
+		{ select: post.userId || author.id, fieldname: 'name', fieldvalue: '_id' }) %>
 	</div>
 </div>
 
