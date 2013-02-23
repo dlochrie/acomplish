@@ -4,10 +4,24 @@ before(loadPost, {
 	only: ['show', 'edit', 'update', 'destroy']
 });
 
+before(use('loadAuthor'), { only: ['new', 'edit'] });
+
 action('new', function () {
 	this.title = 'New post';
 	this.post = new Post;
-	render();
+	if (this.author) {
+		User.all(function(err, users) {
+			this.opts = [];
+			Object.getOwnPropertyNames(users).forEach(function(val, idx, array) {
+				if (val === 'length') return; // We only want Values, not Count
+				this.opts.push({ name: users[val].displayName, _id: users[val].id });
+			});
+			render();
+		})
+	} else {
+		flash('error', 'Could not retrieve your User information, are you logged in?');
+		redirect(path_to.posts);
+	}
 });
 
 action(function create() {
@@ -45,6 +59,9 @@ action(function create() {
 action(function index() {
 	this.title = 'Posts index';
 	Post.all({ include: ['author', 'comments'] }, function (err, posts) {
+		
+		//console.log("Posts:Index -", posts)
+		
 		switch (params.format) {
 			case "json":
 				send({

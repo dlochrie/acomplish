@@ -1,25 +1,31 @@
 <%- errorMessagesFor(post) %>
 <div class="control-group">
-   <%- form.label("title", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("title") %>
-   </div>
+	<%- form.label("title", false, {class: "control-label"}) %>
+	<div class="controls">
+		<%- form.input("title", { class: "span10", placeholder: "Man Lands on the Moon!" }) %>
+	</div>
 </div>
+
 <div class="control-group">
-   <%- form.label("desc", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("desc") %>
-   </div>
+	<%- form.label("userId", "Author", {class: "control-label"}) %>
+	<div class="controls">
+		<%- form.select("userId", opts,
+		{ select: author.id, fieldname: 'name', fieldvalue: '_id' }) %>
+	</div>
 </div>
+
 <div class="control-group">
-   <%- form.label("userId", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("userId") %>
-   </div>
+	<%- form.label("desc", "Description", { class: "control-label" }) %>
+	<div class="controls">
+		<%- form.textarea("desc",
+		{ class: "span10", placeholder: "Add a Description here, for Lists and RSS", rows: 2 }) %>
+	</div>
 </div>
+
 <div class="control-group">
-   <%- form.label("body", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("body") %>
-   </div>
+	<%- form.label("body", false, {class: "control-label"}) %>
+	<div class="controls">
+		<%- form.textarea("body",
+		{ class: "span10", placeholder: "Neil Armstrong, we hardly knew ye...", rows: 5 }) %>       
+	</div>
 </div>
