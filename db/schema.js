@@ -21,41 +21,36 @@
 
 */
 var Post = define('Post', function() {
-  property('title', String);
-  //property('userId', Number, { index: true });
-  property('body', Text);
-  property('desc', String);
-  property('created_at', Date);
-  property('updated_at', Date);
-  set('restPath', pathTo.posts);
+	property('title', String);
+	property('body', Text);
+	property('desc', String);
+	property('created_at', Date);
+	property('updated_at', Date);
+	set('restPath', pathTo.posts);
 });
 
 var User = define('User', function () {
 	property('displayName', String);
-  //property('roleId', String);
 	property('email', String, { index: true });
 	property('googleId', String, { index: true });
 	property('githubId', String, { index: true });
 	property('signatureId', String, { index: true });
 	property('linkedinId', String, { index: true });
 	property('created_at', Date);
-  property('updated_at', Date);
+ 	property('updated_at', Date);
 	set('restPath', pathTo.users);
 });
 
 var Role = define('Role', function() {
-  property('name', String);
-  property('desc', String);
-  property('created_at', Date);
-  property('updated_at', Date);
+	property('name', String);
+	property('desc', String);
+	property('created_at', Date);
+	property('updated_at', Date);
 });
 
-var Comment = define('Comment', function () {
-	property('body', Text);
-	//property('postId', Number, { index: true });
-	//property('userId', Number, { index: true });
+var Comment = define('Comment', function () {	
+	property('body', Text);	
 	property('active', Boolean);
 	property('flagged', Boolean);
 	set('restPath', pathTo.comments);
 });
-
