@@ -7,9 +7,9 @@ before(loadPassport);
 publish('loadAuthor', loadAuthor);
 
 function loadPassport() {
-	this.userName = null;
-	this.userId = null;
-	if (session.passport.user) {		
+	this.userName = false;
+	this.userId = false;
+	if (session.passport.user) {
 		User.find(session.passport.user, function(err, user) {
 			if (!err || user) {
         this.userName = user.displayName;

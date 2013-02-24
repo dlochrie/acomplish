@@ -1,28 +1,30 @@
-{ "name": "acomplish"
-, "version": "0.0.1"
-, "engines": ["node >= 0.8.0"]
-, "main": "server.js"
-, "dependencies":
-  { "ejs":              "*"
-  , "ejs-ext":          "latest"
-  , "express":          "~3.x"
-  , "compound":       ">= 1.1.0"
-  , "jugglingdb":       ">= 0.1.0"
-	, "jugglingdb-mysql":	"*"
-  , "jugglingdb-redis": "*"
-  , "coffee-script":    ">= 1.1.1"
-  , "stylus":           "latest"
-  , "seedjs": "latest"
-	, "passport": "*"
-	, "passport-google": "*"
-  , "async":             "*"
- },
-  "devDependencies":
-  { "nodeunit":         "*"
-  , "sinon":            "*"
-  , "semicov":          "*"
-  }
-, "scripts":
-  { "test": "nodeunit test/*/*"
-  }
+{
+	"name": "acomplish",
+	"description": "see README",
+	"author": { "name": "Daniel Lochrie" },
+	"version": "0.0.2",
+	"engines": ["node >= 0.8.0"],
+	"main": "server.js",
+	"dependencies": {
+		"ejs": "0.8.x",
+		"ejs-ext": "latest",
+		"express": "3.1.x",
+		"compound": "1.1.x",
+		"jugglingdb": "0.2.x",
+		"jugglingdb-mysql": "0.0.1",
+		"jugglingdb-redis": "*",
+		"coffee-script": ">= 1.1.1",
+		"stylus": "latest",
+		"seedjs": "latest",
+		"passport": "~0.1.x",
+		"passport-google": "~0.3.x"
+	},
+	"devDependencies": {
+		"nodeunit": "*",
+		"sinon": "*",
+		"semicov": "*"
+	},
+	"scripts": {
+		"test": "nodeunit test/*/*"
+	}
 }
