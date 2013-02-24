@@ -15,6 +15,7 @@
   , "seedjs": "latest"
 	, "passport": "*"
 	, "passport-google": "*"
+  , "async":             "*"
  },
   "devDependencies":
   { "nodeunit":         "*"

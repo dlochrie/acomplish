@@ -54,15 +54,9 @@ action(function create() {
 action(function index() {
 	this.title = 'Posts index';
 	Post.all({ include: ['author', 'comments'] }, function (err, posts) {
-		
-		//console.log("Posts:Index -", posts)
-		
 		switch (params.format) {
 			case "json":
-				send({
-					code: 200,
-					data: posts
-				});
+				send({code: 200, data: posts});
 				break;
 			default:
 				render({

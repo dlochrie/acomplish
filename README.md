@@ -21,6 +21,10 @@ with Synchronous functionality.
 * Provide a working example of using Unit Tests and Functional Tests (through Selenium, or a plugin TBD)
 * Provide a working example of using sockets (socket.io) for Realtime Web
 
+##Comments
+The Models only work with MySQL right now... see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w).
+This has to do with `__cachedRelations`... It's frustrating, if you know of an elegant solution, let me know.
+
 ##Components
 
 * [Compound.JS](http://compoundjs.com/) (formally known as Railway) is built on the [ExpressJS](http://expressjs.com/) framework.
