@@ -1,47 +1,51 @@
 <ul class="breadcrumb">
-	<li><a href="/">Home</a> <span class="divider">/</span></li>
-	<li class="active"><a href="<%- pathTo.posts() %>">posts</a> <span class="divider">/</span></li>
+	<li>
+		<a href="/">Home</a> <span class="divider">/</span>
+	</li>
+	<li class="active">
+		<a href="<%- pathTo.posts() %>">posts</a> <span class="divider">/</span>
+	</li>
 </ul>
-
 <div class="page-header">
-	<h1>Listing Posts</h1>
-</div>
+		<h1>Listing Posts</h1>
 
+</div>
 <div class="row">
 	<div class="span12">
-		<p><%- link_to('<i class="icon-plus icon-white"></i> New post', pathTo.new_post(), {class: 'btn btn-primary'}) %></>
+		<p>
+			<%- link_to( '<i class="icon-plus icon-white"></i> New post', pathTo.new_post(), {class: 'btn btn-primary'}) %>
+				</>
 	</div>
 </div>
-
 <div class="row">
 	<div class="span12">
-		<% if (posts.length > 0) { %>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Author</th>
-					<th>Comments</th>
-				</tr>
-			</thead>
-			<tbody>
-			<% posts.forEach(function (post) { %>
-				<tr>
-					<td><strong><%- post.title %></strong></td>
-					<td><strong><%- post.__cachedRelations.author.displayName %></strong></td>
-					<td><strong><%- post.__cachedRelations.comments.length %></strong></td>
-					<td>
-						<%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini'}) %>
-						<%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
-					</td>
-				</tr>
-			<% }); %>
-			</tbody>
-		</table>
-	<% } else { %>
-		<p class="alert alert-block alert-info">
-			<strong>No posts were found.</strong>
-		</p>
-	<% } %>
+		<% if (results.length > 0) { %>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Comments</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% results.forEach(function (result) { %>
+						<tr>
+							<td><strong><%- result.post.title %></strong></td>
+							<td><strong><%- result.author.displayName %></strong></td>
+							<td><strong><%- result.comments %></strong></td>
+							<td>
+								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_post(result.post), {class: 'btn btn-mini'}) %>
+									<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.post(result.post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+							</td>
+						</tr>
+						<% }); %>
+				</tbody>
+			</table>
+			<% } else { %>
+				<p class="alert alert-block alert-info">	<strong>No posts were found.</strong>
+
+				</p>
+				<% } %>
 	</div>
 </div>
