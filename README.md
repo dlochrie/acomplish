@@ -25,6 +25,10 @@ with Synchronous functionality.
 The Models only work with MySQL right now... see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w).
 This has to do with `__cachedRelations`... It's frustrating, if you know of an elegant solution, let me know.
 
+Another way of handling this is seeing: [http://book.mixu.net/ch7.html](http://book.mixu.net/ch7.html), particularly section
+7.2.1 Control flow pattern #1: Series. Mikito Takada has some really insightful documentation on the asynchronous nature of
+Node, and how we might solve this problem (or work nicely with this feature :-)).
+
 ##Components
 
 * [Compound.JS](http://compoundjs.com/) (formally known as Railway) is built on the [ExpressJS](http://expressjs.com/) framework.
