@@ -5,10 +5,11 @@ a complish
 
 A ***COMP*** LISH
 
-Yes, I know, *a complish* is misspelled, but it is really a combination of:
+Yes, I know, *acomplish* is misspelled, but it is really a combination of:
 
-* **Comp**ound.js
-* Pub**lish**
+* __Comp__ ound.js
+* Pub __lish__
+* __accomplish__
 
 ##Goals
 
