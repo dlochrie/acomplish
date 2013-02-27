@@ -1,5 +1,7 @@
 load('application');
 
+var getAssociated = use('getAssociated');
+
 before(loadPost, {
 	only: ['show', 'edit', 'update', 'destroy']
 });
@@ -53,52 +55,18 @@ action(function create() {
 
 action(function index() {
 	this.title = 'Posts index';
-	Post.all({ include: ['author', 'comments'] }, function (err, posts) {
-		
-		
-		/**
-		 * TODO: Abstract out the following Functionality for Loading
-		 * Related Models, ie when we call "async", we pass association as
-		 * well, and then do an `arg[assoc](function(arg, callback...`
-		 * This way it is dynamic.
-		 */ 
-		
-		// See: http://book.mixu.net/ch7.html
-		function async(arg, callback) {
-			arg.author(function (err, author) {
-				callback(author);
+	Post.all(function (err, posts) {		
+		getAssociated(posts, 'author', false, 'post', function(results) {
+			getAssociated(results, 'comments', true, 'post', function(results) {
+				switch (params.format) {
+					case "json":
+						send({code: 200, data: posts});
+						break;
+					default:
+						render({ results: results });
+				}
 			})
-		}
-
-		function final() {
-			switch (params.format) {
-				case "json":
-					send({code: 200, data: posts});
-					break;
-				default:
-					render({ results: results });
-			}
-		}
-
-		var results = [];
-
-		function series(item) {
-			if (item) {
-				async(item, function (result) {
-					results.push({
-						post: item,
-						author: result
-					});
-					return series(posts.shift());
-				});
-			} else {
-				return final();
-			}
-		}
-		
-		// Init Series
-		series(posts.shift())
-		
+		})
 	});
 });
 

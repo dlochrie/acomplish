@@ -5,6 +5,7 @@ before('protect from forgery', function () {
 before(loadPassport);
 
 publish('loadAuthor', loadAuthor);
+publish('getAssociated', getAssociated);
 
 function loadPassport() {
 	this.userName = false;
@@ -30,4 +31,36 @@ function loadAuthor() {
 	if (this.userId)
 		this.author = { name: this.userName, id: this.userId };
 	next();
+}
+
+function getAssociated(models, assoc, multi, modelName, cb) {
+	var results = [];
+	
+	function async(model, assoc, callback) {		
+		model = (multi) ? model[modelName] : model;
+		model[assoc](function (err, assoc) {
+			callback(assoc);
+		})
+	}
+	
+	function series(model) {
+		if (model) {
+			async(model, assoc, function (result) {
+				var obj = {};
+				
+				if (!multi) 
+					obj[modelName] = model;
+				else
+					obj = model;
+					
+				obj[String(assoc)] = result;
+				results.push(obj);
+				return series(models.shift());
+			});
+		} else {
+			return cb(results);
+		}
+	}
+	
+	series(models.shift());
 }

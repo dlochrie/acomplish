@@ -1,5 +1,7 @@
 load('application');
 
+var getAssociated = use('getAssociated');
+
 before(loadComment, {
 	only: ['show', 'edit', 'update', 'destroy']
 });
@@ -42,22 +44,26 @@ action(function create() {
 	});
 });
 
+
 action(function index() {
 	this.title = 'Comments index';
-	Comment.all({ include: ['author', 'post']}, function (err, comments) {
-		console.log("Comments:", comments)
-		switch (params.format) {
-			case "json":
-				send({
-					code: 200,
-					data: comments
-				});
-				break;
-			default:
-				render({
-					comments: comments
-				});
-		}
+	Comment.all(function (err, comments) {
+		getAssociated(comments, 'author', false, 'comment', function (results) {
+			getAssociated(results, 'post', true, 'comment', function (results) {
+				switch (params.format) {
+					case "json":
+						send({
+							code: 200,
+							data: results
+						});
+						break;
+					default:
+						render({
+							results: results
+						});
+				}
+			})
+		});
 	});
 });
 

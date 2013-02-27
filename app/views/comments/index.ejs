@@ -17,7 +17,7 @@
 </div>
 <div class="row">
 	<div class="span12">
-		<% if (comments.length>0) { %>
+		<% if (results.length > 0) { %>
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -28,14 +28,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% comments.forEach(function (comment) { %>
+					<% results.forEach(function (result) { %>
 						<tr>
-							<td><strong><%- link_to(comment.body, pathTo.comment(comment)) %></strong></td>
-							<td><strong><%- link_to(comment.__cachedRelations.author.displayName, pathTo.user(comment.author())) %></strong></td>
-							<td><strong><%- link_to(comment.__cachedRelations.post.title, pathTo.post(comment.post())) %></strong></td>
+							<td><strong><%- link_to(result.comment.body, pathTo.comment(result.comment)) %></strong></td>
+							<td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
+							<td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
 							<td>
-								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_comment(comment), {class: 'btn btn-mini'}) %>
-								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.comment(comment), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_comment(result.comment), {class: 'btn btn-mini'}) %>
+								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.comment(result.comment), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
 							</td>
 						</tr>
 					<% }); %>

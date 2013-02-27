@@ -26,26 +26,25 @@
 						<th>Title</th>
 						<th>Author</th>
 						<th>Comments</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<% results.forEach(function (result) { %>
 						<tr>
-							<td><strong><%- result.post.title %></strong></td>
-							<td><strong><%- result.author.displayName %></strong></td>
-							<td><strong><%- result.comments %></strong></td>
+							<td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
+							<td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
+							<td><strong><%- result.comments.length %></strong></td>
 							<td>
 								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_post(result.post), {class: 'btn btn-mini'}) %>
-									<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.post(result.post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.post(result.post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
 							</td>
 						</tr>
 						<% }); %>
 				</tbody>
 			</table>
 			<% } else { %>
-				<p class="alert alert-block alert-info">	<strong>No posts were found.</strong>
-
-				</p>
+				<p class="alert alert-block alert-info">	<strong>No posts were found.</strong></p>
 				<% } %>
 	</div>
 </div>
