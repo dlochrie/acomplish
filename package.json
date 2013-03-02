@@ -2,7 +2,7 @@
 	"name": "acomplish",
 	"description": "see README",
 	"author": { "name": "Daniel Lochrie" },
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"engines": ["node >= 0.8.0"],
 	"main": "server.js",
 	"dependencies": {

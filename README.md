@@ -40,6 +40,18 @@ Node, and how we might solve this problem (or work nicely with this feature :-))
 * ORM is [Juggling DB](https://github.com/1602/jugglingdb).
 * This example is using [Twitter Bootstrap](http://twitter.github.com/bootstrap/) throughout, but not through a plugin.
 
+##Models
+
+(Currently):
+
+* __Posts__: { BelongsTo: [ Users ], HasMany: [ Comments ] }
+* __Comments__: { BelongsTo: [ Posts, Users ] }
+* __Users__: { HasMany: [ Comments, Posts ], HABTM: [ Roles (through Memberships) ] }
+* __Roles__: { HABTM: [ Users (through Memberships) ]}
+* __Memberships__: { BelongsTo: [ Posts, Roles ] }
+
+Maybe more to come, including __Photos__.
+
 ##Install
 
 *TODO:* Add more instructions for how to configure a cloned app. 
