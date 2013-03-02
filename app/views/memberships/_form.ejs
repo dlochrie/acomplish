@@ -1,0 +1,17 @@
+<%- errorMessagesFor(membership) %>
+
+<div class="control-group">
+	<%- form.label("userId", "User", {class: "control-label"}) %>
+	<div class="controls">
+		<%- form.select("userId", users,
+		{ select: membership.userId, fieldname: 'name', fieldvalue: '_id' }) %>
+	</div>
+</div>
+
+<div class="control-group">
+	<%- form.label("roleId", "Role", {class: "control-label"}) %>
+	<div class="controls">
+		<%- form.select("roleId", roles,
+		{ select: membership.roleId, fieldname: 'name', fieldvalue: '_id' }) %>
+	</div>
+</div>

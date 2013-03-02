@@ -1,5 +1,7 @@
 load('application');
 
+var getAssociated = use('getAssociated');
+
 before(loadUser, {
 	only: ['show', 'edit', 'update', 'destroy']
 });
@@ -45,23 +47,28 @@ action(function create() {
 action(function index() {
 	this.title = 'Users index';
 	User.all(function (err, users) {
-		switch (params.format) {
-			case "json":
-				send({
-					code: 200,
-					data: users
-				});
-				break;
-			default:
-				render({
-					users: users
-				});
-		}
+		/**
+		 * TODO: Need to add a method that parses Role Names
+		 * for each User's Memberships
+		 */ 
+		getAssociated(users, 'memberships', false, 'user', function(results) {
+			switch (params.format) {
+				case "json":
+					send({
+						code: 200,
+						data: users
+					});
+					break;
+				default:
+					render({
+						rows: results
+					});
+			}
+		});
 	});
 });
 
 action('show', function () {
-	console.log("User:", this);
 	this.title = 'User show';
 	switch (params.format) {
 		case "json":

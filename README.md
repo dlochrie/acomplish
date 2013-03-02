@@ -20,15 +20,18 @@ Yes, I know, *acomplish* is misspelled, but it is really a combination of:
 * Provide working examples of making page views with multiple models, and balancing Async
 with Synchronous functionality.
 * Provide a working example of using Unit Tests and Functional Tests (through Selenium, or a plugin TBD)
-* Provide a working example of using sockets (socket.io) for Realtime Web
+* [Maybe] Provide a working example of using sockets (socket.io) for Realtime Web
+* [Maybe] Provide an example/workflow for dropping in Themes for your application 
 
 ##Comments
 The Models only work with MySQL right now... see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w).
-This has to do with `__cachedRelations`... It's frustrating, if you know of an elegant solution, let me know.
+This has to do with `__cachedRelations`... It's frustrating, if you know of an elegant solution, let me know.  
 
 Another way of handling this is seeing: [http://book.mixu.net/ch7.html](http://book.mixu.net/ch7.html), particularly section
 7.2.1 Control flow pattern #1: Series. Mikito Takada has some really insightful documentation on the asynchronous nature of
-Node, and how we might solve this problem (or work nicely with this feature :-)).
+Node, and how we might solve this problem (or work nicely with this feature :-)).  
+
+*Update*: See method `getAssociated` the *application_controller* for a useful way or handling associations. Again, if you know of a more elegant solution, let me know.  
 
 ##Components
 
@@ -38,6 +41,8 @@ Node, and how we might solve this problem (or work nicely with this feature :-))
 * This example is using [Twitter Bootstrap](http://twitter.github.com/bootstrap/) throughout, but not through a plugin.
 
 ##Install
+
+*TODO:* Add more instructions for how to configure a cloned app. 
 
 1. Clone Repo  
     `git clone [this repo url]`

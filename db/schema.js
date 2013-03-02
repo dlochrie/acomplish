@@ -43,14 +43,22 @@ var User = define('User', function () {
 
 var Role = define('Role', function() {
 	property('name', String);
-	property('desc', String);
+	property('desc', Text);
 	property('created_at', Date);
 	property('updated_at', Date);
+});
+
+var Membership = define('Membership', function() {
+	property('created_at', Date);
+	property('updated_at', Date);
+	set('restPath', pathTo.memberships);
 });
 
 var Comment = define('Comment', function () {	
 	property('body', Text);	
 	property('active', Boolean);
 	property('flagged', Boolean);
+	property('created_at', Date);
+	property('updated_at', Date);
 	set('restPath', pathTo.comments);
 });

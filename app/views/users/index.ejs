@@ -16,30 +16,32 @@
 </div>
 <div class="row">
 	<div class="span12">
-		<% if (users.length>0) { %>
+		<% if (rows.length > 0) { %>
 			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th>Display Name</th>
+						<th>Role(s)</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					<% users.forEach(function (user) { %>
+					<% rows.forEach(function (row) { %>
 						<tr>
-							<td><strong><%- link_to(user.displayName, pathTo.user(user)) %></strong></td>
+							<td><strong><%- link_to(row.user.displayName, pathTo.user(row.user)) %></strong></td>
+							<td><strong><p><%=: row.memberships | map: 'roleId' | join %></p></strong></td>
 							<td>
-								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_user(user), {class: 'btn btn-mini'}) %>
-									<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.user(user), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_user(row.user), {class: 'btn btn-mini'}) %>
+								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.user(row.user), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
 							</td>
 						</tr>
 					<% }); %>
 				</tbody>
 			</table>
-			<% } else { %>
-				<p class="alert alert-block alert-info">
-					<strong>No users were found.</strong>
-				</p>
-				<% } %>
+		<% } else { %>
+			<p class="alert alert-block alert-info">
+				<strong>No users were found.</strong>
+			</p>
+		<% } %>
 	</div>
 </div>

@@ -4,10 +4,6 @@ module.exports = function (compound) {
     	app = compound.app,
 			passport = require('passport'),
     	compoundPassport = require('./passport.js');
-		
-		var User = compound.models.User;
-		var Post = compound.models.User;
-		var Comment = compound.models.Comment;
 			
     app.configure(function(){
         app.use(compound.assetsCompiler.init());
