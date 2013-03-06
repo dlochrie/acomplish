@@ -138,6 +138,15 @@ action(function update() {
 });
 
 action(function destroy() {
+	
+	/** Remove Related Comments **/
+	Comment.all({ where: { postId: this.post.id }},
+	function(err, comments) {
+		comments.forEach(function(comment) {
+			comment.destroy(function(error) { });
+		});
+	});
+	
 	this.post.destroy(function (error) {
 		respondTo(function (format) {
 			format.json(function () {

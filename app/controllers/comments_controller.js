@@ -6,10 +6,23 @@ before(loadComment, {
 	only: ['show', 'edit', 'update', 'destroy']
 });
 
+before(use('loadAuthor'), { only: ['new', 'edit'] });
+
 action('new', function () {
 	this.title = 'New comment';
 	this.comment = new Comment;
-	render();
+	if (this.author) {
+		generateAuthorSelect(this.author, function(author_opts) {
+			console.log(author_opts);
+			
+			generatePostSelect(function(post_opts) {
+				render();
+			});
+		});
+	} else {
+		flash('error', 'Could not retrieve your User information, are you logged in?');
+		redirect(path_to.posts);
+	}
 });
 
 action(function create() {
@@ -47,7 +60,7 @@ action(function create() {
 
 action(function index() {
 	this.title = 'Comments index';
-	Comment.all(function (err, comments) {
+	Comment.all({ include: ['author', 'post']}, function (err, comments) {
 		getAssociated(comments, 'author', false, 'comment', function (results) {
 			getAssociated(results, 'post', true, 'comment', function (results) {
 				switch (params.format) {
@@ -165,4 +178,26 @@ function loadComment() {
 			next();
 		}
 	}.bind(this));
+}
+
+function generateAuthorSelect(user, cb) {
+	User.all(function(err, users) {
+		this.user_opts = [];
+		Object.getOwnPropertyNames(users).forEach(function(val, idx, array) {
+			if (val === 'length') return; // We only want Values, not Count
+			this.user_opts.push({ name: users[val].displayName, _id: users[val].id });
+		});
+		cb(this.user_opts)
+	});	
+}
+
+function generatePostSelect(cb) {
+	Post.all(function(err, posts) {
+		this.post_opts = [];
+		Object.getOwnPropertyNames(posts).forEach(function(val, idx, array) {
+			if (val === 'length') return; // We only want Values, not Count
+			this.post_opts.push({ name: posts[val].title, _id: posts[val].id });
+		});
+		cb(this.post_opts)
+	});	
 }

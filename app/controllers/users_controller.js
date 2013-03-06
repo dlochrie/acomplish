@@ -125,6 +125,23 @@ action(function update() {
 });
 
 action(function destroy() {
+	
+	/** Remove Related Posts **/ 
+	Post.all({ where: { userId: this.user.id }},
+	function(err, posts) {
+		posts.forEach(function(post) {
+			post.destroy(function(error) { });
+		});
+	});
+	
+	/** Remove Related Comments **/
+	Comment.all({ where: { userId: this.user.id }},
+	function(err, comments) {
+		comments.forEach(function(comment) {
+			comment.destroy(function(error) { });
+		});
+	});
+	
 	this.user.destroy(function (error) {
 		respondTo(function (format) {
 			format.json(function () {
