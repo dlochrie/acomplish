@@ -84,13 +84,22 @@ action('show', function () {
 
 action(function edit() {
 	this.title = 'User edit';
-	switch (params.format) {
-		case "json":
-			send(this.user);
-			break;
-		default:
-			render();
-	}
+	this.membership = new Membership;
+
+	Membership.all({ where: { userId: this.user.id }}, function(err, memberships) {
+		getAssociated(memberships, 'role', false, 'membership', function(memberships) {
+			this.memberships = memberships;
+			generateRoleSelect(memberships, function() {
+			  switch (params.format) {
+					case "json":
+						send(this.user);
+						break;
+					default:
+						render();
+				}
+			});
+		});
+	});
 });
 
 action(function update() {
@@ -183,4 +192,19 @@ function loadUser() {
 			next();
 		}
 	}.bind(this));
+}
+
+function generateRoleSelect(memberships, cb) {
+	var assigned = memberships.map(function(val, i, arr) {
+			return arr[i].role.id;
+	});
+	Role.all(function(err, roles) {
+		this.roles = [];
+		Object.getOwnPropertyNames(roles).forEach(function(val, i, arr) {
+			if (val === 'length') return; // We only want Values, not Count
+			if (assigned.indexOf(roles[val].id) !== -1) return; // Skip Roles already assigned
+			this.roles.push({ name: roles[val].name, _id: roles[val].id });
+		});
+		cb(this.roles)
+	});	
 }

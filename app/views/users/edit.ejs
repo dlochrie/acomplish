@@ -1,18 +1,47 @@
 <ul class="breadcrumb">
-    <li><a href="/">Home</a> <span class="divider">/</span></li>
-    <li><a href="<%- pathTo.users() %>">users</a> <span class="divider">/</span></li>
-    <li class="active"><a href="#">Edit user</a></li>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li><a href="<%- pathTo.users() %>">users</a> <span class="divider">/</span></li>
+  <li class="active"><a href="#">Edit user</a></li>
 </ul>
 
 <div class="page-header">
-    <h1>Edit user</h1>
+	<h1>Edit user</h1>
 </div>
 
 <% var form = formFor(user, {action: pathTo.user(user), method: 'PUT', id: "user-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
 <%- include _form %>
 <div class="form-actions">
-    <%- form.submit('<i class="icon-ok icon-white"></i> Update user', {class: 'btn btn-primary'}) %> or
-    <%- linkTo('Cancel', pathTo.user(user), {class: 'btn'}) %>
+  <%- form.submit('<i class="icon-ok icon-white"></i> Update user', {class: 'btn btn-primary'}) %> or
+  <%- linkTo('Cancel', pathTo.user(user), {class: 'btn'}) %>
 </div>
+<%- form.end() %>
+
+<hr />
+
+<div class="page-header">
+	<h2>Memberships</h2>
+</div>
+
+<table class="table table-striped table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>Role</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% memberships.forEach(function(m) { %>
+			<tr>
+				<td><%- m.role.name %></td>
+				<td><a class="btn btn-danger"><i class="icon-remove icon-white"></i></a></td>
+			</tr>
+		<% }) %>
+	</tbody>
+</table>
+
+<% var form = formFor(membership, { action: pathTo.user_memberships(user), method: 'POST', class: 'form-inline' }) %>
+<%- form.begin() %>
+	<% include ../memberships/_form %>
+	<%- form.submit('<i class="icon-plus icon-white"></i> Add Role', {class: 'btn btn-primary'}) %>
 <%- form.end() %>

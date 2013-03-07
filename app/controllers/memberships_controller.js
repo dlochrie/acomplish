@@ -16,7 +16,13 @@ action('new', function () {
 });
 
 action(function create() {
-	Membership.create(req.body.Membership, function (err, membership) {
+
+	var membership = req.body.Membership;
+	membership.created_at = new Date;
+	membership.updated_at = new Date;
+	membership.userId = req.params.user_id;
+
+	Membership.create(membership, function (err, membership) {
 		respondTo(function (format) {
 			format.json(function () {
 				if (err) {
@@ -40,7 +46,7 @@ action(function create() {
 					});
 				} else {
 					flash('info', 'Membership created');
-					redirect(path_to.memberships);
+					redirect(path_to.edit_user(membership.userId));
 				}
 			});
 		});
@@ -63,7 +69,6 @@ action(function index() {
 		})
 	});
 });
-
 
 function generateRoleSelect(cb) {
 	Role.all(function(err, roles) {

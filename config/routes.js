@@ -3,9 +3,12 @@ exports.routes = function (map) {
 	map.resources('comments');
 
 	map.resources('posts'); // TODO Nest under `Admin` Namespace
-	map.resources('users'); // TODO Nest under `Admin` Namespace
+	map.resources('users', function(user) {
+		user.resources('memberships');
+	});
+
 	map.resources('roles'); // TODO Nest under `Admin` Namespace
-	map.resources('memberships'); // TODO Nest under `Admin` Namespace
+	//map.resources('memberships'); // TODO Nest under `Admin` Namespace
 
 	// Generic routes. Add all your routes below this line
 	// feel free to remove generic routes
