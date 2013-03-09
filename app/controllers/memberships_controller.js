@@ -2,6 +2,10 @@ load('application');
 
 var getAssociated = use('getAssociated');
 
+before(loadMembership, {
+	only: ['show', 'edit', 'update', 'destroy']
+});
+
 action('new', function () {
 	this.title = 'New Membership';
 	this.membership = new Membership;
@@ -69,6 +73,51 @@ action(function index() {
 		})
 	});
 });
+
+action(function destroy() {
+	var membership = this.membership;
+	membership.destroy(function (error) {
+		respondTo(function (format) {
+			format.json(function () {
+				if (error) {
+					send({
+						code: 500,
+						error: error
+					});
+				} else {
+					send({
+						code: 200
+					});
+				}
+			});
+			format.html(function () {
+				if (error) {
+					flash('error', 'Can not destroy membership');
+				} else {
+					flash('info', 'Membership successfully removed');
+				}
+				send("'" + path_to.edit_user(membership.userId) + "'");
+			});
+		});
+	});
+});
+
+function loadMembership() {
+	Membership.find(params.id, function (err, membership) {
+		if (err || !membership) {
+			if (!err && !membership && params.format === 'json') {
+				return send({
+					code: 404,
+					error: 'Not found'
+				});
+			}
+			redirect(path_to.users);
+		} else {
+			this.membership = membership;
+			next();
+		}
+	}.bind(this));
+}
 
 function generateRoleSelect(cb) {
 	Role.all(function(err, roles) {

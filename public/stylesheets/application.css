@@ -1,3 +1,27 @@
 body {
   background: #fff;
 }
+
+div.navbar-inner {
+	background: #CCCCCC; /* Old browsers */
+	background: -moz-linear-gradient(top,  #CCCCCC 2%, #EEEEEE 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#CCCCCC), color-stop(100%,#EEEEEE)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #CCCCCC 2%,#EEEEEE 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #CCCCCC 2%,#EEEEEE 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #CCCCCC 2%,#EEEEEE 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #CCCCCC 2%,#EEEEEE 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CCCCCC', endColorstr='#EEEEEE',GradientType=0 ); /* IE6-9 */
+}
+
+div.navbar-inner { border-bottom: 1px solid #AAAAAA; }
+
+.navbar .divider-vertical {
+	border-left: 1px solid #CCCCCC;
+	border-right: 1px solid #AAAAAA;
+}
+
+h1, h2, h3, h4, h5 {  
+	color: #333333;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #CCCCCC;
+}
