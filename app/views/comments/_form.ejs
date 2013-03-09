@@ -1,38 +1,18 @@
 <%- errorMessagesFor(comment) %>
 
 <div class="control-group">
-	<%- form.label("userId", "Author", {class: "control-label"}) %>
-	<div class="controls">
-		<%- form.select("userId", user_opts,
-		{ select: comment.userId || author.id, fieldname: 'name', fieldvalue: '_id' }) %>
-	</div>
-</div>
-
-<div class="control-group">
-	<%- form.label("postId", "Post", {class: "control-label"}) %>
-	<div class="controls">
-		<%- form.select("postId", post_opts,
-		{ select: comment.postId, fieldname: 'name', fieldvalue: '_id' }) %>
-	</div>
+   <%- form.label("displayName", "Display Name", { class: "control-label" }) %>
+   <div class="controls">
+       <%- form.input("displayName", { value: commentor.name, class: "span4" }) %>
+   </div>
 </div>
 
 <div class="control-group">
    <%- form.label("body", false, {class: "control-label"}) %>
    <div class="controls">
-       <%- form.input("body") %>
+       <%- form.textarea("body", { class: "span8", rows: "4" }) %>
    </div>
 </div>
 
-<div class="control-group">
-   <%- form.label("flagged", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.checkbox("flagged") %>
-   </div>
-</div>
-
-<div class="control-group">
-   <%- form.label("active", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.checkbox("flagged") %>
-   </div>
-</div>
+<%- form.input("userId", { type: "hidden", value: commentor.id }) %>
+<%- form.input("postId", { type: "hidden", value: post.id }) %>

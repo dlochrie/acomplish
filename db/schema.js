@@ -56,6 +56,7 @@ var Membership = define('Membership', function() {
 
 var Comment = define('Comment', function () {	
 	property('body', Text);	
+	property('displayName', String);
 	property('active', Boolean);
 	property('flagged', Boolean);
 	property('created_at', Date);

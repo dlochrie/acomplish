@@ -10,11 +10,13 @@ publish('getAssociated', getAssociated);
 function loadPassport() {
 	this.userName = false;
 	this.userId = false;
+	this._loggedIn = false;
 	if (session.passport.user) {
 		User.find(session.passport.user, function(err, user) {
 			if (!err || user) {
         this.userName = user.displayName;
 				this.userId = user.id;
+				this._loggedIn = true;
         next();
       }
 		}.bind(this));

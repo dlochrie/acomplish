@@ -8,23 +8,6 @@ before(loadComment, {
 
 before(use('loadAuthor'), { only: ['new', 'edit'] });
 
-action('new', function () {
-	this.title = 'New comment';
-	this.comment = new Comment;
-	if (this.author) {
-		generateAuthorSelect(this.author, function(author_opts) {
-			console.log(author_opts);
-			
-			generatePostSelect(function(post_opts) {
-				render();
-			});
-		});
-	} else {
-		flash('error', 'Could not retrieve your User information, are you logged in?');
-		redirect(path_to.posts);
-	}
-});
-
 action(function create() {
 	Comment.create(req.body.Comment, function (err, comment) {
 		respondTo(function (format) {

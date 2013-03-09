@@ -6,7 +6,7 @@ before(loadPost, {
 	only: ['show', 'edit', 'update', 'destroy']
 });
 
-before(use('loadAuthor'), { only: ['new', 'edit'] });
+before(use('loadAuthor'), { only: ['new', 'edit', 'show'] });
 
 action('new', function () {
 	this.title = 'New post';
@@ -71,17 +71,21 @@ action(function index() {
 });
 
 action(function show() {
-	this.title = this.post.title
+	this.title = this.post.title;
 	var post = this.post
 		, author
-		, comments;
+		, comment = new Comment
+		, comments
+		, commentor = this.author
 	
+	// TODO: Handle "err"'s here
 	post.author(function(err, author) {
 		if (err) { console.log("Error!!!!!", err); }
 		post.comments(function(err, comments) {
 			if (err) { console.log("Error!!!!!", err); }
 			comments = comments;
-			render({ post: post, author: author, comments: comments })
+			render({ post: post, author: author, comment: comment, 
+				comments: comments, commentor: commentor })
 		})
 	})
 	
