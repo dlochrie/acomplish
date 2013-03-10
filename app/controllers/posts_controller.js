@@ -22,6 +22,8 @@ action('new', function () {
 });
 
 action(function create() {
+	post.created_at = new Date;
+	post.updated_at = new Date;
 	Post.create(req.body.Post, function (err, post) {
 		respondTo(function (format) {
 			format.json(function () {
@@ -113,6 +115,7 @@ action(function edit() {
 action(function update() {
 	var post = this.post;
 	this.title = 'Edit post details';
+	body.Post.updated_at = new Date;
 	this.post.updateAttributes(body.Post, function (err) {
 		respondTo(function (format) {
 			format.json(function () {

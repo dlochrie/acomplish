@@ -4,17 +4,11 @@
 		<a href="<%- pathTo.comments() %>">comments</a> <span class="divider">/</span>
 	</li>
 </ul>
+
 <div class="page-header">
 	 <h1>Listing Comments</h1>
+</div>
 
-</div>
-<div class="row">
-	<div class="span12">
-		<p>
-			<%- link_to( '<i class="icon-plus icon-white"></i> New comment', pathTo.new_comment(), {class: 'btn btn-primary'}) %>
-		</p>
-	</div>
-</div>
 <div class="row">
 	<div class="span12">
 		<% if (results.length > 0) { %>
@@ -22,21 +16,18 @@
 				<thead>
 					<tr>
 						<th>Body</th>
+						<th>Created At</th>
 						<th>Author</th>
 						<th>Post</th>
-						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<% results.forEach(function (result) { %>
 						<tr>
-							<td><strong><%- link_to(result.comment.body, pathTo.comment(result.comment)) %></strong></td>
+							<td><%- result.comment.body %></td>
+							<td><%- result.comment.created_at %></td>
 							<td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
 							<td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
-							<td>
-								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_comment(result.comment), {class: 'btn btn-mini'}) %>
-								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.comment(result.comment), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
-							</td>
 						</tr>
 					<% }); %>
 				</tbody>
