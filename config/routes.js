@@ -11,8 +11,11 @@ exports.routes = function (map) {
 		post.resources('comments');
 	});
 
-	map.resources('roles'); // TODO Nest under `Admin` Namespace
-	//map.resources('memberships'); // TODO Nest under `Admin` Namespace
+	/** Set up Admin Namespace **/
+	map.get('/admin', 'admin#index');
+	map.namespace('admin', function (admin) {
+		map.resources('roles');
+	});
 
 	// Generic routes. Add all your routes below this line
 	// feel free to remove generic routes
