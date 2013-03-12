@@ -8,7 +8,7 @@
     <h1>Edit post</h1>
 </div>
 
-<% var form = formFor(post, {action: pathTo.post(post), method: 'PUT', id: "post-form", class: 'form-horizontal'}) %>
+<% var form = formFor(post, {action: pathTo.admin_post(post), method: 'PUT', id: "post-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
 <%- include _form %>
 <div class="form-actions">

@@ -14,7 +14,10 @@ exports.routes = function (map) {
 	/** Set up Admin Namespace **/
 	map.get('/admin', 'admin#index');
 	map.namespace('admin', function (admin) {
+		map.resources('comments');
+		map.resources('posts');
 		map.resources('roles');
+		map.resources('users');
 	});
 
 	// Generic routes. Add all your routes below this line
