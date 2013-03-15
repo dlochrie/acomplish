@@ -5,15 +5,17 @@
 </ul>
 
 <div class="page-header">
-		<h1><%- post.title %></h1>
+	<h1><%- post.title %></h1>
 </div>
 
 <div class="row">
 	<div class="span12">
-		<p class="byline">posted by <span class="text-info"><%- author.displayName %></span> on <em><%- post.updated_at %></em></p>
+		<p class="byline muted">Posted by <span class="text-info"><%- author.displayName %></span> on <em><%- post.updated_at %></em></p>
 		<%- post.body %>
 	</div>
 </div>
+
+<hr />
 
 <div class="row">
 	<div class="span12 comments">
