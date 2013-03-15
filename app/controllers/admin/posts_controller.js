@@ -22,9 +22,10 @@ action('new', function () {
 });
 
 action(function create() {
+	var post = req.body.Post;
 	post.created_at = new Date;
 	post.updated_at = new Date;
-	Post.create(req.body.Post, function (err, post) {
+	Post.create(post, function (err, post) {
 		respondTo(function (format) {
 			format.json(function () {
 				if (err) {
@@ -113,10 +114,10 @@ action(function edit() {
 });
 
 action(function update() {
-	var post = this.post;
+	var post = req.body.Post;
 	this.title = 'Edit post details';
-	body.Post.updated_at = new Date;
-	this.post.updateAttributes(body.Post, function (err) {
+	post.updated_at = new Date;
+	this.post.updateAttributes(post, function (err) {
 		respondTo(function (format) {
 			format.json(function () {
 				if (err) {
@@ -207,3 +208,4 @@ function generateAuthorSelect(user, cb) {
 		cb(this.opts)
 	});	
 }
+

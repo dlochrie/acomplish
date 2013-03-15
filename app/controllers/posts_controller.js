@@ -33,17 +33,21 @@ action(function show() {
 		, comments
 		, commentor = this.author
 	
-	// TODO: Handle "err"'s here
 	post.author(function(err, author) {
-		if (err) { console.log("Error!!!!!", err); }
+		if (err) { 
+			flash('info', 'Post could not be found');
+			redirect(pathTo.root); 
+		}
 		post.comments(function(err, comments) {
-			if (err) { console.log("Error!!!!!", err); }
+			if (err) { 
+				flash('info', 'Post could not be found');
+				redirect(pathTo.root); 
+			}
 			comments = comments;
 			render({ post: post, author: author, comment: comment, 
 				comments: comments, commentor: commentor })
 		})
 	})
-	
 });
 
 function loadPost() {

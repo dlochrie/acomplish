@@ -2,7 +2,7 @@ exports.routes = function (map) {
 
 	map.resources('comments');
 
-	map.resources('posts'); // TODO Nest under `Admin` Namespace
+	map.resources('posts', { only: ['index', 'show'] }); // TODO Nest under `Admin` Namespace
 	map.resources('users', function(user) {
 		user.resources('memberships');
 	});

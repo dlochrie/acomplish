@@ -1,14 +1,9 @@
 <ul class="breadcrumb">
-	<li>
-		<a href="/">Home</a> <span class="divider">/</span>
-	</li>
-	<li class="active">
-		<a href="<%- pathTo.posts() %>">posts</a> <span class="divider">/</span>
-	</li>
+	<li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
+	<li><%- linkTo('Post Management <span class="divider">/</span>', pathTo.admin_posts(), { class: 'active' }) %></li>
 </ul>
 <div class="page-header">
-		<h1>Listing Posts</h1>
-
+	<h1>Post Management</h1>
 </div>
 <div class="row">
 	<div class="span12">
