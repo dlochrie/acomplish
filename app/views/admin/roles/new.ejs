@@ -1,18 +1,18 @@
 <ul class="breadcrumb">
     <li><a href="/">Home</a> <span class="divider">/</span></li>
-    <li><a href="<%- pathTo.roles() %>">roles</a> <span class="divider">/</span></li>
-    <li class="active"><a href="#">New role</a></li>
+    <li><a href="<%- pathTo.admin_roles() %>">Roles Management</a> <span class="divider">/</span></li>
+    <li class="active"><a href="#">Add New Role</a></li>
 </ul>
 
 <div class="page-header">
     <h1>New Role</h1>
 </div>
 
-<% var form = formFor(role, {action: pathTo.roles(), method: 'POST', id: "role-form", class: 'form-horizontal'}) %>
+<% var form = formFor(role, {action: pathTo.admin_roles(), method: 'POST', id: "role-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
 <%- include _form %>
 <div class="form-actions">
     <%- form.submit('<i class="icon-ok icon-white"></i> Create role', {class: 'btn btn-primary'}) %> or
-    <%- linkTo('Cancel', pathTo.roles(), {class: 'btn'}) %>
+    <%- linkTo('Cancel', pathTo.admin_roles(), {class: 'btn'}) %>
 </div>
 <%- form.end() %>

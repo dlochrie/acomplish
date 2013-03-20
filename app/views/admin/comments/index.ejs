@@ -1,12 +1,10 @@
 <ul class="breadcrumb">
-	<li><a href="/">Home</a> <span class="divider">/</span></li>
-	<li class="active">
-		<a href="<%- pathTo.comments() %>">comments</a> <span class="divider">/</span>
-	</li>
+	<li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
+	<li><%- linkTo('Comments Management <span class="divider">/</span>', pathTo.admin_comments(), { class: 'active' }) %></li>
 </ul>
 
 <div class="page-header">
-	 <h1>Listing Comments</h1>
+	 <h1>Comments Management</h1>
 </div>
 
 <div class="row">
@@ -30,8 +28,10 @@
 							<td><%- toShortDate(result.comment.created_at) %></td>
 							<td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
 							<td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
-							<td>False</td>
-							<td><a class="btn btn-danger"><i class="icon-remove icon-white"></i>Delete</a></td>
+							<td><%- (result.comment.flagged) ? 'True' : 'False' %></td>
+							<td>
+								<%- link_to( '<i class="icon-remove icon-white"></i>', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %>
+							</td>
 						</tr>
 					<% }); %>
 				</tbody>

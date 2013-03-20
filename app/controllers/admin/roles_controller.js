@@ -35,7 +35,7 @@ action(function create() {
 					});
 				} else {
 					flash('info', 'Role created');
-					redirect(path_to.roles);
+					redirect(path_to.admin_roles);
 				}
 			});
 		});
@@ -106,7 +106,7 @@ action(function update() {
 			format.html(function () {
 				if (!err) {
 					flash('info', 'Role updated');
-					redirect(path_to.role(role));
+					redirect(path_to.admin_role(role));
 				} else {
 					flash('error', 'Role can not be updated');
 					render('edit');
@@ -137,7 +137,7 @@ action(function destroy() {
 				} else {
 					flash('info', 'Role successfully removed');
 				}
-				send("'" + path_to.roles + "'");
+				send("'" + path_to.admin_roles + "'");
 			});
 		});
 	});
@@ -152,7 +152,7 @@ function loadRole() {
 					error: 'Not found'
 				});
 			}
-			redirect(path_to.roles);
+			redirect(path_to.admin_roles);
 		} else {
 			this.role = role;
 			next();

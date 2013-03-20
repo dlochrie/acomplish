@@ -14,13 +14,16 @@
               <%- link_to("posts", pathTo.posts) %>
             </li>
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 admin
                 <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
                 <li><%- linkTo("admininstration panel", pathTo.admin) %></li>
-                <li><%- linkTo("manage posts", pathTo.admin_posts) %></li>
+                <li class="divider"></li>
+                <li><%- linkTo("posts management", pathTo.admin_posts) %></li>
+                <li><%- linkTo("users management", pathTo.admin_users) %></li>
+                <li><%- linkTo("roles management", pathTo.admin_roles) %></li>
               </ul>  
             </li>
           </ul>

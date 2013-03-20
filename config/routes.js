@@ -2,10 +2,8 @@ exports.routes = function (map) {
 
 	map.resources('comments');
 
-	map.resources('posts', { only: ['index', 'show'] }); // TODO Nest under `Admin` Namespace
-	map.resources('users', function(user) {
-		user.resources('memberships');
-	});
+	map.resources('posts', { only: ['index', 'show'] }); 
+	map.resources('users', { only: ['index', 'show'] }); 
 
 	map.resources('posts', function (post) {
 		post.resources('comments');
@@ -17,7 +15,9 @@ exports.routes = function (map) {
 		map.resources('comments');
 		map.resources('posts');
 		map.resources('roles');
-		map.resources('users');
+		map.resources('users', function(user) {
+			user.resources('memberships');
+		});
 	});
 
 	// Generic routes. Add all your routes below this line

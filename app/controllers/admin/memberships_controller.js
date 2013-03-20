@@ -50,7 +50,7 @@ action(function create() {
 					});
 				} else {
 					flash('info', 'Membership created');
-					redirect(path_to.edit_user(membership.userId));
+					redirect(path_to.edit_admin_user(membership.userId));
 				}
 			});
 		});
@@ -96,7 +96,7 @@ action(function destroy() {
 				} else {
 					flash('info', 'Membership successfully removed');
 				}
-				send("'" + path_to.edit_user(membership.userId) + "'");
+				send("'" + path_to.edit_admin_user(membership.userId) + "'");
 			});
 		});
 	});

@@ -1,23 +1,23 @@
 <ul class="breadcrumb">
-  <li><a href="/">Home</a> <span class="divider">/</span></li>
-  <li><a href="<%- pathTo.users() %>">users</a> <span class="divider">/</span></li>
-  <li class="active"><a href="#">Edit user</a></li>
+	<li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
+	<li><%- linkTo('User Management <span class="divider">/</span>', pathTo.admin_users()) %></li>
+	<li><%- linkTo(user.displayName, pathTo.admin_users(user), { class: 'active' }) %></li>
 </ul>
 
 <div class="page-header">
-	<h1>Edit User</h1>
+	<h1>Edit User | <%-user.displayName %></h1>
 </div>
 
 <div class="row">
 	<div class="span9">
 		<fieldset>
 			<legend>Details</legend>
-			<% var form = formFor(user, {action: pathTo.user(user), method: 'PUT', id: "user-form", class: 'form-horizontal'}) %>
+			<% var form = formFor(user, {action: pathTo.admin_user(user), method: 'PUT', id: "user-form", class: 'form-horizontal'}) %>
 			<%- form.begin() %>
 			<%- include _form %>
 			<div class="form-actions">
 			  <%- form.submit('<i class="icon-ok icon-white"></i> Update user', {class: 'btn btn-primary'}) %> or
-			  <%- linkTo('Cancel', pathTo.user(user), {class: 'btn'}) %>
+			  <%- linkTo('Cancel', pathTo.admin_user(user), {class: 'btn'}) %>
 			</div>
 			<%- form.end() %>
 		</fieldset>
@@ -38,14 +38,14 @@
 						<tr>
 							<td><%- m.role.name %></td>
 							<td>
-								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.user_membership(m.membership.userId, m.membership.id), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_user_membership(m.membership.userId, m.membership.id), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
 							</td>
 						</tr>
 					<% }) %>
 				</tbody>
 			</table>
 			<% if (roles.length) { %>
-				<% var form = formFor(membership, { action: pathTo.user_memberships(user), method: 'POST', class: 'form-inline' }) %>
+				<% var form = formFor(membership, { action: pathTo.admin_user_memberships(user), method: 'POST', class: 'form-inline' }) %>
 				<%- form.begin() %>
 					<label>Add Role</label>
 					<% include ../memberships/_form %>
