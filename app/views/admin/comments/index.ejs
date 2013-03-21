@@ -28,7 +28,9 @@
 							<td><%- toShortDate(result.comment.created_at) %></td>
 							<td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
 							<td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
-							<td><%- (result.comment.flagged) ? 'True' : 'False' %></td>
+							<td><%- (result.comment.flagged) ? 
+								'<span class="badge badge-important"><i class="icon-flag icon-white"></i></span>' : 'False' %>
+							</td>
 							<td>
 								<%- link_to( '<i class="icon-remove icon-white"></i>', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %>
 							</td>
