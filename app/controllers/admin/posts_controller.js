@@ -49,7 +49,7 @@ action(function create() {
 					});
 				} else {
 					flash('info', 'Post created');
-					redirect(path_to.posts);
+					redirect(pathTo.admin_posts);
 				}
 			});
 		});
@@ -108,7 +108,7 @@ action(function edit() {
 		});
 	} else {
 		flash('error', 'Could not retrieve your User information, are you logged in?');
-		redirect(path_to.posts);
+		redirect(pathTo.admin_posts);
 	}	
 	
 });
@@ -135,7 +135,7 @@ action(function update() {
 			format.html(function () {
 				if (!err) {
 					flash('info', 'Post updated');
-					redirect(path_to.post(post));
+					redirect(pathTo.admin_post(post));
 				} else {
 					flash('error', 'Post can not be updated');
 					render('edit');
@@ -175,7 +175,7 @@ action(function destroy() {
 				} else {
 					flash('info', 'Post successfully removed');
 				}
-				send("'" + path_to.posts + "'");
+				send("'" + pathTo.admin_posts + "'");
 			});
 		});
 	});
@@ -190,7 +190,7 @@ function loadPost() {
 					error: 'Not found'
 				});
 			}
-			redirect(path_to.posts);
+			redirect(pathTo.admin_posts);
 		} else {
 			this.post = post;
 			next();

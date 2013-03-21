@@ -1,12 +1,10 @@
 exports.routes = function (map) {
 
-	map.resources('comments');
-
-	map.resources('posts', { only: ['index', 'show'] }); 
+	/** Set up Publicly Exposed Routes **/
+	map.resources('comments', { only: ['index', 'show'] });
 	map.resources('users', { only: ['index', 'show'] }); 
-
-	map.resources('posts', function (post) {
-		post.resources('comments');
+	map.resources('posts', { only: ['index', 'show'] }, function (post) { 
+		post.resources('comments', { only: ['create', 'index'] });
 	});
 
 	/** Set up Admin Namespace **/
@@ -20,16 +18,11 @@ exports.routes = function (map) {
 		});
 	});
 
-	// Generic routes. Add all your routes below this line
-	// feel free to remove generic routes
-	map.all(':controller/:action');
-	map.all(':controller/:action/:id');
-
 	map.get('/login', 'account#login');
 	map.get('/logout', 'account#logout');
 
+	/** Boilerplate / Msic **/
 	map.get('/about', 'main#about');
 	map.get('/contact', 'main#contact');
-
 	map.root('main#index');
 };
