@@ -29,7 +29,7 @@
 							<td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
 							<td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
 							<td><%- (result.comment.flagged) ? 
-								'<span class="badge badge-important"><i class="icon-flag icon-white"></i></span>' : 'False' %>
+								'<span class="badge badge-important"><i class="icon-flag icon-white"></i></span>' : '<em>False</em>' %>
 							</td>
 							<td>
 								<%- link_to( '<i class="icon-remove icon-white"></i>', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %>
