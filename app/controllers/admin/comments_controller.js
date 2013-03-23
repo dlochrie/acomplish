@@ -3,7 +3,7 @@ load('application');
 var getAssociated = use('getAssociated');
 
 before(loadComment, {
-	only: ['show', 'edit', 'update', 'destroy']
+	only: ['destroy', 'unflag']
 });
 
 action(function index() {
@@ -27,6 +27,25 @@ action(function index() {
 		});
 	});
 });
+
+action(function unflag() {
+	var comment = req.body.Comment; // TODO: JSON Parse this???
+	comment.flagged = false;
+	comment.updated_at = new Date;
+	this.comment.updateAttributes(comment, function (err) {
+		if (err) {
+			send({
+				code: 500,
+				error: this.comment && this.comment.errors || err
+			});
+		} else {
+			send({
+				code: 200,
+				data: this.comment
+			});
+		}
+	});
+})
 
 action(function destroy() {
 	this.comment.destroy(function (error) {

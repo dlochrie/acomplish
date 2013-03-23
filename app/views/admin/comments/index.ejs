@@ -10,7 +10,7 @@
 <div class="row">
 	<div class="span12">
 		<% if (results.length > 0) { %>
-			<table class="table table-striped">
+			<table class="table table-striped comments">
 				<thead>
 					<tr>
 						<th>Body</th>
@@ -23,7 +23,7 @@
 				</thead>
 				<tbody>
 					<% results.forEach(function (result) { %>
-						<tr>
+						<tr id="<%= result.comment.id %>">
 							<td><%- result.comment.body %></td>
 							<td><%- toShortDate(result.comment.created_at) %></td>
 							<td><strong><%- link_to(result.author.displayName, pathTo.admin_user(result.author)) %></strong></td>

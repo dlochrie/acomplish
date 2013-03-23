@@ -10,7 +10,7 @@
 
 <div class="row">
 	<div class="span12">
-		<p class="byline muted">Posted by <span class="text-info"><%- author.displayName %></span> on <em><%- post.updated_at %></em></p>
+		<p class="byline muted">Posted by <span class="text-info"><%- author.displayName %></span> on <em><%- toHumanDate(post.updated_at) %></em></p>
 		<%- post.body %>
 	</div>
 </div>
@@ -21,13 +21,20 @@
 	<div class="span12 comments">
 		<h4>Comments</h4>
 		<% comments.forEach(function(comment) { %>
-			<p id="comment-<%- comment.id %>">
-				<span class="text-info"><%- comment.displayName %></span> said on 
-				<span class="pull-right"><%- comment.created_at %></span>
-			</p>
-			<blockquote>
-				<%- comment.body %>
-			</blockquote>
+			<div id="comment-<%- comment.id %>" class="comment">
+				<p>
+					<span class="text-info"><%- comment.displayName %></span> said on 
+					<%- toHumanDate(comment.created_at) %>
+					<% if (comment.flagged) { %>
+						<span class="pull-right badge badge-important comment"><i class="icon-flag icon-white"></i></span>
+					<% } else { %>
+						<span class="pull-right"><a class="text-muted flag" href="" data-id="<%= comment.id %>">Flag as inappropriate</a></span>
+					<% } %>
+				</p>
+				<blockquote>
+					<%- comment.body %>
+				</blockquote>
+			</div>
 		<% }) %>
 
 		<% if (commentor) { %>

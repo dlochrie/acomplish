@@ -2,6 +2,7 @@ exports.routes = function (map) {
 
 	/** Set up Publicly Exposed Routes **/
 	map.resources('comments', { only: ['index', 'show'] });
+	map.post('/comments/:id/flag', 'comments#flag')
 	map.resources('users', { only: ['index', 'show'] }); 
 	map.resources('posts', { only: ['index', 'show'] }, function (post) { 
 		post.resources('comments', { only: ['create', 'index'] });
@@ -11,6 +12,7 @@ exports.routes = function (map) {
 	map.get('/admin', 'admin#index');
 	map.namespace('admin', function (admin) {
 		map.resources('comments');
+		map.post('/comments/:id/unflag', 'comments#unflag')
 		map.resources('posts');
 		map.resources('roles');
 		map.resources('users', function(user) {

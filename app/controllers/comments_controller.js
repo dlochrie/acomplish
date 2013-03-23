@@ -2,6 +2,10 @@ load('application');
 
 var getAssociated = use('getAssociated');
 
+before(loadComment, {
+	only: ['flag']
+});
+
 action(function create() {
 	if (!session.passport.user)
 		next();
@@ -64,6 +68,25 @@ action(function index() {
 	});
 });
 
+action(function flag() {
+	var comment = req.body.Comment;
+	comment.flagged = true;
+	comment.updated_at = new Date;
+	this.comment.updateAttributes(comment, function (err) {
+		if (err) {
+			send({
+				code: 500,
+				error: this.comment && this.comment.errors || err
+			});
+		} else {
+			send({
+				code: 200,
+				data: this.comment
+			});
+		}
+	});
+})
+
 /**
 * See http://stackoverflow.com/questions/822452/strip-html-from-text-javascript
 * for reference to origin of this method
@@ -78,4 +101,21 @@ function sanitizeComment(str) {
   str=str.replace(/\*(.*?)\*/g, "<strong>$1</strong>"); // If text is wrapped in asterisks, then wrap in bold
   str=str.replace(/_(.*?)_/g, "<em>$1</em>"); // If text is wrapped in undescores, then wrap in italics
   return str;
+}
+
+function loadComment() {
+	Comment.find(params.id, function (err, comment) {
+		if (err || !comment) {
+			if (!err && !comment && params.format === 'json') {
+				return send({
+					code: 404,
+					error: 'Not found'
+				});
+			}
+			redirect(path_to.comments);
+		} else {
+			this.comment = comment;
+			next();
+		}
+	}.bind(this));
 }
