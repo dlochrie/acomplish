@@ -1,0 +1,9 @@
+	<% var form = formFor(comment, { action: path_to.flag_comment(comment.id), id: 'flag-comment-form', method: 'POST' }); %>
+	<%- form.begin() %>
+		<select name="reason" class="span5">
+			<option value="vulgar">It is vulgar or it harshly attacks someone.</option>
+			<option value="inappropriate">It is anappropriate, or is completely out of context.</option>
+			<option value="span">It is junk, spam, or an advertisement.</option>
+		</select>
+		<input type="hidden" name="id" value="<%= comment.id %>" />
+	<%- form.end() %>

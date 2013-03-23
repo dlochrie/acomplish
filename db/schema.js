@@ -59,6 +59,7 @@ var Comment = define('Comment', function () {
 	property('displayName', String);
 	property('active', Boolean);
 	property('flagged', Boolean);
+	property('reason', String);
 	property('created_at', Date);
 	property('updated_at', Date);
 	set('restPath', pathTo.comments);

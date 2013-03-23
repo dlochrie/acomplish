@@ -18,6 +18,7 @@
 						<th>Author</th>
 						<th>Post</th>
 						<th>Flagged</th>
+						<th>Reason</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -28,11 +29,16 @@
 							<td><%- toShortDate(result.comment.created_at) %></td>
 							<td><strong><%- link_to(result.author.displayName, pathTo.admin_user(result.author)) %></strong></td>
 							<td><strong><%- link_to(result.post.title, pathTo.admin_post(result.post)) %></strong></td>
-							<td><%- (result.comment.flagged) ? 
-								'<span class="badge badge-important"><i class="icon-flag icon-white"></i></span>' : '<em>False</em>' %>
-							</td>
 							<td>
-								<%- link_to( '<i class="icon-remove icon-white"></i>', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %>
+								<% if (result.comment.flagged) { %> 
+									<span class="badge badge-important"><i class="icon-flag icon-white"></i></span> 
+								<% } else { %>
+									<em>False</em>
+								<% } %>
+							</td>
+							<td><%- result.comment.reason %></td>
+							<td>
+								<%- link_to( '<i class="icon-remove icon-white"></i>', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %> 
 							</td>
 						</tr>
 					<% }); %>

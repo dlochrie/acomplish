@@ -1,8 +1,3 @@
-
-/*
-  Add your application's coffee-script code here
-*/
-
 var app = {};
 
 $(document).ready(function() {
@@ -12,8 +7,30 @@ $(document).ready(function() {
 		e.preventDefault();
 		var self = this;
 		var id = $(self).attr('data-id');
-		$.post('/comments/' + id + '/flag', { authenticity_token: app._token, Comment: { flagged: true } })
-			.done(function(data) { $(self).html('<span class="pull-right badge badge-important comment">' +
-				'<i class="icon-flag icon-white"></i></span>'); })
-	})
+		$('#flag-comment-modal').modal({ show: true, remote: '/comments/' + id + '/flag_form' });
+	});
+
+	$('#flag-comment-submit').on('click', function(e) {
+		e.preventDefault();	
+		var fields = $('#flag-comment-form').serializeArray();
+		var comment = {};
+		var token;
+		$(fields).each(function(k, v) {
+			var name = v.name;
+			var val = v.value;
+			if (name === 'authenticity_token') return token = val;
+			comment[name] = val;
+		});
+		var params = { authenticity_token: token, Comment: comment };
+		$.post('/comments/' + comment.id + '/flag', params)
+			.done(function(data) { app.toggleCommentFlag(comment.id); })
+			.fail(function(err) { /* TODO: handle error */ })
+			.always($('#flag-comment-modal').modal('hide'))
+	});
 });
+
+app.toggleCommentFlag = function(id) {
+	$('div#comment-' + id + ' span.comment-status')
+		.html('<i class="icon-flag icon-white"></i></span>')
+		.addClass('badge badge-important');
+}

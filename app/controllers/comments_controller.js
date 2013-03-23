@@ -3,7 +3,7 @@ load('application');
 var getAssociated = use('getAssociated');
 
 before(loadComment, {
-	only: ['flag']
+	only: ['flag', 'flag_form']
 });
 
 action(function create() {
@@ -72,6 +72,7 @@ action(function flag() {
 	var comment = req.body.Comment;
 	comment.flagged = true;
 	comment.updated_at = new Date;
+	
 	this.comment.updateAttributes(comment, function (err) {
 		if (err) {
 			send({
@@ -85,6 +86,11 @@ action(function flag() {
 			});
 		}
 	});
+});
+
+action(function flag_form() {
+	layout(false);
+	render('_flag_form');
 })
 
 /**

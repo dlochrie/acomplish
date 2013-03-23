@@ -2,7 +2,8 @@ exports.routes = function (map) {
 
 	/** Set up Publicly Exposed Routes **/
 	map.resources('comments', { only: ['index', 'show'] });
-	map.post('/comments/:id/flag', 'comments#flag')
+	map.post('/comments/:id/flag', 'comments#flag');
+	map.get('/comments/:id/flag_form', 'comments#flag_form')
 	map.resources('users', { only: ['index', 'show'] }); 
 	map.resources('posts', { only: ['index', 'show'] }, function (post) { 
 		post.resources('comments', { only: ['create', 'index'] });

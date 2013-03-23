@@ -26,9 +26,9 @@
 					<span class="text-info"><%- comment.displayName %></span> said on 
 					<%- toHumanDate(comment.created_at) %>
 					<% if (comment.flagged) { %>
-						<span class="pull-right badge badge-important comment"><i class="icon-flag icon-white"></i></span>
+						<span class="pull-right badge badge-important comment-status"><i class="icon-flag icon-white"></i></span>
 					<% } else { %>
-						<span class="pull-right"><a class="text-muted flag" href="" data-id="<%= comment.id %>">Flag as inappropriate</a></span>
+						<span class="pull-right comment-status"><a class="text-muted flag" href="" data-id="<%= comment.id %>">Flag as inappropriate</a></span>
 					<% } %>
 				</p>
 				<blockquote>
@@ -52,4 +52,7 @@
 			<p>You must be logged in to leave a comment. Click <%- link_to("here", "/login") %> to login.</p>
 		<% } %>
 	</div>
+
+	<%- include ../dialogs/flag_comment %>
+
 </div>
