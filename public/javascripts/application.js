@@ -7,10 +7,19 @@ $(document).ready(function() {
 		e.preventDefault();
 		var self = this;
 		var id = $(self).attr('data-id');
-		$('#flag-comment-modal').modal({ show: true, remote: '/comments/' + id + '/flag_form' });
+		$.get('/comments/' + id + '/flag_form')
+			.done(function(data) { 
+				$('div#flag-comment-modal').remove();
+				$('body').append(data); 
+				app.bindflagAction(); // Bind the action that flags a comment
+				$('#flag-comment-modal').modal('show');
+			})
+			.fail(function(err) { /* TODO: handle error */ });
 	});
+});
 
-	$('#flag-comment-submit').on('click', function(e) {
+app.bindflagAction = function () {
+	$('button#flag-comment-submit').on('click', function(e) {
 		e.preventDefault();	
 		var fields = $('#flag-comment-form').serializeArray();
 		var comment = {};
@@ -23,13 +32,13 @@ $(document).ready(function() {
 		});
 		var params = { authenticity_token: token, Comment: comment };
 		$.post('/comments/' + comment.id + '/flag', params)
-			.done(function(data) { app.toggleCommentFlag(comment.id); })
+			.done(function(data) { app.showCommentFlag(comment.id); })
 			.fail(function(err) { /* TODO: handle error */ })
 			.always($('#flag-comment-modal').modal('hide'))
 	});
-});
+}
 
-app.toggleCommentFlag = function(id) {
+app.showCommentFlag = function(id) {
 	$('div#comment-' + id + ' span.comment-status')
 		.html('<i class="icon-flag icon-white"></i></span>')
 		.addClass('badge badge-important');

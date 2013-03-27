@@ -1,7 +1,7 @@
 <ul class="breadcrumb">
 	<li><a href="/">Home</a> <span class="divider">/</span></li>
-	<li><a href="<%- pathTo.posts() %>">posts</a> <span class="divider">/</span></li>
-	<li class="active"><a href="#">Details of post</a></li>
+	<li><a href="<%- pathTo.posts() %>">Posts</a> <span class="divider">/</span></li>
+	<li class="active"><a href="#"><%- post.title %></a></li>
 </ul>
 
 <div class="page-header">
@@ -28,7 +28,7 @@
 					<% if (comment.flagged) { %>
 						<span class="pull-right badge badge-important comment-status"><i class="icon-flag icon-white"></i></span>
 					<% } else { %>
-						<span class="pull-right comment-status"><a class="text-muted flag" href="" data-id="<%= comment.id %>">Flag as inappropriate</a></span>
+						<span class="pull-right comment-status"><a class="text-muted flag" href="#" data-id="<%= comment.id %>">Flag as inappropriate</a></span>
 					<% } %>
 				</p>
 				<blockquote>
@@ -52,7 +52,4 @@
 			<p>You must be logged in to leave a comment. Click <%- link_to("here", "/login") %> to login.</p>
 		<% } %>
 	</div>
-
-	<%- include ../dialogs/flag_comment %>
-
 </div>
