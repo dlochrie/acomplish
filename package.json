@@ -12,12 +12,13 @@
 		"compound": "1.1.x",
 		"jugglingdb": "0.2.x",
 		"jugglingdb-mysql": "0.0.1",
-		"jugglingdb-redis": "*",
+		"jugglingdb-redis": "0.0.2-1",
 		"coffee-script": ">= 1.1.1",
 		"stylus": "latest",
 		"seedjs": "0.0.x",
 		"passport": "~0.1.x",
-		"passport-google": "~0.3.x"
+		"passport-google": "~0.3.x",
+		"co-assets-compiler": "0.0.1-2"
 	},
 	"devDependencies": {
 		"nodeunit": "*",

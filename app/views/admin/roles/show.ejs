@@ -1,6 +1,6 @@
 <ul class="breadcrumb">
     <li><a href="/">Home</a> <span class="divider">/</span></li>
-    <li><a href="<%- pathTo.roles() %>">roles</a> <span class="divider">/</span></li>
+    <li><a href="<%- pathTo.admin_roles() %>">roles</a> <span class="divider">/</span></li>
     <li class="active"><a href="#">Details of role</a></li>
 </ul>
 
@@ -17,8 +17,8 @@
 </table>
 
 <div class="well">
-    <%- link_to('<i class="icon-edit icon-white"></i> Edit', pathTo.edit_role(role), {class: 'btn btn-primary'}) %>
-    <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.role(role), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'}) %>
+    <%- link_to('<i class="icon-edit icon-white"></i> Edit', pathTo.edit_admin_role(role), {class: 'btn btn-primary'}) %>
+    <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.admin_role(role), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'}) %>
     or
-    <%- link_to('Back to index', pathTo.roles()) %>
+    <%- link_to('Back to index', pathTo.admin_roles()) %>
 </div>

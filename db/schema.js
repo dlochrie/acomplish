@@ -36,21 +36,21 @@ var User = define('User', function () {
 	property('githubId', String, { index: true });
 	property('signatureId', String, { index: true });
 	property('linkedinId', String, { index: true });
-	property('created_at', Date);
- 	property('updated_at', Date);
+	property('created_at', Date, { default: Date.now });
+ 	property('updated_at', Date, { default: Date.now });
 	set('restPath', pathTo.users);
 });
 
 var Role = define('Role', function() {
 	property('name', String);
 	property('desc', Text);
-	property('created_at', Date);
-	property('updated_at', Date);
+	property('created_at', Date, { default: Date.now });
+	property('updated_at', Date, { default: Date.now });
 });
 
 var Membership = define('Membership', function() {
-	property('created_at', Date);
-	property('updated_at', Date);
+	property('created_at', Date, { default: Date.now });
+	property('updated_at', Date, { default: Date.now });
 	set('restPath', pathTo.memberships);
 });
 
@@ -60,7 +60,7 @@ var Comment = define('Comment', function () {
 	property('active', Boolean);
 	property('flagged', Boolean);
 	property('reason', String);
-	property('created_at', Date);
-	property('updated_at', Date);
+	property('created_at', Date, { default: Date.now });
+	property('updated_at', Date, { default: Date.now });
 	set('restPath', pathTo.comments);
 });

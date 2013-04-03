@@ -171,7 +171,7 @@ action(function destroy() {
 				} else {
 					flash('info', 'User successfully removed');
 				}
-				send("'" + path_to.users + "'");
+				send("'" + path_to.admin_users + "'");
 			});
 		});
 	});
