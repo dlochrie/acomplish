@@ -1,8 +1,9 @@
 module.exports = function (compound) {
 	return [
-		require('ejs-ext'),
-		require('jugglingdb'),
-		require('seedjs')
-	];
+		'ejs-ext',
+		'jugglingdb',
+		'seedjs',
+		'co-assets-compiler'
+	].map(require);
 };
 
