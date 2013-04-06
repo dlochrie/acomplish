@@ -51,7 +51,7 @@ Node, and how we might solve this problem (or work nicely with this feature :-))
 * __Roles__: { HABTM: [ Users (through Memberships) ]}
 * __Memberships__: { BelongsTo: [ Posts, Roles ] }
 
-Maybe more to come, including __Photos__.
+Maybe more to come, including __Photos__, see [Picsee](https://github.com/dlochrie/picsee).
 
 ##Install
 
