@@ -24,7 +24,8 @@ with Synchronous functionality.
 * [Maybe] Provide an example/workflow for dropping in Themes for your application 
 
 ##Comments
-The Models only work with MySQL right now... see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w).
+Working with MySQL and Redis.  
+For _model associations_, see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w).
 This has to do with `__cachedRelations`... It's frustrating, if you know of an elegant solution, let me know.  
 
 Another way of handling this is seeing: [http://book.mixu.net/ch7.html](http://book.mixu.net/ch7.html), particularly section
@@ -81,3 +82,16 @@ DB Setup (mysql)
 
 Let me know if you would like to participate, or fork/pull. 
 
+###Thanks
+ * [Anatoliy Chakkaev](https://github.com/1602), this is built on top of the CompoundJS Framework
+
+##License
+The MIT License (MIT)
+
+Copyright (c) 2013 Daniel Lochrie
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
