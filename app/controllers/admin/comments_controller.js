@@ -6,6 +6,8 @@ before(loadComment, {
 	only: ['destroy', 'unflag']
 });
 
+before(use('requireAdmin'));
+
 action(function index() {
 	this.title = 'Comments index';
 	Comment.all({ include: ['author', 'post']}, function (err, comments) {
