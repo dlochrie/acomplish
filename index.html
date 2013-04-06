@@ -4,63 +4,140 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Acomplish by dlochrie</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
-    <div class="wrapper">
+
       <header>
         <h1>Acomplish</h1>
-        <p></p>
-
-        <p class="view"><a href="https://github.com/dlochrie/acomplish">View the Project on GitHub <small>dlochrie/acomplish</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/dlochrie/acomplish/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/dlochrie/acomplish/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/dlochrie/acomplish">View On <strong>GitHub</strong></a></li>
-        </ul>
+        <p>Blog built on CompoundJS</p>
       </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/dlochrie/acomplish" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/dlochrie/acomplish/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/dlochrie/acomplish/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1>a complish</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h2>Description</h2>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>A <strong><em>COMP</em></strong> LISH</p>
+
+<p>Yes, I know, <em>acomplish</em> is misspelled, but it is really a combination of:</p>
+
+<ul>
+<li>
+<strong>Comp</strong> ound.js</li>
+<li>Pub <strong>lish</strong>
+</li>
+<li><strong>accomplish</strong></li>
+</ul><h2>Goals</h2>
+
+<ul>
+<li>Provide a working example of using CompoundJS as a Blog / CMS</li>
+<li>Provide a Role-Based Management System for Posts, Users, and Comments</li>
+<li>Provide a working example of using CompoundJS with PassportJS, and Google as a Provider</li>
+<li>Provide a working example of using Compound with MySQL through JugglingDB</li>
+<li>Provide working examples of making page views with multiple models, and balancing Async
+with Synchronous functionality.</li>
+<li>Provide a working example of using Unit Tests and Functional Tests (through Selenium, or a plugin TBD)</li>
+<li>[Maybe] Provide a working example of using sockets (socket.io) for Realtime Web</li>
+<li>[Maybe] Provide an example/workflow for dropping in Themes for your application </li>
+</ul><h2>Comments</h2>
+
+<p>The Models only work with MySQL right now... see <a href="https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w">this post</a>.
+This has to do with <code>__cachedRelations</code>... It's frustrating, if you know of an elegant solution, let me know.  </p>
+
+<p>Another way of handling this is seeing: <a href="http://book.mixu.net/ch7.html">http://book.mixu.net/ch7.html</a>, particularly section
+7.2.1 Control flow pattern #1: Series. Mikito Takada has some really insightful documentation on the asynchronous nature of
+Node, and how we might solve this problem (or work nicely with this feature :-)).  </p>
+
+<p><em>Update</em>: See method <code>getAssociated</code> the <em>application_controller</em> for a useful way or handling associations. Again, if you know of a more elegant solution, let me know.  </p>
+
+<h2>Components</h2>
+
+<ul>
+<li>
+<a href="http://compoundjs.com/">Compound.JS</a> (formally known as Railway) is built on the <a href="http://expressjs.com/">ExpressJS</a> framework.</li>
+<li>Templates are using <a href="https://github.com/visionmedia/ejs">ejs</a>.</li>
+<li>ORM is <a href="https://github.com/1602/jugglingdb">Juggling DB</a>.</li>
+<li>This example is using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> throughout, but not through a plugin.</li>
+</ul><h2>Models</h2>
+
+<p>(Currently):</p>
+
+<ul>
+<li>
+<strong>Posts</strong>: { BelongsTo: [ Users ], HasMany: [ Comments ] }</li>
+<li>
+<strong>Comments</strong>: { BelongsTo: [ Posts, Users ] }</li>
+<li>
+<strong>Users</strong>: { HasMany: [ Comments, Posts ], HABTM: [ Roles (through Memberships) ] }</li>
+<li>
+<strong>Roles</strong>: { HABTM: [ Users (through Memberships) ]}</li>
+<li>
+<strong>Memberships</strong>: { BelongsTo: [ Posts, Roles ] }</li>
+</ul><p>Maybe more to come, including <strong>Photos</strong>.</p>
+
+<h2>Install</h2>
+
+<p><em>TODO:</em> Add more instructions for how to configure a cloned app. </p>
+
+<ol>
+<li><p>Clone Repo<br><code>git clone [this repo url]</code></p></li>
+<li><p>Install Modules<br><code>[sudo] npm install -l</code></p></li>
+<li><p>Create DB (See DB Setup Below)<br><code>compound db migrate</code></p></li>
+<li><p>Run Server<br><code>node server.js</code> <em>OR</em> <code>forever server.js</code></p></li>
+</ol><h2>DB Setup (mysql)</h2>
+
+<pre><code>mysql&gt; CREATE DATABASE acomplish;
+mysql&gt; GRANT ALL PRIVILEGES ON acomplish.* TO "dbuser"@"localhost" IDENTIFIED BY "dbpasswd";
+mysql&gt; FLUSH PRIVILEGES; 
+mysql&gt; EXIT  
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>Contribute</h2>
 
-<h3>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Let me know if you would like to participate, or fork/pull. </p>
       </section>
       <footer>
-        <p>This project is maintained by <a href="https://github.com/dlochrie">dlochrie</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <p>Project maintained by <a href="https://github.com/dlochrie">dlochrie</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-39914231-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
