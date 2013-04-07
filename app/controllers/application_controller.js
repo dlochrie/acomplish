@@ -1,5 +1,5 @@
 before('protect from forgery', function () {
-  protectFromForgery('4f66d4b797766cca9acefbc03891493c2b60366f');
+	protectFromForgery('4f66d4b328383823a9acefbc03891493c2b60366f');
 });
 
 before(loadPassport);
@@ -16,11 +16,11 @@ function loadPassport() {
 	if (session.passport.user) {
 		User.find(session.passport.user, function(err, user) {
 			if (!err || user) {
-        this.userName = user.displayName;
+				this.userName = user.displayName;
 				this.userId = user.id;
 				this._loggedIn = true;
-        next();
-      }
+				next();
+			}
 		}.bind(this));
 	} else {
 		next();
@@ -35,6 +35,7 @@ function loadPassport() {
  * (1) roles can change at any time
  * (2) this is not an elegant way of handling ACL 
  * (3) Why would you run this on every page load???
+ * (4) Which one of these is an 'Admin' role???
  */
 function loadRoles() {
 	if (this._roles) next(); 
@@ -44,7 +45,7 @@ function loadRoles() {
 	Role.all(function (err, roles) {	
 		if (err) next();
 		roles.forEach(function (role) {
-			self._roles[role.id] = role.name;
+			self._roles[parseInt(role.id)] = role.name;
 		});
 		next();
 	}.bind(self));	
@@ -66,63 +67,64 @@ function loadAuthor() {
  * (2) Belongs to a valid Admin Role: see `loadRoles`
  */
 function requireAdmin() {
-	var self = this;
+	var self = this,
+		roles = Object.keys(self._roles) || false;
 
-	function reject () {
-		flash('error', 'This action is restricted.');
-		redirect(pathTo.root);
+	if (!self._loggedIn) return reject(); 
+
+	function reject () {		
+		flash('error', 'You are not authorized for that action.');
+		redirect(pathTo.root());
 	}
 
-	if (!session.passport.user) reject();
-
-	if (self._loggedIn) {
-		console.log('roles', self._roles);
-		var roles = Object.keys(self._roles) || false;
-		// Check if User has Role-Membership
-		Membership.all({ where: { userId: self.userId }}, function (err, memberships) {
-			if (err) reject();
-			console.log('memberships', memberships);
-			memberships.forEach(function(membership) {
-				console.log('Is', membership.roleId, 'in ', roles, '?');
-				console.log(roles.indexOf(membership.roleId.toString()));
-				if (roles.indexOf(membership.roleId.toString()) !== -1) {
-					console.log('User is Admin!!!!');
-					return false;next();
-				}
-			});
-		});
+	function validate (membership) {
+		if (!membership) return reject();
+		if (roles.indexOf(membership.roleId.toString()) !== -1) {
+			return next();
+		} else {
+			return validate(membership);
+		}
 	}
-	reject();
+	
+	Membership.all({ where: { userId: self.userId }}, function (err, memberships) {
+		if (err) return reject();
+		return validate(memberships.shift())
+	});
 }
 
+/**
+ * This method joins asscoiated models and allows
+ * them to accessed like:
+ * user.role.name
+ * post.user.displayName
+ */
 function getAssociated(models, assoc, multi, modelName, cb) {
 	var results = [];
 	
-	function async(model, assoc, callback) {		
+	function makeAssoc(model, assoc, callback) {		
 		model = (multi) ? model[modelName] : model;
 		model[assoc](function (err, assoc) {
 			callback(assoc);
 		})
 	}
 	
-	function series(model) {
+	function findAssoc(model) {
 		if (model) {
-			async(model, assoc, function (result) {
-				var obj = {};
-				
-				if (!multi) 
+			makeAssoc(model, assoc, function (result) {
+				var obj = {};				
+				if (!multi) {
 					obj[modelName] = model;
-				else
+				} else {
 					obj = model;
-					
+				}
 				obj[String(assoc)] = result;
 				results.push(obj);
-				return series(models.shift());
+				return findAssoc(models.shift());
 			});
 		} else {
 			return cb(results);
 		}
 	}
 	
-	series(models.shift());
+	findAssoc(models.shift());
 }
