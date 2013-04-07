@@ -9,22 +9,79 @@ Yes, I know, *acomplish* is misspelled, but it is really a combination of:
 
 * __Comp__ ound.js
 * Pub __lish__
-* __accomplish__
+
+Compound + Publish = __acomplish__
 
 ##Goals
 
-* Provide a working example of using CompoundJS as a Blog / CMS
-* Provide a Role-Based Management System for Posts, Users, and Comments
-* Provide a working example of using CompoundJS with PassportJS, and Google as a Provider
-* Provide a working example of using Compound with MySQL through JugglingDB
-* Provide working examples of making page views with multiple models, and balancing Async
-with Synchronous functionality.
-* Provide a working example of using Unit Tests and Functional Tests (through Selenium, or a plugin TBD)
-* [Maybe] Provide a working example of using sockets (socket.io) for Realtime Web
-* [Maybe] Provide an example/workflow for dropping in Themes for your application 
+<table>
+	<thead>
+		<tr>
+			<td>Goal</td>
+			<td>Status</td>
+			<td>Notes</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Provide a working example of using CompoundJS as a Blog / CMS</td>
+			<td>In Progress</td>
+			<td>Much to Do</td>
+		</tr>
+		<tr>
+			<td>Provide a Role-Based Management System for Posts, Users, and Comments</td>
+			<td>It does this, kinda</td>
+			<td>Much to Do</td>
+		</tr>
+		<tr>
+			<td>Provide a working example of using CompoundJS with PassportJS, and Google as a Provider</td>
+			<td>Working</td>
+			<td>Need to add more providers, and mechanism for configuring these per each environment.</td>
+		</tr>
+		<tr>
+			<td>Provide a working example of using Compound with MySQL through JugglingDB</td>
+			<td>Working</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Provide a working example of using Compound with Redis through JugglingDB</td>
+			<td>Working</td>
+			<td></td>
+		</tr>		
+		<tr>
+			<td>
+				Provide working examples of making page views with multiple models, and balancing Async
+				with Synchronous functionality.
+			</td>
+			<td>Working</td>
+			<td>Might need some work.</td>
+		</tr>		
+		<tr>
+			<td>Provide a working example of using Unit Tests and Functional Tests (through Selenium, or a plugin TBD)</td>
+			<td>In Progress</td>
+			<td>Thinking Mocha for Unit Tests.</td>
+		</tr>		
+		<tr>
+			<td>[Maybe] Provide a working example of using sockets (socket.io) for Realtime Web</td>
+			<td>TBD</td>
+			<td>Could be a spin-off down the line.</td>
+		</tr>		
+		<tr>
+			<td>[Maybe] Provide an example/workflow for dropping in Themes for your application</td>
+			<td>TBD</td>
+			<td>Would be REALLY NICE!</td>
+		</tr>		
+		<tr>
+			<td>Replace WYSIHTML5 with a MarkDown Text Editor?</td>
+			<td>TBD</td>
+			<td>Would be REALLY NICE!</td>
+		</tr>		
+	<tbody>
+</table>
 
 ##Comments
 Working with MySQL and Redis.  
+
 For _model associations_, see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w).
 This has to do with `__cachedRelations`... It's frustrating, if you know of an elegant solution, let me know.  
 
@@ -33,7 +90,6 @@ Another way of handling this is seeing: [http://book.mixu.net/ch7.html](http://b
 Node, and how we might solve this problem (or work nicely with this feature :-)).  
 
 *Update*: See method `getAssociated` the *application_controller* for a useful way or handling associations. Again, if you know of a more elegant solution, let me know.  
-
 ##Components
 
 * [Compound.JS](http://compoundjs.com/) (formally known as Railway) is built on the [ExpressJS](http://expressjs.com/) framework.
