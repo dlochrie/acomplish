@@ -52,22 +52,74 @@
 <strong>Comp</strong> ound.js</li>
 <li>Pub <strong>lish</strong>
 </li>
-<li><strong>accomplish</strong></li>
-</ul><h2>Goals</h2>
+</ul><p>Compound + Publish = <strong>acomplish</strong></p>
 
-<ul>
-<li>Provide a working example of using CompoundJS as a Blog / CMS</li>
-<li>Provide a Role-Based Management System for Posts, Users, and Comments</li>
-<li>Provide a working example of using CompoundJS with PassportJS, and Google as a Provider</li>
-<li>Provide a working example of using Compound with MySQL through JugglingDB</li>
-<li>Provide working examples of making page views with multiple models, and balancing Async
-with Synchronous functionality.</li>
-<li>Provide a working example of using Unit Tests and Functional Tests (through Selenium, or a plugin TBD)</li>
-<li>[Maybe] Provide a working example of using sockets (socket.io) for Realtime Web</li>
-<li>[Maybe] Provide an example/workflow for dropping in Themes for your application </li>
-</ul><h2>Comments</h2>
+<h2>Goals</h2>
 
-<p>The Models only work with MySQL right now... see <a href="https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w">this post</a>.
+<table>
+<tr>
+<td>Goal</td>
+            <td>Status</td>
+            <td>Notes</td>
+        </tr>
+<tr>
+<td>Provide a working example of using CompoundJS as a Blog / CMS</td>
+            <td>In Progress</td>
+            <td>Much to Do</td>
+        </tr>
+<tr>
+<td>Provide a Role-Based Management System for Posts, Users, and Comments</td>
+            <td>It does this, kinda</td>
+            <td>Much to Do</td>
+        </tr>
+<tr>
+<td>Provide a working example of using CompoundJS with PassportJS, and Google as a Provider</td>
+            <td>Working</td>
+            <td>Need to add more providers, and mechanism for configuring these per each environment.</td>
+        </tr>
+<tr>
+<td>Provide a working example of using Compound with MySQL through JugglingDB</td>
+            <td>Working</td>
+            <td></td>
+        </tr>
+<tr>
+<td>Provide a working example of using Compound with Redis through JugglingDB</td>
+            <td>Working</td>
+            <td></td>
+        </tr>
+<tr>
+<td>
+                Provide working examples of making page views with multiple models, and balancing Async
+                with Synchronous functionality.
+            </td>
+            <td>Working</td>
+            <td>Might need some work.</td>
+        </tr>
+<tr>
+<td>Provide a working example of using Unit Tests and Functional Tests (through Selenium, or a plugin TBD)</td>
+            <td>In Progress</td>
+            <td>Thinking Mocha for Unit Tests.</td>
+        </tr>
+<tr>
+<td>[Maybe] Provide a working example of using sockets (socket.io) for Realtime Web</td>
+            <td>TBD</td>
+            <td>Could be a spin-off down the line.</td>
+        </tr>
+<tr>
+<td>[Maybe] Provide an example/workflow for dropping in Themes for your application</td>
+            <td>TBD</td>
+            <td>Would be REALLY NICE!</td>
+        </tr>
+<tr>
+<td>Replace WYSIHTML5 with a MarkDown Text Editor?</td>
+            <td>TBD</td>
+            <td>Would be REALLY NICE!</td>
+        </tr>
+</table><h2>Comments</h2>
+
+<p>Working with MySQL and Redis.  </p>
+
+<p>For <em>model associations</em>, see <a href="https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w">this post</a>.
 This has to do with <code>__cachedRelations</code>... It's frustrating, if you know of an elegant solution, let me know.  </p>
 
 <p>Another way of handling this is seeing: <a href="http://book.mixu.net/ch7.html">http://book.mixu.net/ch7.html</a>, particularly section
@@ -99,7 +151,7 @@ Node, and how we might solve this problem (or work nicely with this feature :-))
 <strong>Roles</strong>: { HABTM: [ Users (through Memberships) ]}</li>
 <li>
 <strong>Memberships</strong>: { BelongsTo: [ Posts, Roles ] }</li>
-</ul><p>Maybe more to come, including <strong>Photos</strong>.</p>
+</ul><p>Maybe more to come, including <strong>Photos</strong>, see <a href="https://github.com/dlochrie/picsee">Picsee</a>.</p>
 
 <h2>Install</h2>
 
@@ -121,6 +173,23 @@ mysql&gt; EXIT
 <h2>Contribute</h2>
 
 <p>Let me know if you would like to participate, or fork/pull. </p>
+
+<h3>Thanks</h3>
+
+<ul>
+<li>
+<a href="https://github.com/1602">Anatoliy Chakkaev</a>, this is built on top of the CompoundJS Framework</li>
+</ul><h2>License</h2>
+
+<p>The MIT License (MIT)</p>
+
+<p>Copyright (c) 2013 Daniel Lochrie</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/dlochrie">dlochrie</a></p>
