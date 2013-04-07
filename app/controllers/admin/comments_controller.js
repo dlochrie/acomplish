@@ -2,11 +2,11 @@ load('application');
 
 var getAssociated = use('getAssociated');
 
+before(use('requireAdmin'));
+
 before(loadComment, {
 	only: ['destroy', 'unflag']
 });
-
-before(use('requireAdmin'));
 
 action(function index() {
 	this.title = 'Comments index';

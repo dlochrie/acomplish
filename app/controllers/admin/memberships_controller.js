@@ -2,6 +2,8 @@ load('application');
 
 var getAssociated = use('getAssociated');
 
+before(use('requireAdmin'));
+
 before(loadMembership, {
 	only: ['show', 'edit', 'update', 'destroy']
 });

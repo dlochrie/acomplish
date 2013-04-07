@@ -1,5 +1,7 @@
 load('application');
 
+before(use('requireAdmin'));
+
 before(loadRole, {
 	only: ['show', 'edit', 'update', 'destroy']
 });
