@@ -119,10 +119,12 @@ Maybe more to come, including __Photos__, see [Picsee](https://github.com/dlochr
 2. Install Modules  
     `[sudo] npm install -l`
 
-3. Create DB (See DB Setup Below)  
+3. Set up confs, see `config/acomplish.json`.
+
+4. Create DB (See DB Setup Below)  
     `compound db migrate`
 
-4. Run Server  
+5. Run Server  
     `node server.js` *OR* `forever server.js`
 
 
