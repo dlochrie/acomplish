@@ -1,0 +1,9 @@
+/**
+ * See https://github.com/dlochrie/picsee for config options
+ */
+{
+	"development": {},
+	"staging": {},
+	"test": {},
+	"production": {}
+}

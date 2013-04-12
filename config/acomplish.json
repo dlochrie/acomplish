@@ -1,0 +1,24 @@
+/**
+ * Use this file to set various application settings.
+ * Please use valid JSON: (http://jsonlint.com/)
+ */
+{
+	"owners": [
+		{ "email": "president@site.com" },
+		{ "email": "vp@site.com" }
+	],
+	"environments": {
+		"development": {
+			"base url": "http://localhost:3000"
+		},
+		"staging": {
+			"base url": "http://staging.mysite.com"
+		},
+		"test": {
+			"base url": "http://qa.mysite.com"
+		},
+		"production": {
+			"base url": "http://www.mysite.com"
+		}
+	}
+}

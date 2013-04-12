@@ -2,11 +2,16 @@ exports.init = function (compound) {
     app = compound.app;
     
     var passport = require('passport')
-      , GoogleStrategy = require('passport-google').Strategy;
+      , GoogleStrategy = require('passport-google').Strategy
+      , conf = require('cjson').load('./config/passport.json')
+      , env = app.settings.env;
     
+    // Set conf based on environment
+		conf = conf[env];
+
     passport.use(new GoogleStrategy({
-        returnURL: 'http://localhost:3000/auth/google/return',
-        realm: 'http://localhost:3000/',
+        returnURL: conf.host + conf.path + 'auth/google/return',
+        realm: conf.host + conf.path,
         profile: true
       },
       function(identifier, profile, done) {
