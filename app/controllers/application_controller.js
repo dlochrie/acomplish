@@ -1,3 +1,5 @@
+var conf = require('cjson').load('./config/acomplish.json');
+
 before('protect from forgery', function () {
 	protectFromForgery('4f66d4b328383823a9acefbc03891493c2b60366f');
 });
@@ -12,11 +14,13 @@ publish('getAssociated', getAssociated);
 function loadPassport() {
 	this.userName = false;
 	this.userId = false;
+	this.email = false;
 	this._loggedIn = false;
 	if (session.passport.user) {
 		User.find(session.passport.user, function(err, user) {
 			if (!err || user) {
 				this.userName = user.displayName;
+				this.email = user.email;
 				this.userId = user.id;
 				this._loggedIn = true;
 				next();
@@ -64,13 +68,16 @@ function loadAuthor() {
 /**
  * When called, checks that a User is:
  * (1) Logged In
- * (2) Belongs to a valid Admin Role: see `loadRoles`
+ * (2) Is an Owner or not
+ * (3) Belongs to a valid Admin Role: see `loadRoles`
  */
 function requireAdmin() {
 	var self = this,
-		roles = Object.keys(self._roles) || false;
+		roles = Object.keys(self._roles) || false,
+		owners = conf.owners || null;
 
 	if (!self._loggedIn) return reject(); 
+	if (owners.indexOf(self.email) !== -1) return next(); 
 
 	function reject () {		
 		flash('error', 'You are not authorized for that action.');

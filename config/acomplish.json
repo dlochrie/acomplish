@@ -4,8 +4,8 @@
  */
 {
 	"owners": [
-		{ "email": "president@site.com" },
-		{ "email": "vp@site.com" }
+		"president@site.com",
+		"vp@site.com"
 	],
 	"environments": {
 		"development": {

@@ -38,7 +38,7 @@
 							</td>
 							<td><%- result.comment.reason %></td>
 							<td>
-								<%- link_to( '<i class="icon-remove icon-white"></i>', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %> 
+								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %> 
 							</td>
 						</tr>
 					<% }); %>
