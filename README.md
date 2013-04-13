@@ -82,14 +82,18 @@ Compound + Publish = __acomplish__
 ##Comments
 Working with MySQL and Redis.  
 
-For _model associations_, see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w).
-This has to do with `__cachedRelations`... It's frustrating, if you know of an elegant solution, let me know.  
+For _model associations_, see [this post](https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w),
+and [this post](https://groups.google.com/forum/?fromgroups=#!searchin/compoundjs/view$20model/compoundjs/NeQX7zxRKw4/Zc0DeTk4X-AJ).
+Associated/Related models cannot be accessed _en masse_, but only individually. If you know of an elegant solution, 
+without adding to the controller, but allowing for multiple relations in a view, let me know.  
 
 Another way of handling this is seeing: [http://book.mixu.net/ch7.html](http://book.mixu.net/ch7.html), particularly section
 7.2.1 Control flow pattern #1: Series. Mikito Takada has some really insightful documentation on the asynchronous nature of
 Node, and how we might solve this problem (or work nicely with this feature :-)).  
 
-*Update*: See method `getAssociated` the *application_controller* for a useful way or handling associations. Again, if you know of a more elegant solution, let me know.  
+*Update*: See method `getAssociated` the *application_controller* for a useful way or handling associations. 
+Again, if you know of a more elegant solution, let me know.  
+
 ##Components
 
 * [Compound.JS](http://compoundjs.com/) (formally known as Railway) is built on the [ExpressJS](http://expressjs.com/) framework.
