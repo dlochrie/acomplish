@@ -1,11 +1,14 @@
-var conf = require('cjson').load('./config/acomplish.json');
-
 before('protect from forgery', function () {
 	protectFromForgery('4f66d4b328383823a9acefbc03891493c2b60366f');
 });
 
 before(loadPassport);
 before(loadRoles);
+
+before(function() {
+	console.log(app.acomplish);
+	next();
+});
 
 publish('loadAuthor', loadAuthor);
 publish('requireAdmin', requireAdmin);
