@@ -3,10 +3,10 @@ module.exports = function(compound) {
 	var express = require('express');
 	app = compound.app,
 	passport = require('passport'),
-	auth = require('./passport.js'),
-	//acl = require('compound-acl'),
 	acomplish = require('./acomplish');
-
+	auth = require('./passport.js'),
+	//acl = require('compound-acl');
+	
 	app.configure(function () {
 		app.use(express.static(app.root + '/public', {
 			maxAge: 86400000
@@ -28,7 +28,7 @@ module.exports = function(compound) {
 		app.use(express.methodOverride());
 
 		/** acomplish **/
-		app.use(acomplish.init());
+		app.use(acomplish.init(compound));
 
 		/**
 		 * Initialize Passport Sessions, then Setup Passport
@@ -43,7 +43,7 @@ module.exports = function(compound) {
 		//app.use(acl.session());
 
 		/** Must be called after ACL **/
-		auth.init(compound, app.acomplish);
+		auth.init(compound);
 
 		app.use(app.router);
 	});

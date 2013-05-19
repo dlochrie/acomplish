@@ -6,7 +6,7 @@ before(loadPassport);
 before(loadRoles);
 
 before(function() {
-	console.log(app.acomplish);
+	//console.log(app.acomplish);
 	next();
 });
 

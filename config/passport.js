@@ -1,16 +1,9 @@
-exports.init = function (compound, acomplish) {
+exports.init = function (compound) {
 	app = compound.app;
 
-	console.log('acomplish', acomplish);
-
 	var passport = require('passport'),
-		GoogleStrategy = require('passport-google').Strategy,
-		//conf = require('cjson').load('./config/passport.json'),
-		//env = app.settings.env;
-		conf = app.acomplish.passport;
-
-	// Set conf based on environment
-	console.log('conf', conf);
+		GoogleStrategy = require('passport-google').Strategy
+		conf = compound.acomplish.passport;
 
 	passport.use(new GoogleStrategy({
 		returnURL: conf.host + conf.path + 'auth/google/return',

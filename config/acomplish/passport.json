@@ -1,18 +1,18 @@
 {
 	"development": { 
-			"host":	"http://localhost:3000"
-		, "path":	"/"
+		"host":	"http://localhost:3000",
+		"path":	"/"
 	},
-	"test": { 
-			"host": "http://qa.mysite.com"
-		, "path": "/"
+	"test": {
+		"host": "http://qa.mysite.com",
+		"path": "/"
 	},
 	"staging": { 
-			"host": "http://staging.mysite.com"
-		, "path": "/"
+		"host": "http://staging.mysite.com",
+		"path": "/"
 	},
-	"production": { 
-			"host": "http://www.mysite.com"
-		, "path": "/"
+	"production": {
+		"host": "http://www.mysite.com",
+		"path": "/"
 	}
 }
