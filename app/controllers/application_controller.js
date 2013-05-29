@@ -2,33 +2,60 @@ before('protect from forgery', function () {
 	protectFromForgery('4f66d4b328383823a9acefbc03891493c2b60366f');
 });
 
+// (1) Initialize Logger - For Debugging
+before(initLogger);
+
+// (2) Load Passport (User)
 before(loadPassport);
+
+// (3) Load Roles
 before(loadRoles);
 
-before(function() {
-	//console.log(app.acomplish);
-	next();
+// (4) Load Abilities (Requires #2 & #3)
+//before(loadAbilities);
+
+before(function authorize(req) {
+	var user = this.user || false;
+	
+	acl.authorize(req, user, function(auth) {
+		logToWindow('is user authorized?', auth) 
+		next() 
+	});
 });
 
 publish('loadAuthor', loadAuthor);
-publish('requireAdmin', requireAdmin);
+
 publish('getAssociated', getAssociated);
 
 function loadPassport() {
-	this.userName = false;
-	this.userId = false;
-	this.email = false;
-	this._loggedIn = false;
+	var self = this;
+
+	var loggedIn = (session.passport.user) ? true : false;
+	if (loggedIn && session.user) { 
+		self.user = session.user;
+		logToWindow('You are logged in, nothing more to do.');
+		return next(); 
+	}
+
+	self.user = false;
+	session.user = false;
+	logToWindow('You are NOT logged in, set all user info to false.');
+
 	if (session.passport.user) {
+		logToWindow('You are NOT logged in, going to look your user up in the DB.');
 		User.find(session.passport.user, function(err, user) {
 			if (!err || user) {
-				this.userName = user.displayName;
-				this.email = user.email;
-				this.userId = user.id;
-				this._loggedIn = true;
+				logToWindow('Found you, Chief. You are now logged in.');
+				session.user = {
+					name: user.displayName,
+					email: user.email,
+					id: user.id,
+					roles: []
+				}
+				self.user = session.user;
 				next();
 			}
-		}.bind(this));
+		}.bind(self));
 	} else {
 		next();
 	}
@@ -36,26 +63,49 @@ function loadPassport() {
 
 /**
  * Load all Roles into session for quick
- * validations
- *
- * TODO: This is at best a *HACK*, because: 
- * (1) roles can change at any time
- * (2) this is not an elegant way of handling ACL 
- * (3) Why would you run this on every page load???
- * (4) Which one of these is an 'Admin' role???
+ * validations. We do this ON EVERY page load
+ * in case a user's roles changes.
  */
 function loadRoles() {
-	if (this._roles) next(); 
-	var self = this;
-	self._roles = {};
+	var loggedIn = (session.passport.user) ? true : false;
+	if (!loggedIn) return next(); 
 
+	logToWindow('You have the following roles:', 
+		String(session.user.roles.join(',')));
+	console.log('You have the following roles:', session.user.roles);
 	Role.all(function (err, roles) {	
-		if (err) next();
-		roles.forEach(function (role) {
-			self._roles[parseInt(role.id)] = role.name;
+		if (err) return next();
+		roles.forEach(function(role) {
+			session.user.roles.push(role.name);
 		});
 		next();
-	}.bind(self));	
+	}.bind(this));	
+}
+
+/**
+ * This function requires Acomplish ACL to be loaded,
+ * and that Roles are available.
+ */
+function loadAbilities() {
+	var acl = compound.acomplish.acl || false;
+	user_abilities = {};
+
+	for (role in acl) {
+		var abilities = acl[role].abilities;
+		abilities.forEach(function(ability) {
+			var ctrl = ability.controller;
+			if (user_abilities[ctrl]) {
+				user_abilities[ctrl] = merge(user_abilities[ctrl]
+					.concat(ability.actions));
+			} else {
+				user_abilities[ctrl] = ability.actions;
+			}
+		});
+	}
+	console.log('You have the following abilities:', user_abilities);
+	//logToWindow('You have the following abilities:', user_abilities);
+	session.user.abilities = user_abilities;
+	next();
 }
 
 /**
@@ -69,41 +119,7 @@ function loadAuthor() {
 }
 
 /**
- * When called, checks that a User is:
- * (1) Logged In
- * (2) Is an Owner or not
- * (3) Belongs to a valid Admin Role: see `loadRoles`
- */
-function requireAdmin() {
-	var self = this,
-		roles = Object.keys(self._roles) || false,
-		owners = conf.owners || null;
-
-	if (!self._loggedIn) return reject(); 
-	if (owners.indexOf(self.email) !== -1) return next(); 
-
-	function reject () {		
-		flash('error', 'You are not authorized for that action.');
-		redirect(pathTo.root());
-	}
-
-	function validate (membership) {
-		if (!membership) return reject();
-		if (roles.indexOf(membership.roleId.toString()) !== -1) {
-			return next();
-		} else {
-			return validate(membership);
-		}
-	}
-	
-	Membership.all({ where: { userId: self.userId }}, function (err, memberships) {
-		if (err) return reject();
-		return validate(memberships.shift())
-	});
-}
-
-/**
- * This method joins asscoiated models and allows
+ * This method joins associated models and allows
  * them to accessed like:
  * user.role.name
  * post.user.displayName
@@ -137,4 +153,48 @@ function getAssociated(models, assoc, multi, modelName, cb) {
 	}
 	
 	findAssoc(models.shift());
+}
+
+/**
+ * Log to the Window
+ */
+function initLogger() {
+	var env = app.settings.env || false;
+	if (env && env === 'development') {
+		var sig = req.signature || false;
+		if (!sig) {
+			req.signature = { log: [] };
+		} else {
+			req.signature.log = req.signature.log || [];
+		}
+	} else {
+		req.signature = { log: false };
+	}	
+	next();	
+}
+
+/**
+ * This custom method logs a message to the 
+ * app window.
+ * ONLY works in the development environment.
+ */
+function logToWindow(msg) {
+	if (req.signature.log) {
+		var msg = String('<strong>Debug Message</strong>: <em>' + msg + '</em>');
+		req.signature.log.push(msg);
+	}
+}
+
+/**
+ * Util method for merging two arrays
+ */
+function merge(array) {
+	var a = array.concat();
+	for (var i=0; i<a.length; ++i) {
+		for (var j=i+1; j<a.length; ++j) {
+		if (a[i] === a[j])
+			a.splice(j--, 1);
+		}
+	}
+	return a;
 }

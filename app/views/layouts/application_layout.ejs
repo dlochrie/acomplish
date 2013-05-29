@@ -14,20 +14,9 @@
 
 </head>
 <body>	
-	<% include ../partials/nav_menu  %>
+	<% include ../partials/nav_menu %>
+	<% include ../partials/flash_msg %>
 	<div class="container">
-		<% var flash = request.flash('info').pop(); if (flash) { %>
-			<div class="alert alert-info">
-				<a class="close" data-dismiss="alert">×</a>
-				<%- flash %>
-			</div>
-		<% } %>
-		<% flash = request.flash('error').pop(); if (flash) { %>
-		<div class="alert alert-error">
-			<a class="close" data-dismiss="alert">×</a>
-			<%- flash %>
-			</div>
-		<% }; %>
 		<%- body %>
 		<hr />
 		<footer>

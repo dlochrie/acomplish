@@ -30,12 +30,12 @@
           </ul>
           <ul class="nav pull-right">
             <li class="divider-vertical"></li>
-						<% if (!userName) { %>
+						<% if (!user) { %>
 							<li><%- link_to("login", pathTo.login) %></li>
 						<% } else { %>
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown">
-									<%- userName %>
+									<%- user.name %>
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">

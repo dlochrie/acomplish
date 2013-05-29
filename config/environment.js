@@ -5,7 +5,7 @@ module.exports = function(compound) {
 	passport = require('passport'),
 	acomplish = require('./acomplish');
 	auth = require('./passport.js'),
-	//acl = require('compound-acl');
+	acl = require('compound-acl');
 	
 	app.configure(function () {
 		app.use(express.static(app.root + '/public', {
@@ -40,7 +40,7 @@ module.exports = function(compound) {
 
 		/** ACL **/
 		//app.use(acl.init());
-		//app.use(acl.session());
+		//app.use(acl.authorize());
 
 		/** Must be called after ACL **/
 		auth.init(compound);

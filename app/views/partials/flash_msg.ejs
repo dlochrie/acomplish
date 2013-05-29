@@ -1,0 +1,25 @@
+
+		<!--common/flash_msg.ejs-->
+		<% var flash = request.flash('info').pop(); if (flash) { %>
+		<div class="alert alert-info">
+			<a class="close" data-dismiss="alert">×</a>
+			<%- flash %>
+		</div>
+		<% } %>
+
+		<% flash = request.flash('error').pop(); if (flash) { %>
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert">×</a>
+			<%- flash %>
+		</div>
+		<% }; %>
+
+		<% logs = request.signature.log; if (logs) { %>
+			<% logs.forEach(function(msg) { %>
+				<div class="alert">
+					<a class="close" data-dismiss="alert">×</a>
+					<%- msg %>
+				</div>
+			<% }); %>
+		<% } %>
+		<!--/common/flash_msg.ejs-->
