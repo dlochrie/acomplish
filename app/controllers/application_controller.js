@@ -12,7 +12,7 @@ before(loadPassport);
 before(loadRoles);
 
 // (4) Load Abilities (Requires #2 & #3)
-//before(loadAbilities);
+before(loadAbilities);
 
 before(function authorize(req) {
 	var user = this.user || false;
@@ -49,8 +49,7 @@ function loadPassport() {
 				session.user = {
 					name: user.displayName,
 					email: user.email,
-					id: user.id,
-					roles: []
+					id: user.id
 				}
 				self.user = session.user;
 				next();
@@ -70,16 +69,34 @@ function loadRoles() {
 	var loggedIn = (session.passport.user) ? true : false;
 	if (!loggedIn) return next(); 
 
-	logToWindow('You have the following roles:', 
-		String(session.user.roles.join(',')));
-	console.log('You have the following roles:', session.user.roles);
-	Role.all(function (err, roles) {	
+	function getRole(membership) {
+		if (membership) {
+			membership.role(function(err, role) {
+				session.user.roles.push(role.name);
+				return getRole(memberships.shift());
+			});
+		} else {
+			next();
+		}
+	}
+
+	// As a security precaution, reset the user's roles.
+	session.user.roles = [];
+	Membership.all({where: {userId: session.user.id}}, 
+	function getMemberships(err, memberships) {
 		if (err) return next();
-		roles.forEach(function(role) {
-			session.user.roles.push(role.name);
-		});
-		next();
-	}.bind(this));	
+		function getRole(membership) {
+			if (membership) {
+				membership.role(function(err, role) {
+					session.user.roles.push(role.name);
+					return getRole(memberships.shift());
+				});
+			} else {
+				next();
+			}
+		}
+		getRole(memberships.shift())
+	});	
 }
 
 /**
@@ -87,23 +104,40 @@ function loadRoles() {
  * and that Roles are available.
  */
 function loadAbilities() {
-	var acl = compound.acomplish.acl || false;
-	user_abilities = {};
+	var loggedIn = (session.passport.user) ? true : false;
+	if (!loggedIn) return next(); 
 
+	var acl = compound.acomplish.acl || false,
+		user_roles = session.user.roles,
+		user_abilities = {};
+
+	/**
+	 * Add the user's abilities according to thier roles.
+	 */
 	for (role in acl) {
-		var abilities = acl[role].abilities;
-		abilities.forEach(function(ability) {
-			var ctrl = ability.controller;
-			if (user_abilities[ctrl]) {
-				user_abilities[ctrl] = merge(user_abilities[ctrl]
-					.concat(ability.actions));
-			} else {
-				user_abilities[ctrl] = ability.actions;
-			}
-		});
-	}
-	console.log('You have the following abilities:', user_abilities);
-	//logToWindow('You have the following abilities:', user_abilities);
+		if (user_roles.indexOf(role) !== -1) {
+			var abilities = acl[role].abilities;
+			abilities.forEach(function(ability) {
+				var ctrl = ability.controller;
+				if (user_abilities[ctrl]) {
+					if (user_abilities[ctrl].indexOf('*') !== -1) return '*'; 
+					user_abilities[ctrl] = merge(user_abilities[ctrl]
+						.concat(ability.actions));
+				} else {
+					user_abilities[ctrl] = ability.actions;
+				}
+			});
+		}
+	}	
+
+	console.log('session', session)
+
+	logToWindow('You have the following roles: <pre>' + 
+		JSON.stringify(user_roles) + '</pre>');
+
+	logToWindow('You have the following abilities: <pre>' + 
+		JSON.stringify(user_abilities) + '</pre>');
+	
 	session.user.abilities = user_abilities;
 	next();
 }
@@ -156,7 +190,7 @@ function getAssociated(models, assoc, multi, modelName, cb) {
 }
 
 /**
- * Log to the Window
+ * Initialize Logger.
  */
 function initLogger() {
 	var env = app.settings.env || false;
@@ -186,14 +220,15 @@ function logToWindow(msg) {
 }
 
 /**
- * Util method for merging two arrays
+ * Util method for merging an array removing duplicates.
+ * @param {Array} array Array to merge.
  */
 function merge(array) {
 	var a = array.concat();
 	for (var i=0; i<a.length; ++i) {
 		for (var j=i+1; j<a.length; ++j) {
-		if (a[i] === a[j])
-			a.splice(j--, 1);
+			if (a[i] === a[j])
+				a.splice(j--, 1);
 		}
 	}
 	return a;
