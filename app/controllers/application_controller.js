@@ -14,18 +14,22 @@ before(loadRoles);
 // (4) Load Abilities (Requires #2 & #3)
 before(loadAbilities);
 
-before(function authorize(req) {
-	var user = this.user || false;
-	
-	acl.authorize(req, user, function(auth) {
-		logToWindow('is user authorized?', auth) 
-		next() 
-	});
-});
-
 publish('loadAuthor', loadAuthor);
-
 publish('getAssociated', getAssociated);
+publish('authorize', authorize);
+
+function authorize(req) {
+	// TODO: Is this really the best way to get the URL??
+	var path = context.req.url;
+	if (path === '/') return next();
+
+	var user = this.user || false;
+	acl.authorize(req, user, function(authorized) {
+		if (authorized) return next();
+		flash('error', 'You are not authorized for this action.');
+		redirect(path_to.root);
+	});
+}
 
 function loadPassport() {
 	var self = this;
@@ -95,6 +99,7 @@ function loadRoles() {
 				next();
 			}
 		}
+
 		getRole(memberships.shift())
 	});	
 }
@@ -112,7 +117,8 @@ function loadAbilities() {
 		user_abilities = {};
 
 	/**
-	 * Add the user's abilities according to thier roles.
+	 * Add the user's abilities according to the 
+	 * roles they belong to.
 	 */
 	for (role in acl) {
 		if (user_roles.indexOf(role) !== -1) {
@@ -129,14 +135,6 @@ function loadAbilities() {
 			});
 		}
 	}	
-
-	console.log('session', session)
-
-	logToWindow('You have the following roles: <pre>' + 
-		JSON.stringify(user_roles) + '</pre>');
-
-	logToWindow('You have the following abilities: <pre>' + 
-		JSON.stringify(user_abilities) + '</pre>');
 	
 	session.user.abilities = user_abilities;
 	next();
@@ -195,14 +193,14 @@ function getAssociated(models, assoc, multi, modelName, cb) {
 function initLogger() {
 	var env = app.settings.env || false;
 	if (env && env === 'development') {
-		var sig = req.signature || false;
+		var sig = req.acomplish || false;
 		if (!sig) {
-			req.signature = { log: [] };
+			req.acomplish = { log: [] };
 		} else {
-			req.signature.log = req.signature.log || [];
+			req.acomplish.log = req.acomplish.log || [];
 		}
 	} else {
-		req.signature = { log: false };
+		req.acomplish = { log: false };
 	}	
 	next();	
 }
@@ -211,11 +209,14 @@ function initLogger() {
  * This custom method logs a message to the 
  * app window.
  * ONLY works in the development environment.
+ * @param {*} msg String or Array of messages.
  */
 function logToWindow(msg) {
-	if (req.signature.log) {
+	if (Object.prototype.toString.call(msg) === '[object Array]')
+		msg = msg.join(' ');
+	if (req.acomplish.log) {
 		var msg = String('<strong>Debug Message</strong>: <em>' + msg + '</em>');
-		req.signature.log.push(msg);
+		req.acomplish.log.push(msg);
 	}
 }
 

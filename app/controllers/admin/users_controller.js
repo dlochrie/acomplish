@@ -2,7 +2,7 @@ load('application');
 
 var getAssociated = use('getAssociated');
 
-//before(use('requireAdmin'));
+before(use('authorize'));
 
 before(loadUser, {
 	only: ['show', 'edit', 'update', 'destroy']

@@ -1,6 +1,6 @@
 load ('application');
 
-before(use('requireAdmin'));
+before(use('authorize'));
 
 action('index', function () {
   render({
