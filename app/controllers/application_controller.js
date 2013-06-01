@@ -8,10 +8,27 @@ before(initLogger);
 // (2) Load Passport (User)
 before(loadPassport);
 
-// (3) Load Roles
+// (3) Init ACL
+before('initACL', function () {
+	loggedIn = loggedIn || false,
+	acl = compound.acomplish.acl || false,
+	cacheRoles = false,
+	cacheAbilities = false;
+
+	if (!acl) return next();
+
+	systemRoles = acl.roles || [];
+	if (acl.settings) {
+		cacheRoles = (acl.settings.cacheRoles) ? true : false;
+		cacheAbilities = (acl.settings.cacheAbilities) ? true : false;
+	}
+	next();
+});
+
+// (4) Load Roles
 before(loadRoles);
 
-// (4) Load Abilities (Requires #2 & #3)
+// (5) Load Abilities (Requires #2 & #3)
 before(loadAbilities);
 
 publish('loadAuthor', loadAuthor);
@@ -19,22 +36,42 @@ publish('getAssociated', getAssociated);
 publish('authorize', authorize);
 
 function authorize(req) {
-	// TODO: Is this really the best way to get the URL??
-	var path = context.req.url;
-	if (path === '/') return next();
+	var actn = req.actionName,
+    ctrl = req.controllerName,
+    path = context.req.url; // TODO: Is this the best way to get URL?
 
-	var user = this.user || false;
-	acl.authorize(req, user, function(authorized) {
-		if (authorized) return next();
-		flash('error', 'You are not authorized for this action.');
-		redirect(path_to.root);
-	});
+  if (path === '/' || !loggedIn) return reject();
+  function reject() {
+    flash('error', 'You are not authorized for this action.');
+    redirect(path_to.root);
+  }
+
+  /*
+  console.log("ACL:\n", 'Does[', this.user.name, '] have the Ability to ' +
+    '[', actn, '] in [', ctrl, '] ??');
+	*/
+
+  var userAbilities = this.user.abilities || {};
+  if (userAbilities[ctrl]) {
+    if (userAbilities[ctrl] === "*") {
+      return next()
+    } else if (-1 !== userAbilities[ctrl].indexOf(actn)) {
+      return next()
+    }
+  }
+
+  // No rules matched, User is Unauthorized.
+  return reject();
 }
 
+/**
+ * TODO: This should be loadUser, or loadUserPassport
+ */
 function loadPassport() {
 	var self = this;
 
-	var loggedIn = (session.passport.user) ? true : false;
+	// This variable belongs to the global scope.
+	loggedIn = (session.passport.user) ? true : false;
 	if (loggedIn && session.user) { 
 		self.user = session.user;
 		logToWindow('You are logged in, nothing more to do.');
@@ -65,24 +102,13 @@ function loadPassport() {
 }
 
 /**
- * Load all Roles into session for quick
- * validations. We do this ON EVERY page load
- * in case a user's roles changes.
+ * Load all Roles into session for quick validations. 
+ * We do this ON EVERY page load in case a user's roles changes, 
+ * unless Caching is turned in in the conf.
  */
 function loadRoles() {
-	var loggedIn = (session.passport.user) ? true : false;
 	if (!loggedIn) return next(); 
-
-	function getRole(membership) {
-		if (membership) {
-			membership.role(function(err, role) {
-				session.user.roles.push(role.name);
-				return getRole(memberships.shift());
-			});
-		} else {
-			next();
-		}
-	}
+	if (cacheRoles && session.user.roles) return next();
 
 	// As a security precaution, reset the user's roles.
 	session.user.roles = [];
@@ -109,34 +135,28 @@ function loadRoles() {
  * and that Roles are available.
  */
 function loadAbilities() {
-	var loggedIn = (session.passport.user) ? true : false;
 	if (!loggedIn) return next(); 
+	if (cacheAbilities && session.user.abilities) return next();
 
-	var acl = compound.acomplish.acl || false,
-		user_roles = session.user.roles,
-		user_abilities = {};
+	var userRoles = session.user.roles,
+		userAbilities = {};
 
-	/**
-	 * Add the user's abilities according to the 
-	 * roles they belong to.
-	 */
-	for (role in acl) {
-		if (user_roles.indexOf(role) !== -1) {
-			var abilities = acl[role].abilities;
+	for (role in systemRoles) {
+		if (userRoles.indexOf(role) !== -1) {
+			var abilities = systemRoles[role].abilities;
 			abilities.forEach(function(ability) {
 				var ctrl = ability.controller;
-				if (user_abilities[ctrl]) {
-					if (user_abilities[ctrl].indexOf('*') !== -1) return '*'; 
-					user_abilities[ctrl] = merge(user_abilities[ctrl]
+				if (userAbilities[ctrl]) {
+					if (userAbilities[ctrl].indexOf('*') !== -1) return '*'; 
+					userAbilities[ctrl] = merge(userAbilities[ctrl]
 						.concat(ability.actions));
 				} else {
-					user_abilities[ctrl] = ability.actions;
+					userAbilities[ctrl] = ability.actions;
 				}
 			});
 		}
 	}	
-	
-	session.user.abilities = user_abilities;
+	session.user.abilities = userAbilities;
 	next();
 }
 
@@ -193,14 +213,14 @@ function getAssociated(models, assoc, multi, modelName, cb) {
 function initLogger() {
 	var env = app.settings.env || false;
 	if (env && env === 'development') {
-		var sig = req.acomplish || false;
-		if (!sig) {
-			req.acomplish = { log: [] };
+		var acomplish = req.acomplish || false;
+		if (!acomplish) {
+			req.acomplish = {log: []};
 		} else {
 			req.acomplish.log = req.acomplish.log || [];
 		}
 	} else {
-		req.acomplish = { log: false };
+		req.acomplish = {log: false};
 	}	
 	next();	
 }
