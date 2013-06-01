@@ -30,8 +30,8 @@ Compound + Publish = __acomplish__
 		</tr>
 		<tr>
 			<td>Provide a Role-Based Management System for Posts, Users, and Comments</td>
-			<td>It does this, kinda</td>
-			<td>Much to Do</td>
+			<td>See "ACL - Authorization" heading.</td>
+			<td>Working</td>
 		</tr>
 		<tr>
 			<td>Provide a working example of using CompoundJS with PassportJS, and Google as a Provider</td>
@@ -113,9 +113,119 @@ Again, if you know of a more elegant solution, let me know.
 
 Maybe more to come, including __Photos__, see [Picsee](https://github.com/dlochrie/picsee).
 
+##ACL - Authorization
+
+ACL (Access Control List) is managed by a JSON file, should you provide it. 
+Right now, ACL is configured by a JSON file, and not through a DB Resource, but
+that feature could come in time.
+
+The format for your ACL file looks like:
+
+    env
+      settings
+        cachedRoles
+        cachedAbilities
+      roles
+        key
+          displayName
+          description
+          abilities
+
+And the JSON example:
+
+    {
+      "development": {
+        "settings": {
+          "cacheRoles": "true",
+          "cacheAbilities": "true"
+        },
+        "roles": {
+          "admin": {
+            "displayName": "Admin",
+            "description": "Admins can do anything",
+            "abilities": [{
+              "controller": "posts",
+              "actions": [
+                "create",
+                "update",
+                "delete"
+              ]
+            }]
+          }
+        }
+      }
+    }
+
+Authorization is determined by a User's Abilities. Abilities are a combination
+of a `controller` and `actions` on that controller. The wildcard `*` adds all
+actions that a controller has. Note, actions no not necessarily equal access to 
+a _page_, but to that _action_, which makes authorization useful for RESTful 
+requests as well.
+
+You can provide as many Roles as you want, and each Role can have multiple
+abilities. If a User has multiple Roles with overlapping Abilities, they 
+are combined, and the User gets the Sum of all the Abilities.   
+
+*Ex.*
+
+    User 
+      Role: Commentor
+      Abilities: 
+        Controller: Comments
+        Actions: Create, Edit 
+      Role: Moderator
+      Abilities: 
+        Controller: Comments
+        Actions: Delete
+
+In the example above, the User will be able to Create, Edit, and Delete on the 
+Comments Controller.
+
+###ACL Usage
+
+To use `authorization` in a controller, you must load the `authorization` 
+controller first:
+
+    load('authorization');
+
+...and then use it like:
+
+    before(use('authorize'));
+
+You have 3 choices:
+
+1. Use `authorization` everywhere
+2. Use `authorization` on all actions on a controller
+3. Use `authorization` on specific actions in a controller
+
+*Everywhere*:
+In the `application_controller` add the following line near the top: 
+    
+    before(use('authorize'));
+
+
+*All Controller Actions*:
+In any controller, add the following line near the top**:
+
+    before(use('authorize'));
+
+
+*Specific Controller Actions*:
+In any controller, add the following line near the top**:
+
+    before(use('authorize'), only: ['destroy', 'create']);
+
+**Remember to `load('authorization')` at the top of you controller to use it.
+
+
+###Cached Roles / Abilities
+Use the cache at your own discretion. What it basically means is that if you
+
+
 ##Install
 
 *TODO:* Add more instructions for how to configure a cloned app. 
+*TODO:* Update based on new JSON confs scheme.
 
 1. Clone Repo  
     `git clone [this repo url]`
