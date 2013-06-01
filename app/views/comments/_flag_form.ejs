@@ -1,21 +1,21 @@
 <div id="flag-comment-modal" class="modal hide fade" tabindex="-1" role="dialog">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="flag-comment-label">Please provide a reason that you are flagging this comment:</h3>
-	</div>
-	<div class="modal-body">
-		<% var form = formFor(comment, { action: path_to.flag_comment(comment.id), id: 'flag-comment-form', method: 'POST' }); %>
-		<%- form.begin() %>
-			<select name="reason" class="span5">
-				<option value="vulgar">It is vulgar or it harshly attacks someone.</option>
-				<option value="inappropriate">It is inappropriate, or is completely out of context.</option>
-				<option value="spam">It is junk, spam, or an advertisement.</option>
-			</select>
-			<input type="hidden" name="id" value="<%= comment.id %>" />
-		<%- form.end() %>
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-		<button class="btn btn-primary" id="flag-comment-submit">Proceed</button>
-	</div>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="flag-comment-label">Please provide a reason that you are flagging this comment:</h3>
+  </div>
+  <div class="modal-body">
+    <% var form = formFor(comment, { action: path_to.flag_comment(comment.id), id: 'flag-comment-form', method: 'POST' }); %>
+    <%- form.begin() %>
+      <select name="reason" class="span5">
+        <option value="vulgar">It is vulgar or it harshly attacks someone.</option>
+        <option value="inappropriate">It is inappropriate, or is completely out of context.</option>
+        <option value="spam">It is junk, spam, or an advertisement.</option>
+      </select>
+      <input type="hidden" name="id" value="<%= comment.id %>" />
+    <%- form.end() %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button class="btn btn-primary" id="flag-comment-submit">Proceed</button>
+  </div>
 </div>

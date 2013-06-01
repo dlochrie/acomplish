@@ -1,40 +1,52 @@
 <ul class="breadcrumb">
-	<li>
-		<a href="/">Home</a> <span class="divider">/</span>
-	</li>
-	<li class="active">
-		<a href="<%- pathTo.admin_user_memberships() %>">Manage Memberships</a> <span class="divider">/</span>
-	</li>
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="<%- pathTo.admin_user_memberships() %>">Manage Memberships</a> <span class="divider">/</span>
+  </li>
 </ul>
 <div class="page-header">
-	<h1>Manage Memberships</h1>
+  <h1>Manage Memberships</h1>
 </div>
 <div class="row">
-	<div class="span12">
-		<% if (results.length > 0) { %>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>User</th>
-						<th>Role</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% results.forEach(function (result) { %>
-						<tr>
-							<td><strong><%- link_to(result.user.displayName, pathTo.admin_user(result.user)) %></strong></td>
-							<td><strong><%- link_to(result.role.name, pathTo.admin_user_membership(result.membership)) %></strong></td>
-							<td>
-								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_admin_user_membership(result.membership), {class: 'btn btn-mini'}) %>
-								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_user_membership(result.membership), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
-							</td>
-						</tr>
-					<% }); %>
-				</tbody>
-			</table>
-			<% } else { %>
-				<p class="alert alert-block alert-info">	<strong>No memberships were found.</strong></p>
-				<% } %>
-	</div>
+  <div class="span12">
+    <% if (results.length > 0) { %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.forEach(function (result) { %>
+            <tr>
+              <td>
+                <strong><%- link_to(result.user.displayName, 
+                  pathTo.admin_user(result.user)) %></strong>
+              </td>
+              <td>
+                <strong><%- link_to(result.role.name, 
+                  pathTo.admin_user_membership(result.membership)) %></strong>
+              </td>
+              <td>
+                <%- link_to('<i class="icon-edit"></i> Edit', 
+                  pathTo.edit_admin_user_membership(result.membership), 
+                  {class: 'btn btn-mini'}) %>
+                <%- link_to('<i class="icon-remove icon-white"></i> Delete', 
+                  pathTo.admin_user_membership(result.membership), 
+                  {class: 'btn btn-mini btn-danger', method: 'delete', 
+                  remote: true, jsonp: '(function (u) 
+                  {location.href = u;})'}) %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } else { %>
+        <p class="alert alert-block alert-info">  <strong>No memberships were found.</strong></p>
+        <% } %>
+  </div>
 </div>

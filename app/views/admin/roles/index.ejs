@@ -1,43 +1,43 @@
 <ul class="breadcrumb">
-	<li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
-	<li><%- linkTo('Roles Management <span class="divider">/</span>', pathTo.admin_roles(), { class: 'active' }) %></li>
+  <li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
+  <li><%- linkTo('Roles Management <span class="divider">/</span>', pathTo.admin_roles(), { class: 'active' }) %></li>
 </ul>
 <div class="page-header">
-	<h1>Roles Management</h1>
+  <h1>Roles Management</h1>
 </div>
 <div class="row">
-	<div class="span12">
-		<p>
-			<%- link_to( '<i class="icon-plus icon-white"></i> New role', pathTo.new_admin_role(), {class: 'btn btn-primary'}) %>
-		</p>
-	</div>
+  <div class="span12">
+    <p>
+      <%- link_to( '<i class="icon-plus icon-white"></i> New role', pathTo.new_admin_role(), {class: 'btn btn-primary'}) %>
+    </p>
+  </div>
 </div>
 <div class="row">
-	<div class="span12">
-		<% if (roles.length>0) { %>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% roles.forEach(function (role) { %>
-						<tr>
-							<td><strong><%- role.name %></strong></td>
-							<td><strong><%- role.desc %></strong></td>
-							<td>
-								<%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_admin_role(role), {class: 'btn btn-mini'}) %>
-								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_role(role), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
-							</td>
-						</tr>
-						<% }); %>
-				</tbody>
-			</table>
-			<% } else { %>
-				<p class="alert alert-block alert-info"> <strong>No roles were found.</strong></p>
-			<% } %>
-	</div>
+  <div class="span12">
+    <% if (roles.length>0) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% roles.forEach(function (role) { %>
+        <tr>
+          <td><strong><%- role.name %></strong></td>
+          <td><strong><%- role.desc %></strong></td>
+          <td>
+            <%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_admin_role(role), {class: 'btn btn-mini'}) %>
+            <%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_role(role), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% } else { %>
+    <p class="alert alert-block alert-info"> <strong>No roles were found.</strong></p>
+    <% } %>
+  </div>
 </div>

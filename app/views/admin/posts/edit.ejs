@@ -1,18 +1,18 @@
 <ul class="breadcrumb">
-	<li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
-	<li><%- linkTo('Post Management <span class="divider">/</span>', pathTo.admin_posts()) %></li>
-	<li><%- linkTo('Edit Existing Post', pathTo.edit_admin_post(post), { class: 'active' }) %></li>
+  <li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
+  <li><%- linkTo('Post Management <span class="divider">/</span>', pathTo.admin_posts()) %></li>
+  <li><%- linkTo('Edit Existing Post', pathTo.edit_admin_post(post), { class: 'active' }) %></li>
 </ul>
 
 <div class="page-header">
-    <h1>Edit Existing Post</h1>
+  <h1>Edit Existing Post</h1>
 </div>
 
 <% var form = formFor(post, {action: pathTo.admin_post(post), method: 'PUT', id: "post-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
 <%- include _form %>
 <div class="form-actions">
-    <%- form.submit('<i class="icon-ok icon-white"></i> Update post', {class: 'btn btn-primary'}) %> or
-    <%- linkTo('Cancel', pathTo.admin_posts(), {class: 'btn'}) %>
+  <%- form.submit('<i class="icon-ok icon-white"></i> Update post', {class: 'btn btn-primary'}) %> or
+  <%- linkTo('Cancel', pathTo.admin_posts(), {class: 'btn'}) %>
 </div>
 <%- form.end() %>

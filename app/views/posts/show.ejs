@@ -1,55 +1,55 @@
 <ul class="breadcrumb">
-	<li><a href="/">Home</a> <span class="divider">/</span></li>
-	<li><a href="<%- pathTo.posts() %>">Posts</a> <span class="divider">/</span></li>
-	<li class="active"><a href="#"><%- post.title %></a></li>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li><a href="<%- pathTo.posts() %>">Posts</a> <span class="divider">/</span></li>
+  <li class="active"><a href="#"><%- post.title %></a></li>
 </ul>
 
 <div class="page-header">
-	<h1><%- post.title %></h1>
+  <h1><%- post.title %></h1>
 </div>
 
 <div class="row">
-	<div class="span12">
-		<p class="byline muted">Posted by <span class="text-info"><%- author.displayName %></span> on <em><%- toHumanDate(post.updated_at) %></em></p>
-		<%- post.body %>
-	</div>
+  <div class="span12">
+    <p class="byline muted">Posted by <span class="text-info"><%- author.displayName %></span> on <em><%- toHumanDate(post.updated_at) %></em></p>
+    <%- post.body %>
+  </div>
 </div>
 
 <hr />
 
 <div class="row">
-	<div class="span12 comments">
-		<h4>Comments</h4>
-		<% comments.forEach(function(comment) { %>
-			<div id="comment-<%- comment.id %>" class="comment">
-				<p>
-					<span class="text-info"><%- comment.displayName %></span> said on 
-					<%- toHumanDate(comment.created_at) %>
-					<% if (comment.flagged) { %>
-						<span class="pull-right badge badge-important comment-status"><i class="icon-flag icon-white"></i></span>
-					<% } else { %>
-						<span class="pull-right comment-status"><a class="text-muted flag" href="#" data-id="<%= comment.id %>">Flag as inappropriate</a></span>
-					<% } %>
-				</p>
-				<blockquote>
-					<%- comment.body %>
-				</blockquote>
-			</div>
-		<% }) %>
+  <div class="span12 comments">
+    <h4>Comments</h4>
+    <% comments.forEach(function(comment) { %>
+    <div id="comment-<%- comment.id %>" class="comment">
+      <p>
+        <span class="text-info"><%- comment.displayName %></span> said on 
+        <%- toHumanDate(comment.created_at) %>
+        <% if (comment.flagged) { %>
+        <span class="pull-right badge badge-important comment-status"><i class="icon-flag icon-white"></i></span>
+        <% } else { %>
+        <span class="pull-right comment-status"><a class="text-muted flag" href="#" data-id="<%= comment.id %>">Flag as inappropriate</a></span>
+        <% } %>
+      </p>
+      <blockquote>
+        <%- comment.body %>
+      </blockquote>
+    </div>
+    <% }) %>
 
-		<% if (commentor) { %>
-			<% var form = formFor(comment, { action: pathTo.post_comments(post), method: 'POST', id: "comment_form", class: "form-horizontal" }) %>
-			<fieldset>
-				<legend>Leave a Comment</legend>
-				<%- form.begin() %>
-					<% include ../comments/_form %>
-					<div class="form-actions">
-						<%- form.submit('<i class="icon-ok icon-white"></i> Post Comment', {class: 'btn btn-primary'}) %>
-					</div>
-				<%- form.end() %>
-			</fieldset>
-		<% } else { %>
-			<p>You must be logged in to leave a comment. Click <%- link_to("here", "/login") %> to login.</p>
-		<% } %>
-	</div>
+    <% if (commentor) { %>
+    <% var form = formFor(comment, { action: pathTo.post_comments(post), method: 'POST', id: "comment_form", class: "form-horizontal" }) %>
+    <fieldset>
+      <legend>Leave a Comment</legend>
+      <%- form.begin() %>
+      <% include ../comments/_form %>
+      <div class="form-actions">
+        <%- form.submit('<i class="icon-ok icon-white"></i> Post Comment', {class: 'btn btn-primary'}) %>
+      </div>
+      <%- form.end() %>
+    </fieldset>
+    <% } else { %>
+    <p>You must be logged in to leave a comment. Click <%- link_to("here", "/login") %> to login.</p>
+    <% } %>
+  </div>
 </div>

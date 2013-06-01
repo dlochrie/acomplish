@@ -1,18 +1,18 @@
 <ul class="breadcrumb">
-    <li><a href="/">Home</a> <span class="divider">/</span></li>
-    <li><a href="<%- pathTo.memberships() %>">memberships</a> <span class="divider">/</span></li>
-    <li class="active"><a href="#">New membership</a></li>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li><a href="<%- pathTo.memberships() %>">memberships</a> <span class="divider">/</span></li>
+  <li class="active"><a href="#">New membership</a></li>
 </ul>
 
 <div class="page-header">
-    <h1>New membership</h1>
+  <h1>New membership</h1>
 </div>
 
 <% var form = formFor(membership, {action: pathTo.memberships(), method: 'POST', id: "membership-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
 <%- include _form %>
 <div class="form-actions">
-    <%- form.submit('<i class="icon-ok icon-white"></i> Create membership', {class: 'btn btn-primary'}) %> or
-    <%- linkTo('Cancel', pathTo.memberships(), {class: 'btn'}) %>
+  <%- form.submit('<i class="icon-ok icon-white"></i> Create membership', {class: 'btn btn-primary'}) %> or
+  <%- linkTo('Cancel', pathTo.memberships(), {class: 'btn'}) %>
 </div>
 <%- form.end() %>

@@ -1,41 +1,41 @@
 <ul class="breadcrumb">
-	<li><a href="/">Home</a> <span class="divider">/</span></li>
-	<li class="active">
-		<a href="<%- pathTo.comments() %>">comments</a> <span class="divider">/</span>
-	</li>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">
+    <a href="<%- pathTo.comments() %>">comments</a> <span class="divider">/</span>
+  </li>
 </ul>
 
 <div class="page-header">
-	 <h1>Listing Comments</h1>
+  <h1>Listing Comments</h1>
 </div>
 
 <div class="row">
-	<div class="span12">
-		<% if (results.length > 0) { %>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Body</th>
-						<th>Created At</th>
-						<th>Author</th>
-						<th>Post</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% results.forEach(function (result) { %>
-						<tr>
-							<td><%- result.comment.body %></td>
-							<td><%- result.comment.created_at %></td>
-							<td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
-							<td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
-						</tr>
-					<% }); %>
-				</tbody>
-			</table>
-			<% } else { %>
-				<p class="alert alert-block alert-info">
-					<strong>No comments were found.</strong>
-				</p>
-				<% } %>
-	</div>
+  <div class="span12">
+    <% if (results.length > 0) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Body</th>
+          <th>Created At</th>
+          <th>Author</th>
+          <th>Post</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach(function (result) { %>
+        <tr>
+          <td><%- result.comment.body %></td>
+          <td><%- result.comment.created_at %></td>
+          <td><strong><%- link_to(result.author.displayName, pathTo.user(result.author)) %></strong></td>
+          <td><strong><%- link_to(result.post.title, pathTo.post(result.post)) %></strong></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% } else { %>
+    <p class="alert alert-block alert-info">
+      <strong>No comments were found.</strong>
+    </p>
+    <% } %>
+  </div>
 </div>

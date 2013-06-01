@@ -1,53 +1,53 @@
 <ul class="breadcrumb">
-	<li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
-	<li><%- linkTo('Comments Management <span class="divider">/</span>', pathTo.admin_comments(), { class: 'active' }) %></li>
+  <li><%- linkTo('Administration Panel <span class="divider">/</span>', pathTo.admin()) %></li>
+  <li><%- linkTo('Comments Management <span class="divider">/</span>', pathTo.admin_comments(), { class: 'active' }) %></li>
 </ul>
 
 <div class="page-header">
-	 <h1>Comments Management</h1>
+  <h1>Comments Management</h1>
 </div>
 
 <div class="row">
-	<div class="span12">
-		<% if (results.length > 0) { %>
-			<table class="table table-striped comments">
-				<thead>
-					<tr>
-						<th>Body</th>
-						<th>Created At</th>
-						<th>Author</th>
-						<th>Post</th>
-						<th>Flagged</th>
-						<th>Reason</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% results.forEach(function (result) { %>
-						<tr id="<%= result.comment.id %>">
-							<td><%- result.comment.body %></td>
-							<td><%- toShortDate(result.comment.created_at) %></td>
-							<td><strong><%- link_to(result.author.displayName, pathTo.admin_user(result.author)) %></strong></td>
-							<td><strong><%- link_to(result.post.title, pathTo.admin_post(result.post)) %></strong></td>
-							<td>
-								<% if (result.comment.flagged) { %> 
-									<span class="badge badge-important"><i class="icon-flag icon-white"></i></span> 
-								<% } else { %>
-									<em>False</em>
-								<% } %>
-							</td>
-							<td><%- result.comment.reason %></td>
-							<td>
-								<%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %> 
-							</td>
-						</tr>
-					<% }); %>
-				</tbody>
-			</table>
-			<% } else { %>
-				<p class="alert alert-block alert-info">
-					<strong>No comments were found.</strong>
-				</p>
-				<% } %>
-	</div>
+  <div class="span12">
+    <% if (results.length > 0) { %>
+    <table class="table table-striped comments">
+      <thead>
+        <tr>
+          <th>Body</th>
+          <th>Created At</th>
+          <th>Author</th>
+          <th>Post</th>
+          <th>Flagged</th>
+          <th>Reason</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach(function (result) { %>
+        <tr id="<%= result.comment.id %>">
+          <td><%- result.comment.body %></td>
+          <td><%- toShortDate(result.comment.created_at) %></td>
+          <td><strong><%- link_to(result.author.displayName, pathTo.admin_user(result.author)) %></strong></td>
+          <td><strong><%- link_to(result.post.title, pathTo.admin_post(result.post)) %></strong></td>
+          <td>
+            <% if (result.comment.flagged) { %> 
+            <span class="badge badge-important"><i class="icon-flag icon-white"></i></span> 
+            <% } else { %>
+            <em>False</em>
+            <% } %>
+          </td>
+          <td><%- result.comment.reason %></td>
+          <td>
+            <%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_comment(result.comment), { class: 'btn btn-mini btn-danger', method: 'delete',  remote: true, jsonp: '(function (u) {location.href = u; })' }) %> 
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% } else { %>
+    <p class="alert alert-block alert-info">
+      <strong>No comments were found.</strong>
+    </p>
+    <% } %>
+  </div>
 </div>
