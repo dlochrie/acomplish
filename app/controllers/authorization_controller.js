@@ -41,8 +41,10 @@ function authorize(req) {
     return reject();
   }
 
+  /*
   console.log("ACL:\n", 'Does[', user.name, '] have the Ability to ' +
     '[', actn, '] in [', ctrl, '] ??');
+  */
 
   var userAbilities = user.abilities || {};
   if (userAbilities[ctrl]) {
