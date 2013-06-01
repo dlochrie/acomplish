@@ -39,9 +39,11 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>a complish</h1>
+        <h1>
+<a name="a-complish" class="anchor" href="#a-complish"><span class="octicon octicon-link"></span></a>a complish</h1>
 
-<h2>Description</h2>
+<h2>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h2>
 
 <p>A <strong><em>COMP</em></strong> LISH</p>
 
@@ -54,7 +56,8 @@
 </li>
 </ul><p>Compound + Publish = <strong>acomplish</strong></p>
 
-<h2>Goals</h2>
+<h2>
+<a name="goals" class="anchor" href="#goals"><span class="octicon octicon-link"></span></a>Goals</h2>
 
 <table>
 <tr>
@@ -69,8 +72,8 @@
         </tr>
 <tr>
 <td>Provide a Role-Based Management System for Posts, Users, and Comments</td>
-            <td>It does this, kinda</td>
-            <td>Much to Do</td>
+            <td>See "ACL - Authorization" heading.</td>
+            <td>Working</td>
         </tr>
 <tr>
 <td>Provide a working example of using CompoundJS with PassportJS, and Google as a Provider</td>
@@ -115,20 +118,25 @@
             <td>TBD</td>
             <td>Would be REALLY NICE!</td>
         </tr>
-</table><h2>Comments</h2>
+</table><h2>
+<a name="comments" class="anchor" href="#comments"><span class="octicon octicon-link"></span></a>Comments</h2>
 
 <p>Working with MySQL and Redis.  </p>
 
-<p>For <em>model associations</em>, see <a href="https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w">this post</a>.
-This has to do with <code>__cachedRelations</code>... It's frustrating, if you know of an elegant solution, let me know.  </p>
+<p>For <em>model associations</em>, see <a href="https://groups.google.com/forum/?fromgroups=#!topic/compoundjs/YxcIOKEqM8w">this post</a>,
+and <a href="https://groups.google.com/forum/?fromgroups=#!searchin/compoundjs/view%2420model/compoundjs/NeQX7zxRKw4/Zc0DeTk4X-AJ">this post</a>.
+Associated/Related models cannot be accessed <em>en masse</em>, but only individually. If you know of an elegant solution, 
+without adding to the controller, but allowing for multiple relations in a view, let me know.  </p>
 
 <p>Another way of handling this is seeing: <a href="http://book.mixu.net/ch7.html">http://book.mixu.net/ch7.html</a>, particularly section
 7.2.1 Control flow pattern #1: Series. Mikito Takada has some really insightful documentation on the asynchronous nature of
 Node, and how we might solve this problem (or work nicely with this feature :-)).  </p>
 
-<p><em>Update</em>: See method <code>getAssociated</code> the <em>application_controller</em> for a useful way or handling associations. Again, if you know of a more elegant solution, let me know.  </p>
+<p><em>Update</em>: See method <code>getAssociated</code> the <em>application_controller</em> for a useful way or handling associations. 
+Again, if you know of a more elegant solution, let me know.  </p>
 
-<h2>Components</h2>
+<h2>
+<a name="components" class="anchor" href="#components"><span class="octicon octicon-link"></span></a>Components</h2>
 
 <ul>
 <li>
@@ -136,7 +144,8 @@ Node, and how we might solve this problem (or work nicely with this feature :-))
 <li>Templates are using <a href="https://github.com/visionmedia/ejs">ejs</a>.</li>
 <li>ORM is <a href="https://github.com/1602/jugglingdb">Juggling DB</a>.</li>
 <li>This example is using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> throughout, but not through a plugin.</li>
-</ul><h2>Models</h2>
+</ul><h2>
+<a name="models" class="anchor" href="#models"><span class="octicon octicon-link"></span></a>Models</h2>
 
 <p>(Currently):</p>
 
@@ -153,16 +162,142 @@ Node, and how we might solve this problem (or work nicely with this feature :-))
 <strong>Memberships</strong>: { BelongsTo: [ Posts, Roles ] }</li>
 </ul><p>Maybe more to come, including <strong>Photos</strong>, see <a href="https://github.com/dlochrie/picsee">Picsee</a>.</p>
 
-<h2>Install</h2>
+<h2>
+<a name="acl---authorization" class="anchor" href="#acl---authorization"><span class="octicon octicon-link"></span></a>ACL - Authorization</h2>
 
-<p><em>TODO:</em> Add more instructions for how to configure a cloned app. </p>
+<p>ACL (Access Control List) is managed by a JSON file, should you provide it. 
+Right now, ACL is configured by a JSON file, and not through a DB Resource, but
+that feature could come in time.</p>
+
+<p>The format for your ACL file looks like:</p>
+
+<pre><code>env
+  settings
+    cachedRoles
+    cachedAbilities
+  roles
+    key
+      displayName
+      description
+      abilities
+</code></pre>
+
+<p>And the JSON example:</p>
+
+<pre><code>{
+  "development": {
+    "settings": {
+      "cacheRoles": "true",
+      "cacheAbilities": "true"
+    },
+    "roles": {
+      "admin": {
+        "displayName": "Admin",
+        "description": "Admins can do anything",
+        "abilities": [{
+          "controller": "posts",
+          "actions": [
+            "create",
+            "update",
+            "delete"
+          ]
+        }]
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>Authorization is determined by a User's Abilities. Abilities are a combination
+of a <code>controller</code> and <code>actions</code> on that controller. The wildcard <code>*</code> adds all
+actions that a controller has. Note, actions do not necessarily equal access to 
+a <em>page</em>, but to that <em>action</em>, which makes authorization useful for RESTful 
+requests as well.</p>
+
+<p>You can provide as many Roles as you want, and each Role can have multiple
+abilities. If a User has multiple Roles with overlapping Abilities, they 
+are combined, and the User gets the Sum of all the Abilities.   </p>
+
+<p><em>Ex.</em></p>
+
+<pre><code>User 
+  Role: Commentor
+  Abilities: 
+    Controller: Comments
+    Actions: Create, Edit 
+  Role: Moderator
+  Abilities: 
+    Controller: Comments
+    Actions: Delete
+</code></pre>
+
+<p>In the example above, the User will be able to Create, Edit, and Delete on the 
+Comments Controller.</p>
+
+<h3>
+<a name="acl-usage" class="anchor" href="#acl-usage"><span class="octicon octicon-link"></span></a>ACL Usage</h3>
+
+<p>To use <code>authorization</code> in a controller, you must load the <code>authorization</code> 
+controller first:</p>
+
+<pre><code>load('authorization');
+</code></pre>
+
+<p>...and then use it like:</p>
+
+<pre><code>before(use('authorize'));
+</code></pre>
+
+<p>You have 3 choices:</p>
+
+<ol>
+<li>Use <code>authorization</code> everywhere</li>
+<li>Use <code>authorization</code> on all actions on a controller</li>
+<li>Use <code>authorization</code> on specific actions in a controller</li>
+</ol><p><em>Everywhere</em>:
+In the <code>application_controller</code> add the following line near the top: </p>
+
+<pre><code>before(use('authorize'));
+</code></pre>
+
+<p><em>All Controller Actions</em>:
+In any controller, add the following line near the top**:</p>
+
+<pre><code>before(use('authorize'));
+</code></pre>
+
+<p><em>Specific Controller Actions</em>:
+In any controller, add the following line near the top**:</p>
+
+<pre><code>before(use('authorize'), only: ['destroy', 'create']);
+</code></pre>
+
+<p>**Remember to <code>load('authorization')</code> at the top of you controller to use it.</p>
+
+<h3>
+<a name="cached-roles--abilities" class="anchor" href="#cached-roles--abilities"><span class="octicon octicon-link"></span></a>Cached Roles / Abilities</h3>
+
+<p>Use the cache at your own discretion. What it basically means is that if the 
+cached vars (<code>cacheRoles</code>, <code>cacheAbilities</code>) are set to <code>true</code>, then they will
+not be reloaded when the page is loaded. This is great for performance, but 
+unless you update the <code>session.user</code> object when Roles and Abilities are 
+added/removed, the User will keep his or her permissions until the next time 
+they log in. This <em>could</em> be a security threat for your app, YMMV.</p>
+
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<p><em>TODO:</em> Add more instructions for how to configure a cloned app. 
+<em>TODO:</em> Update based on new JSON confs scheme.</p>
 
 <ol>
 <li><p>Clone Repo<br><code>git clone [this repo url]</code></p></li>
 <li><p>Install Modules<br><code>[sudo] npm install -l</code></p></li>
+<li><p>Set up confs, see <code>config/acomplish.json</code>.</p></li>
 <li><p>Create DB (See DB Setup Below)<br><code>compound db migrate</code></p></li>
 <li><p>Run Server<br><code>node server.js</code> <em>OR</em> <code>forever server.js</code></p></li>
-</ol><h2>DB Setup (mysql)</h2>
+</ol><h2>
+<a name="db-setup-mysql" class="anchor" href="#db-setup-mysql"><span class="octicon octicon-link"></span></a>DB Setup (mysql)</h2>
 
 <pre><code>mysql&gt; CREATE DATABASE acomplish;
 mysql&gt; GRANT ALL PRIVILEGES ON acomplish.* TO "dbuser"@"localhost" IDENTIFIED BY "dbpasswd";
@@ -170,16 +305,19 @@ mysql&gt; FLUSH PRIVILEGES;
 mysql&gt; EXIT  
 </code></pre>
 
-<h2>Contribute</h2>
+<h2>
+<a name="contribute" class="anchor" href="#contribute"><span class="octicon octicon-link"></span></a>Contribute</h2>
 
 <p>Let me know if you would like to participate, or fork/pull. </p>
 
-<h3>Thanks</h3>
+<h3>
+<a name="thanks" class="anchor" href="#thanks"><span class="octicon octicon-link"></span></a>Thanks</h3>
 
 <ul>
 <li>
 <a href="https://github.com/1602">Anatoliy Chakkaev</a>, this is built on top of the CompoundJS Framework</li>
-</ul><h2>License</h2>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>The MIT License (MIT)</p>
 
