@@ -8,6 +8,7 @@ action('login', function () {
 
 action('logout', function() {
   req.logOut();
+  session.user = false;
   flash('info', 'You are now logged out.');
   redirect('/'); 
 });

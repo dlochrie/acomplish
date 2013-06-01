@@ -15,6 +15,16 @@
 		<% }; %>
 
 		<% logs = request.acomplish.log; if (logs) { %>
+			<% if (logs.length === 0)  { %>
+				<div class="alert">
+					<a class="close" data-dismiss="alert">×</a>
+					<strong>Debug Message</strong>: 
+					<em>
+						Debug Logging is "on". Please see `logToWindow` in the application
+						controller for usage.
+					</em>
+				</div>
+			<% } %>
 			<% logs.forEach(function(msg) { %>
 				<div class="alert">
 					<a class="close" data-dismiss="alert">×</a>
