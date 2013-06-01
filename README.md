@@ -158,7 +158,7 @@ And the JSON example:
 
 Authorization is determined by a User's Abilities. Abilities are a combination
 of a `controller` and `actions` on that controller. The wildcard `*` adds all
-actions that a controller has. Note, actions no not necessarily equal access to 
+actions that a controller has. Note, actions do not necessarily equal access to 
 a _page_, but to that _action_, which makes authorization useful for RESTful 
 requests as well.
 
@@ -219,7 +219,13 @@ In any controller, add the following line near the top**:
 
 
 ###Cached Roles / Abilities
-Use the cache at your own discretion. What it basically means is that if you
+
+Use the cache at your own discretion. What it basically means is that if the 
+cached vars (`cacheRoles`, `cacheAbilities`) are set to `true`, then they will
+not be reloaded when the page is loaded. This is great for performance, but 
+unless you update the `session.user` object when Roles and Abilities are 
+added/removed, the User will keep his or her permissions until the next time 
+they log in. This _could_ be a security threat for your app, YMMV.
 
 
 ##Install
