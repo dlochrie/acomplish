@@ -30,8 +30,8 @@ Compound + Publish = __acomplish__
 		</tr>
 		<tr>
 			<td>Provide a Role-Based Management System for Posts, Users, and Comments</td>
-			<td>See "ACL - Authorization" heading.</td>
 			<td>Working</td>
+			<td>See "ACL - Authorization" heading.</td>
 		</tr>
 		<tr>
 			<td>Provide a working example of using CompoundJS with PassportJS, and Google as a Provider</td>
