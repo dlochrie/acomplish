@@ -2,7 +2,7 @@ load('application');
 
 var getAssociated = use('getAssociated');
 
-before(use('authorize'));
+//before(use('authorize'));
 
 before(loadUser, {
 	only: ['show', 'edit', 'update', 'destroy']
@@ -86,8 +86,9 @@ action('show', function () {
 
 action(function edit() {
 	this.title = 'User edit';
-	this.membership = new Membership;
+	this.membership = new Membership();
 
+/*
 	Membership.all({ where: { userId: this.user.id }}, function(err, memberships) {
 		getAssociated(memberships, 'role', false, 'membership', function(memberships) {
 			this.memberships = memberships;
@@ -100,6 +101,14 @@ action(function edit() {
 						render();
 				}
 			});
+		});
+	});
+*/
+
+	Membership.all({ where: { userId: this.user.id }}, 
+	function(err, memberships) {
+		generateRoleSelect(memberships, function() {
+			render();
 		});
 	});
 });
@@ -197,17 +206,45 @@ function loadUser() {
 }
 
 function generateRoleSelect(memberships, cb) {
-	var assigned = memberships.map(function(val, i, arr) {
-			return arr[i].role.id;
+	/**
+	 * Assume that the `key` is the JSON key in `acl.json`
+	 * Get the assigned roles.
+	 */
+	var assigned = memberships.map(function(m) {
+		return { name: acl.roles[m.roleName].displayName, 
+				_id: m.roleName };
 	});
-	Role.all(function(err, roles) {
-		this.roles = [];
-		Object.getOwnPropertyNames(roles).forEach(function(val, i, arr) {
-			if (val === 'length') return; // We only want Values, not Count
-			if (assigned.indexOf(roles[val].id) !== -1) return; // Skip Roles already assigned
-			this.roles.push({ name: roles[val].name, _id: roles[val].id });
+
+	var available = [],	
+		roles = Object.keys(acl.roles);
+
+	console.log(roles);
+
+	roles.forEach(function(role) {
+		memberships.forEach(function(m) {
+			console.log('is', role, 'in',  m.roleName)
+			if (role !== m.roleName) {
+				console.log('no, add it');
+				available.push({ name: acl.roles[m.roleName].displayName, 
+					_id: m.roleName });			
+			}
 		});
-		cb(this.roles)
-	});	
+	});
+	
+	console.log('available', available)
+
+	this.roles = available;
+	this.memberships = assigned;
+
+	/*
+	console.log('all roles', roles);
+	console.log('roles assigned', this.memberships);
+	console.log('roles available', this.roles);
+	*/
+
+	var filter = this.memberships.filter(function(x) { return roles.indexOf(x) < 0 })
+	console.log('filter', filter)
+
+	return cb();
 }
 

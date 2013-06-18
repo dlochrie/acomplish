@@ -49,6 +49,7 @@ var Role = define('Role', function() {
 });
 
 var Membership = define('Membership', function() {
+	property('roleName', String); // For JSON based Roles
 	property('created_at', Date, { default: Date.now });
 	property('updated_at', Date, { default: Date.now });
 	set('restPath', pathTo.memberships);

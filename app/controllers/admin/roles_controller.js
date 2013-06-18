@@ -1,6 +1,6 @@
 load('application');
 
-before(use('authorize'));
+//before(use('authorize'));
 
 before(loadRole, {
 	only: ['show', 'edit', 'update', 'destroy']
@@ -46,20 +46,28 @@ action(function create() {
 
 action(function index() {
 	this.title = 'Roles index';
-	Role.all(function (err, roles) {
-		switch (params.format) {
-			case "json":
-				send({
-					code: 200,
-					data: roles
-				});
-				break;
-			default:
-				render({
-					roles: roles
-				});
-		}
-	});
+	var roles = [];
+	for (i in compound.acomplish.acl.roles) {
+		var role = compound.acomplish.acl.roles[i];
+		console.log(role.abilities);
+		roles.push({
+			name: role.displayName, 
+			desc: role.description,
+			abilities: role.abilities
+		});
+	}
+	switch (params.format) {
+		case "json":
+			send({
+				code: 200,
+				data: roles
+			});
+			break;
+		default:
+			render({
+				roles: roles
+			});
+	}
 });
 
 action(function show() {

@@ -2,7 +2,7 @@ load('application');
 
 var getAssociated = use('getAssociated');
 
-before(use('authorize'));
+//before(use('authorize'));
 
 before(loadMembership, {
 	only: ['show', 'edit', 'update', 'destroy']
@@ -27,6 +27,8 @@ action(function create() {
 	membership.created_at = new Date;
 	membership.updated_at = new Date;
 	membership.userId = req.params.user_id;
+	membership.userId = req.params.user_id;
+
 
 	Membership.create(membership, function (err, membership) {
 		respondTo(function (format) {
