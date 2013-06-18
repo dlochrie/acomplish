@@ -27,7 +27,7 @@
         <% rows.forEach(function (row) { %>
         <tr>
           <td><strong><%- link_to(row.user.displayName, pathTo.admin_user(row.user)) %></strong></td>
-          <td><strong><p><%=: row.memberships | map: 'roleId' | join %></p></strong></td>
+          <td><strong><%=: row.memberships | map: 'roleName' | join %></strong></td>
           <td>
             <%- link_to( '<i class="icon-edit"></i> Edit', pathTo.edit_admin_user(row.user), {class: 'btn btn-mini'}) %>
             <%- link_to( '<i class="icon-remove icon-white"></i> Delete', pathTo.admin_user(row.user), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
