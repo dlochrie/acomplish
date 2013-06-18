@@ -22,14 +22,11 @@ action('new', function () {
 });
 
 action(function create() {
-
 	var membership = req.body.Membership;
 	membership.created_at = new Date;
 	membership.updated_at = new Date;
 	membership.userId = req.params.user_id;
-	membership.userId = req.params.user_id;
-
-
+	
 	Membership.create(membership, function (err, membership) {
 		respondTo(function (format) {
 			format.json(function () {

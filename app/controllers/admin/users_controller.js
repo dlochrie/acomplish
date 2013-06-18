@@ -85,25 +85,10 @@ action('show', function () {
 });
 
 action(function edit() {
-	this.title = 'User edit';
-	this.membership = new Membership();
+	this.title = 'Edit a User';
 
-/*
-	Membership.all({ where: { userId: this.user.id }}, function(err, memberships) {
-		getAssociated(memberships, 'role', false, 'membership', function(memberships) {
-			this.memberships = memberships;
-			generateRoleSelect(memberships, function() {
-			  switch (params.format) {
-					case "json":
-						send(this.user);
-						break;
-					default:
-						render();
-				}
-			});
-		});
-	});
-*/
+	// Make an instance of Membership available so that new ones can be added.
+	this.membership = new Membership();
 
 	Membership.all({ where: { userId: this.user.id }}, 
 	function(err, memberships) {
@@ -206,45 +191,26 @@ function loadUser() {
 }
 
 function generateRoleSelect(memberships, cb) {
-	/**
-	 * Assume that the `key` is the JSON key in `acl.json`
-	 * Get the assigned roles.
-	 */
-	var assigned = memberships.map(function(m) {
-		return { name: acl.roles[m.roleName].displayName, 
-				_id: m.roleName };
-	});
-
-	var available = [],	
+	var assigned = [],
+		assigned_keys = [],	
+		available = [],
 		roles = Object.keys(acl.roles);
-
-	console.log(roles);
+	
+	memberships.forEach(function(m) {
+		assigned_keys.push(m.roleName);
+		assigned.push({name: acl.roles[m.roleName].displayName, mid: m.id, uid:
+				m.userId});
+	});
 
 	roles.forEach(function(role) {
-		memberships.forEach(function(m) {
-			console.log('is', role, 'in',  m.roleName)
-			if (role !== m.roleName) {
-				console.log('no, add it');
-				available.push({ name: acl.roles[m.roleName].displayName, 
-					_id: m.roleName });			
-			}
-		});
-	});
-	
-	console.log('available', available)
+		if (assigned_keys.indexOf(role) === -1) {
+			available.push({ name: acl.roles[role].displayName, _id: role });			
+		}
+	})
 
+	// Make the arrays available to calling method
 	this.roles = available;
 	this.memberships = assigned;
 
-	/*
-	console.log('all roles', roles);
-	console.log('roles assigned', this.memberships);
-	console.log('roles available', this.roles);
-	*/
-
-	var filter = this.memberships.filter(function(x) { return roles.indexOf(x) < 0 })
-	console.log('filter', filter)
-
 	return cb();
 }
-
