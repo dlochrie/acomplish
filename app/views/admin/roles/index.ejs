@@ -32,9 +32,13 @@
           <% role.abilities.forEach(function(a) { %>
             <dl class="dl-horizontal">
               <dt><%- a.controller %></dt>
-              <% a.actions.forEach(function(actn) { %>
-                <dd><%- (actn !== '*') ? actn : '[ All Actions ]' %></dd>
-              <% }); %>
+              <% if (a.actions === '*') { %>
+                <dd>[ All Actions ]</dd>
+              <% } else { %> 
+                <% a.actions.forEach(function(actn) { %>
+                  <dd><%- (actn !== '*') ? actn : '[ All Actions ]' %></dd>
+                <% }); %>
+              <% } %>
             </dl>
           <% }); %>
           </td>
