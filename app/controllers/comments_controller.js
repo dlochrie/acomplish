@@ -1,96 +1,99 @@
 load('application');
 
+
 var getAssociated = use('getAssociated');
 
+
 before(loadComment, {
-	only: ['flag', 'flag_form']
+  only: ['flag', 'flag_form']
 });
 
+
 action(function create() {
-	if (!session.passport.user)
-		next();
-	var comment = req.body.Comment;
-	comment.created_at = new Date;
-	comment.updated_at = new Date;
-	comment.userId = session.passport.user;
-	comment.body = sanitizeComment(req.body.Comment.body);
-	
-	Comment.create(comment, function (err, comment) {
-		respondTo(function (format) {
-			format.json(function () {
-				if (err) {
-					send({
-						code: 500,
-						error: comment && comment.errors || err
-					});
-				} else {
-					send({
-						code: 200,
-						data: comment.toObject()
-					});
-				}
-			});
-			format.html(function () {
-				if (err) {
-					flash('error', 'Comment can not be created');
-					render('new', {
-						comment: comment,
-						title: 'New comment'
-					});
-				} else {
-					flash('info', 'Comment created');
-					redirect(path_to.post(comment.postId) + '#comment-' + comment.id);
-				}
-			});
-		});
-	});
+  if (!session.passport.user)
+    next();
+  var comment = req.body.Comment;
+  comment.created_at = new Date;
+  comment.updated_at = new Date;
+  comment.userId = session.passport.user;
+  comment.body = sanitizeComment(req.body.Comment.body);
+  
+  Comment.create(comment, function (err, comment) {
+    respondTo(function (format) {
+      format.json(function () {
+        if (err) {
+          send({
+            code: 500,
+            error: comment && comment.errors || err
+          });
+        } else {
+          send({
+            code: 200,
+            data: comment.toObject()
+          });
+        }
+      });
+      format.html(function () {
+        if (err) {
+          flash('error', 'Comment can not be created');
+          render('new', {
+            comment: comment,
+            title: 'New comment'
+          });
+        } else {
+          flash('info', 'Comment created');
+          redirect(path_to.post(comment.postId) + '#comment-' + comment.id);
+        }
+      });
+    });
+  });
 });
 
 action(function index() {
-	this.title = 'Comments index';
-	Comment.all({ include: ['author', 'post']}, function (err, comments) {
-		getAssociated(comments, 'author', false, 'comment', function (results) {
-			getAssociated(results, 'post', true, 'comment', function (results) {
-				switch (params.format) {
-					case "json":
-						send({
-							code: 200,
-							data: results
-						});
-						break;
-					default:
-						render({
-							results: results
-						});
-				}
-			})
-		});
-	});
+  this.title = 'Comments index';
+  Comment.all({ include: ['author', 'post']}, function (err, comments) {
+    getAssociated(comments, 'author', false, 'comment', function (results) {
+      getAssociated(results, 'post', true, 'comment', function (results) {
+        switch (params.format) {
+          case "json":
+            send({
+              code: 200,
+              data: results
+            });
+            break;
+          default:
+            render({
+              results: results
+            });
+        }
+      })
+    });
+  });
 });
 
 action(function flag() {
-	var comment = req.body.Comment;
-	comment.flagged = true;
-	comment.updated_at = new Date;
-	
-	this.comment.updateAttributes(comment, function (err) {
-		if (err) {
-			send({
-				code: 500,
-				error: this.comment && this.comment.errors || err
-			});
-		} else {
-			send({
-				code: 200,
-				data: this.comment
-			});
-		}
-	});
+  var comment = req.body.Comment;
+  comment.flagged = true;
+  comment.updated_at = new Date;
+  
+  this.comment.updateAttributes(comment, function (err) {
+    if (err) {
+      send({
+        code: 500,
+        error: this.comment && this.comment.errors || err
+      });
+    } else {
+      send({
+        code: 200,
+        data: this.comment
+      });
+    }
+  });
 });
 
 action(function flag_form() {
-	layout(false);
-	render('_flag_form');
+  layout(false);
+  render('_flag_form');
 })
 
 /**
@@ -110,18 +113,18 @@ function sanitizeComment(str) {
 }
 
 function loadComment() {
-	Comment.find(params.id, function (err, comment) {
-		if (err || !comment) {
-			if (!err && !comment && params.format === 'json') {
-				return send({
-					code: 404,
-					error: 'Not found'
-				});
-			}
-			redirect(path_to.comments);
-		} else {
-			this.comment = comment;
-			next();
-		}
-	}.bind(this));
+  Comment.find(params.id, function (err, comment) {
+    if (err || !comment) {
+      if (!err && !comment && params.format === 'json') {
+        return send({
+          code: 404,
+          error: 'Not found'
+        });
+      }
+      redirect(path_to.comments);
+    } else {
+      this.comment = comment;
+      next();
+    }
+  }.bind(this));
 }

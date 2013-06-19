@@ -1,5 +1,6 @@
 load('application');
 
+
 action('index', function () {
   render({
     title: "main#index"
