@@ -18,7 +18,8 @@ publish('getAssociated', getAssociated);
 
 
 /**
- * TODO: This should be named loadUser, or loadUserPassport.
+ * TODO: This should be named loadUser, or loadUserPassport,
+ * and multiple Passports should be allowed for a user.
  */
 function loadPassport() {
   var self = this;
@@ -37,6 +38,7 @@ function loadPassport() {
         session.user = {
           name: user.displayName,
           email: user.email,
+          owner: checkOwner(user.email),
           id: user.id
         }
         self.user = session.user;
@@ -46,6 +48,12 @@ function loadPassport() {
   } else {
     next();
   }
+}
+
+function checkOwner(email) {
+  var owners = compound.acomplish.settings.owners || false;
+  if (!owners) return false;
+  return owners.indexOf(email) !== -1;
 }
 
 /**
@@ -103,6 +111,10 @@ function getAssociated(models, assoc, multi, modelName, cb) {
 
   findAssoc(models.shift());
 }
+
+
+// TODO: Move the following two Logging methods to another
+// controller.
 
 /**
  * Initialize Logger.

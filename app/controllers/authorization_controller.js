@@ -25,12 +25,14 @@ publish('loadAbilities', loadAbilities);
 /**
  * Verifies that a user has the permission to perform a
  * certain action on a certain controller.
- * @param {Object} req (Compound) Reuest object.
+ * @param {Object} req (Compound) Request object.
  */
 function authorize(req) {
   var actn = req.actionName,
     ctrl = req.controllerName,
     user = this.user;
+
+  if (user.owner) return next();
 
   function reject() {
     flash('error', 'You are not authorized for this action.');
@@ -80,10 +82,8 @@ function loadRoles() {
 
     function getRole(membership) {
       if (membership) {
-        membership.role(function (err, role) {
-          session.user.roles.push(role.name);
-          return getRole(memberships.shift());
-        });
+        session.user.roles.push(membership.roleName);
+        return getRole(memberships.shift());
       } else {
         next();
       }

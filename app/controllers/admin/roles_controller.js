@@ -49,7 +49,6 @@ action(function index() {
 	var roles = [];
 	for (i in compound.acomplish.acl.roles) {
 		var role = compound.acomplish.acl.roles[i];
-		console.log(role.abilities);
 		roles.push({
 			name: role.displayName, 
 			desc: role.description,
