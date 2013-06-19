@@ -1,9 +1,11 @@
 load('application');
 
 
+// Load shared methods
 var getAssociated = use('getAssociated');
 
 
+// Init before filters
 before(use('authorize'));
 before(loadPost, {
   only: ['show', 'edit', 'update', 'destroy']

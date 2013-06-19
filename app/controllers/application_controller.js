@@ -1,15 +1,16 @@
 // Require `authorization` controller
 load('authorization');
+load('log');
 
 
 // Init `before` filters - order is important.
 before('protect from forgery', function () {
   protectFromForgery('4f66d4b328383823a9acefbc03891493c2b60366f');
 });
-before(initLogger);
 before(loadPassport);
 before(use('loadRoles'));
 before(use('loadAbilities'));
+before(use('initLogger'));
 
 
 // Publish methods for use in other controllers.
@@ -50,6 +51,12 @@ function loadPassport() {
   }
 }
 
+/**
+ * Check if the user is an owner by verifying that their email is in 
+ * the `settings.json`.
+ *
+ * @param email User's email address.
+ */
 function checkOwner(email) {
   var owners = compound.acomplish.settings.owners || false;
   if (!owners) return false;
@@ -110,41 +117,4 @@ function getAssociated(models, assoc, multi, modelName, cb) {
   }
 
   findAssoc(models.shift());
-}
-
-
-// TODO: Move the following two Logging methods to another
-// controller.
-
-/**
- * Initialize Logger.
- * Logged ONLY works in the development environment.
- */
-function initLogger() {
-  var env = app.settings.env || false;
-  if (env && env === 'development') {
-    var acomplish = req.acomplish || false;
-    if (!acomplish) {
-      req.acomplish = {log: []};
-    } else {
-      req.acomplish.log = req.acomplish.log || [];
-    }
-  } else {
-    req.acomplish = {log: false};
-  }
-  next();
-}
-
-/**
- * Logs a message to the app window.
- * @param {*} msg String or Array of messages.
- */
-function logToWindow(msg) {
-  if (Object.prototype.toString.call(msg) === '[object Array]') {
-    msg = msg.join(' ');
-  }
-  if (req.acomplish.log) {
-    var msg = String('<strong>Debug Message</strong>: <em>' + msg + '</em>');
-    req.acomplish.log.push(msg);
-  }
 }

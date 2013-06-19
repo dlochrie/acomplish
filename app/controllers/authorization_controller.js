@@ -25,6 +25,7 @@ publish('loadAbilities', loadAbilities);
 /**
  * Verifies that a user has the permission to perform a
  * certain action on a certain controller.
+ *
  * @param {Object} req (Compound) Request object.
  */
 function authorize(req) {

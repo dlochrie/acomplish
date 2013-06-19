@@ -57,6 +57,9 @@
 	      "displayName": "Super User",
 	      "description": "Super Users Can Do Anything, Too",
 	      "abilities": [{
+	          "controller": "admin",
+	          "actions": ["*"]
+	        }, {
 	          "controller": "admin/comments",
 	          "actions": ["*"]
 	        }, {
