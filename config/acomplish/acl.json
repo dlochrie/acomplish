@@ -58,9 +58,19 @@
 	      "description": "Super Users Can Do Anything, Too",
 	      "abilities": [{
 	          "controller": "admin/comments",
-	          "actions": [
-	          	"*"
-	          ]
+	          "actions": ["*"]
+	        }, {
+	          "controller": "admin/memberships",
+	          "actions": ["*"]
+	        }, {
+	          "controller": "admin/posts",
+	          "actions": ["*"]
+	        }, {
+	          "controller": "admin/roles",
+	          "actions": ["*"]
+	        }, {
+	          "controller": "admin/users",
+	          "actions": ["*"]
 	        }
 	      ]
 	    }

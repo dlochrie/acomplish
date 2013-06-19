@@ -50,7 +50,7 @@ function authorize(req) {
 
   var userAbilities = user.abilities || {};
   if (userAbilities[ctrl]) {
-    if (userAbilities[ctrl] === "*") {
+    if (userAbilities[ctrl][0] === "*") {
       return next();
     }
     if (-1 !== userAbilities[ctrl].indexOf(actn)) {
