@@ -230,21 +230,23 @@ they log in. This _could_ be a security threat for your app, YMMV.
 
 ##Install
 
-*TODO:* Add more instructions for how to configure a cloned app. 
-*TODO:* Update based on new JSON confs scheme.
-
 1. Clone Repo  
     `git clone [this repo url]`
 
 2. Install Modules  
-    `[sudo] npm install -l`
+    `npm install -l`
 
-3. Set up confs, see `config/acomplish.json`.
+3. Set up confs, see the `config/acomplish/*.json` confs. 
 
-4. Create DB (See DB Setup Below)  
+4. Add your (or someone's) email address to the `settings.json` file in the 
+    _config/acomplish_ directory. Owners override ACL, so any email addresses
+    that you put in this array can do anything in the app, regardless of 
+    authorization.
+
+5. Create DB (See DB Setup Below)  
     `compound db migrate`
 
-5. Run Server  
+6. Run Server  
     `node server.js` *OR* `forever server.js`
 
 
@@ -256,12 +258,16 @@ DB Setup (mysql)
 	mysql> FLUSH PRIVILEGES; 
 	mysql> EXIT  
 	  
+Note, `redis` is definitely supported, documentation needed here for 
+    `redis` support.
+
 ##Contribute
 
 Let me know if you would like to participate, or fork/pull. 
 
 ###Thanks
- * [Anatoliy Chakkaev](https://github.com/1602), this is built on top of the CompoundJS Framework
+ * [Anatoliy Chakkaev](https://github.com/1602), this is built on top of the 
+ CompoundJS Framework
 
 ##License
 The MIT License (MIT)
