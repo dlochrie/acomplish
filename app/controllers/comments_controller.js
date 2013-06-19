@@ -4,9 +4,7 @@ load('application');
 var getAssociated = use('getAssociated');
 
 
-before(loadComment, {
-  only: ['flag', 'flag_form']
-});
+before(loadComment, {only: ['flag', 'flag_form']});
 
 
 action(function create() {

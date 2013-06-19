@@ -7,9 +7,7 @@ var getAssociated = use('getAssociated');
 
 // Init before filters
 before(use('authorize'));
-before(loadPost, {
-  only: ['show', 'edit', 'update', 'destroy']
-});
+before(loadPost, { only: ['show', 'edit', 'update', 'destroy'] });
 before(use('loadAuthor'), { only: ['new', 'edit', 'show'] });
 
 
@@ -213,4 +211,3 @@ function generateAuthorSelect(user, cb) {
     cb(this.opts)
   }); 
 }
-
