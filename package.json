@@ -1,32 +1,38 @@
 {
-	"name": "acomplish",
-	"description": "see README",
-	"author": { "name": "Daniel Lochrie" },
-	"version": "0.1.0",
-	"engines": ["node >= 0.8.0"],
-	"main": "server.js",
-	"dependencies": {
-		"ejs": "0.8.x",
-		"ejs-ext": "0.1.x",
-		"express": "3.1.x",
-		"compound": "1.1.x",
-		"jugglingdb": "0.2.x",
-		"jugglingdb-mysql": "0.0.x",
-		"jugglingdb-redis": "0.0.2-1",
-		"coffee-script": ">= 1.1.1",
-		"stylus": "latest",
-		"seedjs": "0.0.x",
-		"passport": "~0.1.x",
-		"passport-google": "~0.3.x",
-		"co-assets-compiler": "0.0.1-2",
-		"cjson": "0.2.x"
-	},
-	"devDependencies": {
-		"nodeunit": "*",
-		"sinon": "*",
-		"semicov": "*"
-	},
-	"scripts": {
-		"test": "nodeunit test/*/*"
-	}
+  "name": "acomplish",
+  "description": "see README",
+  "author": {
+    "name": "Daniel Lochrie"
+  },
+  "version": "0.1.1",
+  "engines": ["node >= 0.8.0"],
+  "main": "server.js",
+  "dependencies": {
+    "ejs": "0.8.x",
+    "ejs-ext": "0.1.x",
+    "express": "3.1.x",
+    "compound": "1.1.x",
+    "jugglingdb": "0.2.x",
+    "jugglingdb-mysql": "0.0.x",
+    "jugglingdb-redis": "0.0.2-1",
+    "coffee-script": ">= 1.1.1",
+    "stylus": "latest",
+    "seedjs": "0.0.x",
+    "passport": "~0.1.x",
+    "passport-google": "~0.3.x",
+    "co-assets-compiler": "0.0.1-2",
+    "cjson": "0.2.x"
+  },
+  "devDependencies": {
+    "nodeunit": "*",
+    "sinon": "*",
+    "supertest": ">= 0",
+    "mocha": ">= 0",
+    "should": ">= 0",
+    "semicov": "*",
+    "co-generators": "*"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --require test/init.js test/*/*.test.js"
+  }
 }

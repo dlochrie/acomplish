@@ -1,120 +1,93 @@
-require('../test_helper.js').controller('models', module.exports);
+var app,
+  compound,
+  request = require('supertest'),
+  sinon = require('sinon');
 
-var sinon  = require('sinon');
-
-function ValidAttributes () {
-    return {
-        email: '',
-        googleId: ''
-    };
+/** 
+ * TODO: User CREATION and EDITs should be tested, with PASSPORT
+ * functionality.
+ */
+function UserStub() {
+  return {
+    displayName: '',
+    email: ''
+  };
 }
 
-exports['models controller'] = {
+describe('UserController', function () {
+  beforeEach(function (done) {
+    app = getApp();
+    compound = app.compound;
+    compound.on('ready', function () {
+      done();
+    });
+  });
 
-    'GET new': function (test) {
-        test.get('/models/new', function () {
-            test.success();
-            test.render('new');
-            test.done();
-        });
-    },
+  /**
+   * GET /users
+   * Should render users/index.ejs
+   */
+  it('should render "index" template on GET /users', function (done) {
+    request(app)
+      .get('/users')
+      .end(function (err, res) {
+        res.statusCode.should.equal(200);
+        app.didRender(/users\/index\.ejs$/i).should.be.true;
+        done();
+      });
+  });
 
-    'GET index': function (test) {
-        test.get('/models', function () {
-            test.success();
-            test.render('index');
-            test.done();
-        });
-    },
+  /*
+   * GET /users/:id/edit
+   * Should access User#find and render users/edit.ejs
+   */
 
-    'GET edit': function (test) {
-        var find = Model.find;
-        Model.find = sinon.spy(function (id, callback) {
-            callback(null, new Model);
-        });
-        test.get('/models/42/edit', function () {
-            test.ok(Model.find.calledWith('42'));
-            Model.find = find;
-            test.success();
-            test.render('edit');
-            test.done();
-        });
-    },
+  /*****************************************************************************
+   * This Feature is not exposed to Users yet, so the test is disabled.
+  it(
+    'should access User#find and render "edit" template on GET /users/:id/edit',
+    function (done) {
+      var User = app.models.User;
 
-    'GET show': function (test) {
-        var find = Model.find;
-        Model.find = sinon.spy(function (id, callback) {
-            callback(null, new Model);
-        });
-        test.get('/models/42', function (req, res) {
-            test.ok(Model.find.calledWith('42'));
-            Model.find = find;
-            test.success();
-            test.render('show');
-            test.done();
-        });
-    },
+      // Mock User#find
+      User.find = sinon.spy(function (id, callback) {
+        callback(null, new User);
+      });
 
-    'POST create': function (test) {
-        var model = new ValidAttributes;
-        var create = Model.create;
-        Model.create = sinon.spy(function (data, callback) {
-            test.strictEqual(data, model);
-            callback(null, model);
-        });
-        test.post('/models', {Model: model}, function () {
-            test.redirect('/models');
-            test.flash('info');
-            test.done();
-        });
-    },
+      request(app)
+        .get('/users/42/edit')
+        .end(function (err, res) {
+          res.statusCode.should.equal(200);
+          User.find.calledWith('42').should.be.true;
+          app.didRender(/users\/edit\.ejs$/i).should.be.true;
 
-    'POST create fail': function (test) {
-        var model = new ValidAttributes;
-        var create = Model.create;
-        Model.create = sinon.spy(function (data, callback) {
-            test.strictEqual(data, model);
-            callback(new Error, model);
+          done();
         });
-        test.post('/models', {Model: model}, function () {
-            test.success();
-            test.render('new');
-            test.flash('error');
-            test.done();
-        });
-    },
+    });
+*****************************************************************************/
 
-    'PUT update': function (test) {
-        Model.find = sinon.spy(function (id, callback) {
-            test.equal(id, 1);
-            callback(null, {id: 1, updateAttributes: function (data, cb) { cb(null); }});
-        });
-        test.put('/models/1', new ValidAttributes, function () {
-            test.redirect('/models/1');
-            test.flash('info');
-            test.done();
-        });
-    },
+  /*
+   * GET /users/:id
+   * Should render users/index.ejs
+   */
+  it('should access User#find and render "show" template on GET /users/:id',
+    function (done) {
+      var User = app.models.User;
 
-    'PUT update fail': function (test) {
-        Model.find = sinon.spy(function (id, callback) {
-            test.equal(id, 1);
-            callback(null, {id: 1, updateAttributes: function (data, cb) { cb(new Error); }});
+      // Mock User#find
+      User.find = sinon.spy(function (id, callback) {
+        callback(null, new User);
+      });
+
+      request(app)
+        .get('/users/42')
+        .end(function (err, res) {
+          res.statusCode.should.equal(200);
+          User.find.calledWith('42').should.be.true;
+          app.didRender(/users\/show\.ejs$/i).should.be.true;
+
+          done();
         });
-        test.put('/models/1', new ValidAttributes, function () {
-            test.success();
-            test.render('edit');
-            test.flash('error');
-            test.done();
-        });
-    },
+    });
 
-    'DELETE destroy': function (test) {
-        test.done();
-    },
-
-    'DELETE destroy fail': function (test) {
-        test.done();
-    }
-};
-
+});
