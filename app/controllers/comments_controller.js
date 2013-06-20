@@ -8,8 +8,8 @@ before(loadComment, {only: ['flag', 'flag_form']});
 
 
 action(function create() {
-  if (!session.passport.user)
-    next();
+  if (!session.passport.user) next();
+
   var comment = req.body.Comment;
   comment.created_at = new Date;
   comment.updated_at = new Date;

@@ -4,10 +4,8 @@ load('application');
 var getAssociated = use('getAssociated');
 
 
-before(loadPost, {
-  only: ['show']
-});
-before(use('loadAuthor'), { only: ['show'] });
+before(loadPost, {only: ['show']});
+before(use('loadAuthor'), {only: ['show']});
 
 
 action(function index() {

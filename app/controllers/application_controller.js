@@ -68,11 +68,12 @@ function checkOwner(email) {
  */
 function loadAuthor() {
   this.author = null;
-  if (this.userId)
+  if (session.user) {
     this.author = {
-      name: this.userName,
-      id: this.userId
-  };
+      name: session.user.name,
+      id: session.user.id
+    }
+  }
   next();
 }
 
