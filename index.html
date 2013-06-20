@@ -1,44 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Acomplish by dlochrie</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Acomplish : Blog built on CompoundJS" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Acomplish</title>
   </head>
+
   <body>
 
-      <header>
-        <h1>Acomplish</h1>
-        <p>Blog built on CompoundJS</p>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/dlochrie/acomplish">View on GitHub</a>
 
-      <div id="banner">
-        <span id="logo"></span>
+          <h1 id="project_title">Acomplish</h1>
+          <h2 id="project_tagline">Blog built on CompoundJS</h2>
 
-        <a href="https://github.com/dlochrie/acomplish" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/dlochrie/acomplish/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/dlochrie/acomplish/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/dlochrie/acomplish/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/dlochrie/acomplish/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
 <a name="a-complish" class="anchor" href="#a-complish"><span class="octicon octicon-link"></span></a>a complish</h1>
 
@@ -287,13 +279,14 @@ they log in. This <em>could</em> be a security threat for your app, YMMV.</p>
 <h2>
 <a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
 
-<p><em>TODO:</em> Add more instructions for how to configure a cloned app. 
-<em>TODO:</em> Update based on new JSON confs scheme.</p>
-
 <ol>
 <li><p>Clone Repo<br><code>git clone [this repo url]</code></p></li>
-<li><p>Install Modules<br><code>[sudo] npm install -l</code></p></li>
-<li><p>Set up confs, see <code>config/acomplish.json</code>.</p></li>
+<li><p>Install Modules<br><code>npm install -l</code></p></li>
+<li><p>Set up confs, see the <code>config/acomplish/*.json</code> confs. </p></li>
+<li><p>Add your (or someone's) email address to the <code>settings.json</code> file in the 
+<em>config/acomplish</em> directory. Owners override ACL, so any email addresses
+that you put in this array can do anything in the app, regardless of 
+authorization.</p></li>
 <li><p>Create DB (See DB Setup Below)<br><code>compound db migrate</code></p></li>
 <li><p>Run Server<br><code>node server.js</code> <em>OR</em> <code>forever server.js</code></p></li>
 </ol><h2>
@@ -305,6 +298,9 @@ mysql&gt; FLUSH PRIVILEGES;
 mysql&gt; EXIT  
 </code></pre>
 
+<p>Note, <code>redis</code> is definitely supported, documentation needed here for 
+    <code>redis</code> support.</p>
+
 <h2>
 <a name="contribute" class="anchor" href="#contribute"><span class="octicon octicon-link"></span></a>Contribute</h2>
 
@@ -315,7 +311,8 @@ mysql&gt; EXIT
 
 <ul>
 <li>
-<a href="https://github.com/1602">Anatoliy Chakkaev</a>, this is built on top of the CompoundJS Framework</li>
+<a href="https://github.com/1602">Anatoliy Chakkaev</a>, this is built on top of the 
+CompoundJS Framework</li>
 </ul><h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
@@ -329,12 +326,16 @@ mysql&gt; EXIT
 
 <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/dlochrie">dlochrie</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Acomplish maintained by <a href="https://github.com/dlochrie">dlochrie</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -345,6 +346,7 @@ mysql&gt; EXIT
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
