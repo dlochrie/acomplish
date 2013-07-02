@@ -91,8 +91,8 @@ action(function edit() {
 
   // Make an instance of Membership available so that new ones can be added.
   this.membership = new Membership();
-
-  Membership.all({ where: { userId: this.user.id }}, 
+  
+  Membership.all({where: {userId: this.user.id}}, 
   function(err, memberships) {
     generateRoleSelect(memberships, function() {
       render();
@@ -199,9 +199,11 @@ function generateRoleSelect(memberships, cb) {
     roles = Object.keys(acl.roles);
   
   memberships.forEach(function(m) {
-    assigned_keys.push(m.roleName);
-    assigned.push({name: acl.roles[m.roleName].displayName, mid: m.id, uid:
+    if (acl.roles[m.roleName]) {
+      assigned_keys.push(m.roleName);
+      assigned.push({name: acl.roles[m.roleName].displayName, mid: m.id, uid:
         m.userId});
+    }
   });
 
   roles.forEach(function(role) {

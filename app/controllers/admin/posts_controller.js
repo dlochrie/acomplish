@@ -8,6 +8,7 @@ var getAssociated = use('getAssociated');
 // Init before filters
 before(use('authorize'));
 before(loadPost, { only: ['show', 'edit', 'update', 'destroy'] });
+before(loadPosts, { only: ['index'] });
 before(use('loadAuthor'), { only: ['new', 'edit', 'show'] });
 
 
@@ -61,19 +62,7 @@ action(function create() {
 
 action(function index() {
   this.title = 'Manage Posts';
-  Post.all(function (err, posts) {    
-    getAssociated(posts, 'author', false, 'post', function(results) {
-      getAssociated(results, 'comments', true, 'post', function(results) {
-        switch (params.format) {
-          case "json":
-            send({code: 200, data: posts});
-            break;
-          default:
-            render({ results: results });
-        }
-      })
-    })
-  });
+  render();
 });
 
 action(function show() {
@@ -94,7 +83,6 @@ action(function show() {
         comments: comments, commentor: commentor })
     })
   })
-  
 });
 
 action(function edit() {
@@ -112,8 +100,7 @@ action(function edit() {
   } else {
     flash('error', 'Could not retrieve your User information, are you logged in?');
     redirect(pathTo.admin_posts);
-  } 
-  
+  }   
 });
 
 action(function update() {
@@ -198,6 +185,13 @@ function loadPost() {
       this.post = post;
       next();
     }
+  }.bind(this));
+}
+
+function loadPosts() {
+  Post.all({include: ['author', 'comments']}, function(err, posts) {
+    this.posts = posts;
+    next();
   }.bind(this));
 }
 

@@ -1,7 +1,8 @@
 module.exports = function (compound, User) {
-  User.hasMany(compound.models.Post, { as: 'posts',  foreignKey: 'userId' });
-  User.hasMany(compound.models.Comment, { as: 'comments',  foreignKey: 'userId' });
-  User.hasMany(compound.models.Membership, { as: 'memberships',  foreignKey: 'userId' });
+  User.hasMany(compound.models.Post, {as: 'posts', foreignKey: 'userId'});
+  User.hasMany(compound.models.Comment, {as: 'comments', foreignKey: 'userId'});
+  User.hasMany(compound.models.Membership, 
+      {as: 'memberships', foreignKey: 'userId'});
   
  
   /**
