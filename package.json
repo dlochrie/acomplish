@@ -20,6 +20,7 @@
     "seedjs": "0.0.x",
     "passport": "~0.1.x",
     "passport-google": "~0.3.x",
+    "passport-local": "*",
     "co-assets-compiler": "0.0.1-2",
     "cjson": "0.2.x"
   },

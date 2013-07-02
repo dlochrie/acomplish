@@ -1,7 +1,8 @@
 var app,
   compound,
   request = require('supertest'),
-  sinon = require('sinon');
+  sinon = require('sinon'),
+  acomplish = require('../../config/acomplish');
 
 /** 
   TODO: Please Satisfy the following:
@@ -15,9 +16,7 @@ var app,
     If a Wildcard is encountered for a specific controller, it should replace the entire array with an Array (or String?) with the Wildcard.
 */
 
-function UserStub() {
-  return {
-    displayName: 'Test User',
-    email: 'owner@email.com'
-  };
-}
+
+describe('AuthorizationController', function () {
+	// ...to be implimented //
+});

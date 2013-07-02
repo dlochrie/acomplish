@@ -5,78 +5,74 @@
       "cacheAbilities": "true"
     },
     "roles": {
-	    "admin": {
-	      "displayName": "Admin",
-	      "description": "Admins can do anything",
-	      "abilities": [{
-	          "controller": "posts",
-	          "actions": [
-	            "create",
-	            "update",
-	            "delete"
-	          ]
-	        }, {
-	          "controller": "users",
-	          "actions": [
-	            "create",
-	            "show",
-	            "update",
-	            "delete"
-	          ]
-	        }, {
-	          "controller": "comments",
-	          "actions": [
-	            "create",
-	            "show",
-	            "update",
-	            "delete"
-	          ]
-	        }
-	      ]
-	    },
-	    "moderator": {
-	      "displayName": "Moderator",
-	      "description": "Moderators can CRUD Posts and Comments",
-	      "abilities": [{
-	          "controller": "posts",
-	          "actions": [
-	            "show"
-	          ]
-	        }, {
-	          "controller": "comments",
-	          "actions": [
-	            "create",
-	            "show",
-	            "update",
-	            "delete"
-	          ]
-	        }
-	      ]
-	    },
-	    "super user": {
-	      "displayName": "Super User",
-	      "description": "Super Users Can Do Anything, Too",
-	      "abilities": [{
-	          "controller": "admin",
-	          "actions": ["*"]
-	        }, {
-	          "controller": "admin/comments",
-	          "actions": ["*"]
-	        }, {
-	          "controller": "admin/memberships",
-	          "actions": ["*"]
-	        }, {
-	          "controller": "admin/posts",
-	          "actions": ["*"]
-	        }, {
-	          "controller": "admin/roles",
-	          "actions": ["*"]
-	        }, {
-	          "controller": "admin/users",
-	          "actions": ["*"]
-	        }
-	      ]
-	    }
-	  }
+      "moderator": {
+        "displayName": "Moderator",
+        "description": "Moderators can CRUD Posts and Comments",
+        "abilities": [{
+            "controller": "admin",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/comments",
+            "actions": ["*"]
+          }
+        ]
+      },
+      "admin": {
+        "displayName": "Admin",
+        "description": "Admins Can Do Anything",
+        "abilities": [{
+            "controller": "admin",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/comments",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/memberships",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/posts",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/roles",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/users",
+            "actions": ["*"]
+          }
+        ]
+      }
+    }
+  },
+  "test": {
+    "settings": {
+      "cacheRoles": "true",
+      "cacheAbilities": "true"
+    },
+    "roles": {
+      "super user": {
+        "displayName": "Super User",
+        "description": "Super Users Can Do Anything",
+        "abilities": [{
+            "controller": "admin",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/comments",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/memberships",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/posts",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/roles",
+            "actions": ["*"]
+          }, {
+            "controller": "admin/users",
+            "actions": ["*"]
+          }
+        ]
+      }
+    }
   }
 }
