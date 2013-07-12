@@ -1,26 +1,35 @@
-// Initialize Common/Global Vars
-before('initializeAuthorization', function () {
-  loggedIn = (session.user) ? true : false;
-  acl = compound.acomplish.acl || false;
-  cacheRoles = false;
-  cacheAbilities = false;
+var Application = require('./application.js');
 
-  if (!acl) return next();
+module.exports = AuthorizationController;
 
-  systemRoles = acl.roles || [];
-  if (acl.settings) {
-    cacheRoles = (acl.settings.cacheRoles) ? true : false;
-    cacheAbilities = (acl.settings.cacheAbilities) ? true : false;
-  }
-  next();
-});
+function AuthorizationController(init) {
+  Application.call(this, init);
 
+  init.before('initializeAuthorization', function () {
+    loggedIn = (session.user) ? true : false;
+    acl = compound.acomplish.acl || false;
+    cacheRoles = false;
+    cacheAbilities = false;
 
-// Publish methods for use in other controllers.
+    if (!acl) return next();
+
+    systemRoles = acl.roles || [];
+    if (acl.settings) {
+      cacheRoles = (acl.settings.cacheRoles) ? true : false;
+      cacheAbilities = (acl.settings.cacheAbilities) ? true : false;
+    }
+    next();
+  });
+}
+
+require('util').inherits(MainController, Application);
+
+/**
+ * TODO: Remove - No Eval Does not need these
 publish('authorize', authorize);
 publish('loadRoles', loadRoles);
 publish('loadAbilities', loadAbilities);
-
+*/
 
 /**
  * Verifies that a user has the permission to perform a
@@ -28,7 +37,7 @@ publish('loadAbilities', loadAbilities);
  *
  * @param {Object} req (Compound) Request object.
  */
-function authorize(req) {
+AuthorizationController.prototype.authorize = function authorize(req) {
   var actn = req.actionName,
     ctrl = req.controllerName,
     user = this.user;
@@ -67,7 +76,7 @@ function authorize(req) {
  * Load a User's Roles into the session. 
  * Load is skipped if 'cachedRoles' is set to 'true';
  */
-function loadRoles() {
+AuthorizationController.prototype.loadRoles = function loadRoles() {
   if (!loggedIn) return next();
   if (cacheRoles && session.user.roles) return next();
 
@@ -98,7 +107,7 @@ function loadRoles() {
  * Loads a User's Abilities based on the Role(s) they have.
  * Load is skipped if 'cachedAbilities' is set to 'true'.
  */
-function loadAbilities() {
+AuthorizationController.prototype.loadAbilities = function loadAbilities() {
   if (!loggedIn) return next();
   if (cacheAbilities && session.user.abilities) return next();
 

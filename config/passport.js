@@ -1,40 +1,68 @@
 exports.init = function (compound) {
-	app = compound.app;
+  app = compound.app;
 
-	var passport = require('passport'),
-		GoogleStrategy = require('passport-google').Strategy
-		conf = compound.acomplish.passport;
+  var passport = require('passport'),
+    GoogleStrategy = require('passport-google').Strategy,
+    LocalStrategy = require('passport-local').Strategy,
+    conf = compound.acomplish.passport;
 
-	passport.use(new GoogleStrategy({
-		returnURL: conf.host + conf.path + 'auth/google/return',
-		realm: conf.host + conf.path,
-		profile: true
-	}, function (identifier, profile, done) {
-		compound.models.User.findOrCreate({
-			openId: identifier,
-			profile: profile
-		}, function (err, user) {
-			done(err, user);
-		});
-	}));
+  passport.use(new GoogleStrategy({
+    returnURL: conf.host + conf.path + 'auth/google/return',
+    realm: conf.host + conf.path,
+    profile: true
+  }, function login(identifier, profile, done) {
+    compound.models.User.findOrCreateGoogle({
+      openId: identifier,
+      profile: profile
+    }, function(err, user) {
+      done(err, user);
+    });
+  }));
 
-	// convert user to userId
-	passport.serializeUser(function serializeUser(user, done) {
-		done(null, user.id);
-	});
+  passport.use(new LocalStrategy({usernameField: 'email'}, 
+    function login(email, password, done) {
+      compound.models.User.findLocal({
+        email: email, 
+        password: password
+      }, 
+      function (err, user) {
+        console.log('err', err)
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { 
+            message: 'The username / password combination not valid.'
+          });
+        }
+        console.log('here', user)
+        done(null, user);
+      });
+    }
+  ));
 
-	// convert userId to user
-	passport.deserializeUser(function deserializeUser(userId, done) {
-		compound.models.User.find(userId, function (err, user) {
-			done(err, user);
-		});
-	});
+  // convert user to userId
+  passport.serializeUser(function serializeUser(user, done) {
+    done(null, user.id);
+  });
 
-	app.get('/auth/google', passport.authenticate('google'));
+  // convert userId to user
+  passport.deserializeUser(function deserializeUser(userId, done) {
+    compound.models.User.find(userId, function (err, user) {
+      done(err, user);
+    });
+  });
 
-	app.get('/auth/google/return',
-		passport.authenticate('google', {
-		successRedirect: '/',
-		failureRedirect: '/login'
-	}));
+  app.get('/auth/google', passport.authenticate('google'));
+
+  app.get('/auth/google/return',
+    passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  }));
+
+  app.post('/auth/local', 
+    passport.authenticate('local', {
+    successRedirect: '/', 
+    failureFlash: true,
+    failureRedirect: '/login?fail=true'
+  }));
 }

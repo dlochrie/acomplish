@@ -7,7 +7,7 @@
  * @returns CompoundJS powered express webserver
  */
 var app = module.exports = function getServerInstance(params) {
-params = params || {};
+  params = params || {};
   // specify current dir as default root of server
   params.root = params.root || __dirname;
   return require('compound').createServer(params);

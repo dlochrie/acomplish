@@ -28,6 +28,7 @@ describe('UserController', function () {
    * GET /users
    * Should render users/index.ejs
    */
+   /*
   it('should render "index" template on GET /users', function (done) {
     request(app)
       .get('/users')
@@ -37,11 +38,13 @@ describe('UserController', function () {
         done();
       });
   });
+  */
 
   /*
    * GET /users/:id
    * Should render users/index.ejs
    */
+  /* 
   it('should access User#find and render "show" template on GET /users/:id',
     function (done) {
       var User = app.models.User;
@@ -61,5 +64,5 @@ describe('UserController', function () {
           done();
         });
     });
-
+  */
 });

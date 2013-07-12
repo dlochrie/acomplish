@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h1>Register</h1>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <% var form = formFor(user, {action: pathTo.register, method: 'POST', 
+        class: 'form-horizontal'}); %>
+    <%- form.begin() %>
+    <%- errorMessagesFor(user) %>
+    <legend>Fill out the form below to register.</legend>
+    <div class="control-group">
+      <%- form.label('email', false, {class: 'control-label'}) %>
+      <div class="controls">
+        <%- form.input('email', {class: 'span4', required: true, type: 'email',
+            placeholder: 'woodrow.wilson@us.gov'}) %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%- form.label('displayName', 'Display Name', {class: 'control-label'}) %>
+      <div class="controls">
+        <%- form.input('displayName', {class: 'span4', required: true, 
+            placeholder: 'Woody Wilson'}) %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%- form.label('password', false, {class: 'control-label'}) %>
+      <div class="controls">
+        <%- form.input('password', {class: 'span4', type: 'password', 
+            required: true}) %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%- form.submit('Register', {class: 'btn btn-primary'}) %>
+    </div>
+    <%- form.end() %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <p>
+      Already have an account? Click <%- linkTo('here', pathTo.login) %> to 
+      login.
+    </p>
+  </div>
+</div>

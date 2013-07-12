@@ -1,36 +1,48 @@
-// Require `authorization` controller
-load('authorization');
-load('log');
+var LogController = require('./log');
 
 
-// Init `before` filters - order is important.
-before('protect from forgery', function () {
-  protectFromForgery('4f66d4b328383823a9acefbc03891493c2b60366f');
-});
-before(loadPassport);
-before(use('loadRoles'));
-before(use('loadAbilities'));
-before(use('initLogger'));
+// Expose `Application Controller`
+module.exports = Application;
 
 
-// Publish methods for use in other controllers.
-publish('loadAuthor', loadAuthor);
-publish('getAssociated', getAssociated);
+/**
+ * @constructor
+ *
+ * @param {Object} init Bootstrap object for Controller classes.
+ */
+function Application(init) {
+  init.before(function protectFromForgeryHook(ctl) {
+    ctl.protectFromForgery('cd4877e99cdf086493a1e924ce4fef00607ee3b5');
+  });
+  init.before(this.loadPassport);
+  //init.before(use('loadRoles'));
+  //init.before(use('loadAbilities'));
+  var logger = new LogController;
+  init.before(function(ctl) { 
+    logger.initLogger(ctl);
+    ctl.next(); 
+  });
+};
 
+require('util').inherits(Application, LogController);
 
 /**
  * TODO: This should be named loadUser, or loadUserPassport,
  * and multiple Passports should be allowed for a user.
+ *
+ * @param {Object} c Init Controller Object
  */
-function loadPassport() {
-  var self = this;
+Application.prototype.loadPassport = function loadPassport(c) {
+  var self = this,
+    session = c.session,
+    locals = c.locals;
 
   if (session.user) {
-    self.user = session.user;
-    return next();
+    locals.user = session.user;
+    return c.next();
   }
 
-  self.user = false;
+  locals.user = false;
   session.user = false;
 
   if (session.passport.user) {
@@ -42,12 +54,12 @@ function loadPassport() {
           owner: checkOwner(user.email),
           id: user.id
         }
-        self.user = session.user;
-        next();
+        locals.user = session.user;
+        c.next();
       }
     }.bind(self));
   } else {
-    next();
+    c.next();
   }
 }
 
@@ -57,7 +69,7 @@ function loadPassport() {
  *
  * @param email User's email address.
  */
-function checkOwner(email) {
+Application.prototype.checkOwner = function checkOwner(email) {
   var owners = compound.acomplish.settings.owners || false;
   if (!owners) return false;
   return owners.indexOf(email) !== -1;
@@ -66,15 +78,17 @@ function checkOwner(email) {
 /**
  * Convienience method for loading Author, Posts and Comments
  */
-function loadAuthor() {
-  this.author = null;
+Application.prototype.loadAuthor = function loadAuthor(c) {
+  var session = c.session,
+    locals = c.locals;
+  locals.author = null;
   if (session.user) {
-    this.author = {
+    locals.author = {
       name: session.user.name,
       id: session.user.id
     }
   }
-  next();
+  c.next();
 }
 
 /**
@@ -89,7 +103,8 @@ function loadAuthor() {
  * @param {String} modelName Name of model to use if `multi` boolean is true.
  * @param {Function} cb Function to call when all associations have been made.
  */
-function getAssociated(models, assoc, multi, modelName, cb) {
+Application.prototype.getAssociated = function getAssociated(
+    models, assoc, multi, modelName, cb) {
   var results = [];
 
   function makeAssoc(model, assoc, callback) {

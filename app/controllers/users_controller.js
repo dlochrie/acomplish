@@ -9,7 +9,7 @@ before(loadUser, {
 });
 
 
-action(function index() {
+action('index', function() {
   this.title = 'Users index';
   User.all(function (err, users) {
     /**

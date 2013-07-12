@@ -32,9 +32,9 @@ var Post = define('Post', function() {
 var User = define('User', function () {
 	property('displayName', String);
 	property('email', String, { index: true });
+	property('password', String, { length: 50 });
 	property('googleId', String, { index: true });
 	property('githubId', String, { index: true });
-	property('signatureId', String, { index: true });
 	property('linkedinId', String, { index: true });
 	property('created_at', Date, { default: Date.now });
  	property('updated_at', Date, { default: Date.now });

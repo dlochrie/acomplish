@@ -2,14 +2,52 @@
 
 <div class="row">
   <div class="span12">
-    <p>
-      Comments and Feedback require that you are logged in. You do not need to join this site, 
-      you can login via the following providers:
-    </p>
-    
-    <ul>
-      <li><%- link_to('Login with Google', '/auth/google') %></li>
-      <li>[ Coming Soon ]</li>
+    <p class="lead">Comments and Feedback require that you are logged in. You do not need to 
+      join this site, and are welcome to use one of the providers below.</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <h3>Login with another provider.</h3>
+    <ul class="unstyled">
+      <li><%- linkTo(
+            imageTag('https://developers.google.com/accounts/images/sign-in-with-google.png', 
+            {alt: 'Login with Google', width: 225}), '/auth/google') 
+      %></li>
+      <li>[ More providers coming soon. ]</li>
     </ul>
+  </div>
+</div>
+
+<hr/>
+
+<div class="row">
+  <div class="span12">
+    <h3>Login locally.</h3>
+    <p><em>Don't have an account?</em> 
+      <%- linkTo('Register', pathTo.register) %>.</p>
+    <% var form = formFor(user, {action: '/auth/local', method: 'POST',
+        class: 'form-horizontal'}); %>
+    <%- form.begin() %>
+    <%- errorMessagesFor(user) %>
+    <div class="control-group">
+      <%- form.label('email', false, {class: 'control-label'}) %>
+      <div class="controls">
+        <%- form.input('email', {class: 'span4', required: 'true',
+            type: 'email', placeholder: 'woodrow.wilson@us.gov'}) %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%- form.label('password', false, {class: 'control-label'}) %>
+      <div class="controls">
+        <%- form.input('password', {class: 'span4', required: 'true',
+            type: 'password'}) %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%- form.submit('Login', {class: 'btn btn-primary'}) %>
+    </div>
+    <%- form.end() %>
   </div>
 </div>

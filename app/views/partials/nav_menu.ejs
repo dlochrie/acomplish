@@ -31,11 +31,11 @@
           <ul class="nav pull-right">
             <li class="divider-vertical"></li>
             <% if (!user) { %>
-            <li><%- link_to("login", pathTo.login) %></li>
+            <li><%- linkTo("login", pathTo.login) %></li>
             <% } else { %>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown">
-                <%- user.name %>
+                user.name
                 <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">

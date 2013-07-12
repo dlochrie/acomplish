@@ -1,6 +1,6 @@
 exports.routes = function (map) {
 
-	/** Set up Publicly Exposed Routes **/
+	/** Set up Public Routes **/
 	map.resources('comments', { only: ['index', 'show'] });
 	map.post('/comments/:id/flag', 'comments#flag');
 	map.get('/comments/:id/flag_form', 'comments#flag_form')
@@ -23,8 +23,10 @@ exports.routes = function (map) {
 
 	map.get('/login', 'account#login');
 	map.get('/logout', 'account#logout');
+	map.get('/register', 'account#register');
+	map.post('/register', 'account#create');
 
-	/** Boilerplate / Msic **/
+	/** Boilerplate / Misc **/
 	map.get('/about', 'main#about');
 	map.get('/contact', 'main#contact');
 	map.root('main#index');

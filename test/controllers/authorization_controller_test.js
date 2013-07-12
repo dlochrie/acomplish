@@ -1,22 +1,44 @@
-var app,
-  compound,
-  request = require('supertest'),
-  sinon = require('sinon'),
-  acomplish = require('../../config/acomplish');
+var app = getApp(),
+  compound = app.compound,
+  kontroller = require('kontroller');
+  //controller = require('../../app/controllers/authorization_controller');
 
-/** 
-  TODO: Please Satisfy the following:
-    Owners should be able to access any controller#action.
-    If a User is an Owner, ACL should stop validation.
-    Members of a certain Role should be able to access controller#action they specifically have.
-    Members of a certain Role should be able to access controller#action if they have the wildcard in an array.
-    Members of a certain Role should be able to access controller#action if they have the wildcard as a string.
-    If a User does NOT have the Ability to access a certain controller#action, they should be Rejected.
-    Actions should be combined, so that all the Abilities a User has in a certain controller will be added.
-    If a Wildcard is encountered for a specific controller, it should replace the entire array with an Array (or String?) with the Wildcard.
-*/
+describe('AuthorizationController', function() {
 
+  beforeEach(function (done) {
+    app = getApp();
+    compound = app.compound;
+    compound.on('ready', function () {
+      done();
+    });
+  });
 
-describe('AuthorizationController', function () {
-	// ...to be implimented //
+  it('should reject an authorized user', function (done) {
+    var req = {actionName: 'index', controllerName: 'admin'};
+    var locals = {
+      user: {owner: false}, 
+      loggedIn: true
+    };
+
+    this.compound = compound;
+    var c = compound.controllerBridge.getInstance.
+        call(this, 'AuthorizationController');
+    console.log('controller', c);
+  });
+
+  it('should always authorize an owner', function (done) {
+    /*
+    var req = {actionName: 'index', controllerName: 'admin'};
+    var locals = {
+      user: {owner: true}, 
+      loggedIn: true
+    };
+
+    controller._buffer.authorize.call(this, req, function() {
+      throw('This User is Unauthorized')
+    });
+    */
+    done();
+  });
+
 });

@@ -1,10 +1,11 @@
 module.exports = function(compound) {
 
-	var express = require('express');
-	app = compound.app,
-	passport = require('passport'),
-	acomplish = require('./acomplish');
-	auth = require('./passport.js'),
+	var express = require('express'),
+		app = compound.app,
+		passport = require('passport'),
+		acomplish = require('./acomplish')
+		auth = require('./passport.js'),
+		flash = require('connect-flash');
 	
 	app.configure(function () {
 		app.use(express.static(app.root + '/public', {
@@ -25,6 +26,7 @@ module.exports = function(compound) {
 			secret: 'secret'
 		}));
 		app.use(express.methodOverride());
+		app.use(flash());
 
 		/** acomplish **/
 		app.use(acomplish.init(compound));

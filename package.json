@@ -11,7 +11,7 @@
     "ejs": "0.8.x",
     "ejs-ext": "0.1.x",
     "express": "3.1.x",
-    "compound": "1.1.x",
+    "compound": "1.1.7-7",
     "jugglingdb": "0.2.0-35",
     "jugglingdb-mysql": "0.0.1-6",
     "jugglingdb-redis": "0.0.2-1",
@@ -22,7 +22,8 @@
     "passport-google": "~0.3.x",
     "passport-local": "*",
     "co-assets-compiler": "0.0.1-2",
-    "cjson": "0.2.x"
+    "cjson": "0.2.x",
+    "connect-flash": "0.1.1"
   },
   "devDependencies": {
     "nodeunit": "*",

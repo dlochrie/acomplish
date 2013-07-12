@@ -1,27 +1,32 @@
-// Publish methods for use in other controllers.
-publish('initLogger', initLogger);
-publish('logToWindow', logToWindow);
+// Expose `LogController`
+module.exports = LogController;
+
+
+/**
+ * Constructor
+ */
+function LogController() {}
 
 
 /**
  * Initialize Logger.
  *
  * Logged ONLY works in the development environment.
- * TODO: Make this work in other environments.
+ * @param {Object} init Bootstrap object for Controller classes.
  */
-function initLogger() {
+LogController.prototype.initLogger = function initLogger(c) {
   var env = app.settings.env || false;
   if (env && env === 'development') {
-    var acomplish = req.acomplish || false;
+    var acomplish = c.req.acomplish || false;
     if (!acomplish) {
-      req.acomplish = {log: []};
+      c.req.acomplish = {log: []};
     } else {
-      req.acomplish.log = req.acomplish.log || [];
+      c.req.acomplish.log = c.req.acomplish.log || [];
     }
   } else {
-    req.acomplish = {log: false};
+    c.req.acomplish = {log: false};
   }
-  next();
+  c.next();
 }
 
 /**
@@ -46,12 +51,12 @@ function initLogger() {
  *
  * @param {*} msg String or Array of messages.
  */
-function logToWindow(msg) {
+LogController.prototype.logToWindow = function logToWindow(msg) {
   if (Object.prototype.toString.call(msg) === '[object Array]') {
     msg = msg.join(' ');
   }
   if (req.acomplish.log) {
     var msg = '<strong>Debug Message</strong>: <em>' + msg + '</em>';
-    req.acomplish.log.push(msg);
+    req.acomplish.LogControllerpush(msg);
   }
 }
