@@ -14,7 +14,7 @@ function LogController() {}
  * Logged ONLY works in the development environment.
  * @param {Object} init Bootstrap object for Controller classes.
  */
-LogController.prototype.initLogger = function initLogger(c) {
+LogController.initialize = function initLogger(c) {
   var env = app.settings.env || false;
   if (env && env === 'development') {
     var acomplish = c.req.acomplish || false;

@@ -1,35 +1,43 @@
-var Application = require('./application.js');
+// Expose `Authorization Controller`
+module.exports = Authorization;
 
-module.exports = AuthorizationController;
 
-function AuthorizationController(init) {
-  Application.call(this, init);
-
-  init.before('initializeAuthorization', function () {
-    loggedIn = (session.user) ? true : false;
-    acl = compound.acomplish.acl || false;
-    cacheRoles = false;
-    cacheAbilities = false;
-
-    if (!acl) return next();
-
-    systemRoles = acl.roles || [];
-    if (acl.settings) {
-      cacheRoles = (acl.settings.cacheRoles) ? true : false;
-      cacheAbilities = (acl.settings.cacheAbilities) ? true : false;
-    }
-    next();
+/**
+ * @param {Object} init Initial bootstrap object for Contollers.
+ * @constructor
+ */
+function Authorization(init) {
+  init.before(function(ctl) {
+    initialize(ctl);
   });
 }
 
-require('util').inherits(MainController, Application);
 
 /**
- * TODO: Remove - No Eval Does not need these
-publish('authorize', authorize);
-publish('loadRoles', loadRoles);
-publish('loadAbilities', loadAbilities);
-*/
+ * Initializes Authorization Components.
+ * 
+ * @param {Object} c Controller Instance.
+ */
+function initialize(c) {
+  var app = c.res.app,
+    compound = app.compound,
+    locals = c.locals;
+
+  locals.loggedIn = (c.session.user) ? true : false;
+  var acl = compound.acomplish.acl || false;
+  var cacheRoles = false;
+  var cacheAbilities = false;
+
+  if (!acl) return c.next();
+
+  locals.systemRoles = acl.roles || [];
+  if (acl.settings) {
+    locals.cacheRoles = (acl.settings.cacheRoles) ? true : false;
+    locals.cacheAbilities = (acl.settings.cacheAbilities) ? true : false;
+  }
+  c.next();  
+}
+
 
 /**
  * Verifies that a user has the permission to perform a
@@ -37,19 +45,19 @@ publish('loadAbilities', loadAbilities);
  *
  * @param {Object} req (Compound) Request object.
  */
-AuthorizationController.prototype.authorize = function authorize(req) {
+Authorization.authorize = function authorize(req) {
   var actn = req.actionName,
     ctrl = req.controllerName,
-    user = this.user;
+    user = req.locals.user;
 
-  if (user.owner) return next();
+  if (user.owner) return req.next();
 
   function reject() {
-    flash('error', 'You are not authorized for this action.');
-    redirect(path_to.root);
+    req.flash('error', 'You are not authorized for this action.');
+    req.redirect(req.pathTo.root);
   }
 
-  if (!loggedIn) {
+  if (!req.locals.loggedIn) {
     return reject();
   }
 
@@ -61,10 +69,10 @@ AuthorizationController.prototype.authorize = function authorize(req) {
   var userAbilities = user.abilities || {};
   if (userAbilities[ctrl]) {
     if (userAbilities[ctrl][0] === "*") {
-      return next();
+      return req.next();
     }
     if (-1 !== userAbilities[ctrl].indexOf(actn)) {
-      return next();
+      return req.next();
     }
   }
 
@@ -76,26 +84,23 @@ AuthorizationController.prototype.authorize = function authorize(req) {
  * Load a User's Roles into the session. 
  * Load is skipped if 'cachedRoles' is set to 'true';
  */
-AuthorizationController.prototype.loadRoles = function loadRoles() {
-  if (!loggedIn) return next();
-  if (cacheRoles && session.user.roles) return next();
+Authorization.loadRoles = function loadRoles(c) {
+  var locals = c.locals;
+  if (!locals.loggedIn) return c.next();
+  if (c.locals.cacheRoles && c.session.user.roles) return c.next();
 
   // As a security precaution, reset the user's roles.
-  session.user.roles = [];
-  Membership.all({
-    where: {
-      userId: session.user.id
-    }
-  }, 
+  c.session.user.roles = [];
+  c.Membership.all({where: {userId: session.user.id}}, 
   function getMemberships(err, memberships) {
-    if (err) return next();
+    if (err) return c.next();
 
     function getRole(membership) {
       if (membership) {
-        session.user.roles.push(membership.roleName);
+        c.session.user.roles.push(membership.roleName);
         return getRole(memberships.shift());
       } else {
-        next();
+        c.next();
       }
     }
 
@@ -107,14 +112,15 @@ AuthorizationController.prototype.loadRoles = function loadRoles() {
  * Loads a User's Abilities based on the Role(s) they have.
  * Load is skipped if 'cachedAbilities' is set to 'true'.
  */
-AuthorizationController.prototype.loadAbilities = function loadAbilities() {
-  if (!loggedIn) return next();
-  if (cacheAbilities && session.user.abilities) return next();
+Authorization.loadAbilities = function loadAbilities(c) {
+  var locals = c.locals;
+  if (!locals.loggedIn) return c.next();
+  if (c.locals.cacheAbilities && c.session.user.abilities) return c.next();
 
   var userRoles = session.user.roles,
     userAbilities = {};
 
-  for (role in systemRoles) {
+  for (role in locals.systemRoles) {
     if (userRoles.indexOf(role) !== -1) {
       var abilities = systemRoles[role].abilities;
       abilities.forEach(function (ability) {

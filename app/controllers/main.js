@@ -21,7 +21,5 @@ MainController.prototype.contact = function contact(c) {
 }
 
 MainController.prototype.about = function about(c) {
-  c.render({
-    title: "main#about"
-  });
+  c.render({title: "main#about"});
 }

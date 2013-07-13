@@ -1,7 +1,6 @@
 var app = getApp(),
   compound = app.compound,
-  kontroller = require('kontroller');
-  //controller = require('../../app/controllers/authorization_controller');
+  controller = require('../../app/controllers/authorization_controller');
 
 describe('AuthorizationController', function() {
 
@@ -21,9 +20,8 @@ describe('AuthorizationController', function() {
     };
 
     this.compound = compound;
-    var c = compound.controllerBridge.getInstance.
-        call(this, 'AuthorizationController');
-    console.log('controller', c);
+    //var c = compound.controllerBridge.getInstance.
+    call(this, 'AuthorizationController');
   });
 
   it('should always authorize an owner', function (done) {

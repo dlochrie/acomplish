@@ -1,4 +1,5 @@
-var LogController = require('./log');
+var Log = require('./log'),
+  Authorization = require('./authorization');
 
 
 // Expose `Application Controller`
@@ -11,28 +12,30 @@ module.exports = Application;
  * @param {Object} init Bootstrap object for Controller classes.
  */
 function Application(init) {
+  Log.call(this, init);
+
   init.before(function protectFromForgeryHook(ctl) {
     ctl.protectFromForgery('cd4877e99cdf086493a1e924ce4fef00607ee3b5');
   });
 
-  init.before(this.loadPassport);
-  //init.before(use('loadRoles'));
-  //init.before(use('loadAbilities'));
-  var logger = new LogController;
-  init.before(function(ctl) { 
-    logger.initLogger(ctl);
+  init.before(loadPassport);
+
+  init.before(function loadRolesAndAbilities(ctl) { 
+    Authorization.loadRoles(ctl);
+    //Authorization.loadAbilities(ctl);
+    ctl.next();
+  });
+  
+  init.before(function initLog(ctl) { 
+    Log.initialize(ctl);
   });
 };
 
-require('util').inherits(Application, LogController);
 
 /**
- * TODO: This should be named loadUser, or loadUserPassport,
- * and multiple Passports should be allowed for a user.
- *
  * @param {Object} c Init Controller Object
  */
-Application.prototype.loadPassport = function loadPassport(c) {
+function loadPassport(c) {
   var self = this,
     session = c.session,
     locals = c.locals;
@@ -55,8 +58,6 @@ Application.prototype.loadPassport = function loadPassport(c) {
           id: user.id
         }
         locals.user = session.user;
-        console.log('session', session)
-        console.log('locals', locals)
         c.next();
       }
     }.bind(self));
