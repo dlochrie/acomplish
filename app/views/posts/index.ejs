@@ -13,7 +13,7 @@
       <tbody>
         <% results.forEach(function (result) { %>
         <tr>
-          <td><%- link_to(result.post.title, pathTo.post(result.post)) %></td>
+          <td><%- linkTo(result.post.title, pathTo.post(result.post)) %></td>
           <td><span class="badge badge-info"><i class="icon-comment icon-white"></i> <%- result.comments.length %></span></td>
         </tr>
         <% }); %>

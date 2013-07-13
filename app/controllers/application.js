@@ -14,13 +14,13 @@ function Application(init) {
   init.before(function protectFromForgeryHook(ctl) {
     ctl.protectFromForgery('cd4877e99cdf086493a1e924ce4fef00607ee3b5');
   });
+
   init.before(this.loadPassport);
   //init.before(use('loadRoles'));
   //init.before(use('loadAbilities'));
   var logger = new LogController;
   init.before(function(ctl) { 
     logger.initLogger(ctl);
-    ctl.next(); 
   });
 };
 
@@ -46,7 +46,7 @@ Application.prototype.loadPassport = function loadPassport(c) {
   session.user = false;
 
   if (session.passport.user) {
-    User.find(session.passport.user, function (err, user) {
+    c.User.find(session.passport.user, function (err, user) {
       if (!err || user) {
         session.user = {
           name: user.displayName,
@@ -55,6 +55,8 @@ Application.prototype.loadPassport = function loadPassport(c) {
           id: user.id
         }
         locals.user = session.user;
+        console.log('session', session)
+        console.log('locals', locals)
         c.next();
       }
     }.bind(self));
@@ -69,7 +71,8 @@ Application.prototype.loadPassport = function loadPassport(c) {
  *
  * @param email User's email address.
  */
-Application.prototype.checkOwner = function checkOwner(email) {
+function checkOwner(email) {
+  var compound = this.app.compound;
   var owners = compound.acomplish.settings.owners || false;
   if (!owners) return false;
   return owners.indexOf(email) !== -1;
@@ -111,7 +114,7 @@ Application.prototype.getAssociated = function getAssociated(
     model = (multi) ? model[modelName] : model;
     model[assoc](function (err, assoc) {
       callback(assoc);
-    })
+    });
   }
 
   function findAssoc(model) {

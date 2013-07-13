@@ -26,14 +26,12 @@ exports.init = function (compound) {
         password: password
       }, 
       function (err, user) {
-        console.log('err', err)
         if (err) { return done(err); }
         if (!user) {
           return done(null, false, { 
             message: 'The username / password combination not valid.'
           });
         }
-        console.log('here', user)
         done(null, user);
       });
     }

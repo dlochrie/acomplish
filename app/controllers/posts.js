@@ -34,9 +34,7 @@ PostsController.prototype.index = function index(c) {
             });
           });
           format.html(function () {
-            c.render({
-              results: results
-            });
+            c.render({results: results});
           });
         })
       });

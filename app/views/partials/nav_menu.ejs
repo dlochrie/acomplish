@@ -14,10 +14,8 @@
               <%- link_to("posts", pathTo.posts) %>
             </li>
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                admin
-                <b class="caret"></b>
-              </a>
+              <a class="dropdown-toggle" data-toggle="dropdown" 
+                  href="#">admin<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%- linkTo("admininstration panel", pathTo.admin) %></li>
                 <li class="divider"></li>
@@ -31,13 +29,10 @@
           <ul class="nav pull-right">
             <li class="divider-vertical"></li>
             <% if (!user) { %>
-            <li><%- linkTo("login", pathTo.login) %></li>
+              <li><%- linkTo("login", pathTo.login) %></li>
             <% } else { %>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown">
-                user.name
-                <b class="caret"></b>
-              </a>
+            <li class="dropdown"><a class="dropdown-toggle" 
+                data-toggle="dropdown"><%- user.name %><b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%- link_to("logout", pathTo.logout) %></li>
               </ul>

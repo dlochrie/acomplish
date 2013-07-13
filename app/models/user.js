@@ -28,7 +28,8 @@ module.exports = function (compound, User) {
       User.create({
         displayName: data.profile.displayName,
         email: data.profile.emails[0].value,
-        googleId: data.openId
+        googleId: data.openId,
+        password: 'google'
       }, done);
     });
   }
